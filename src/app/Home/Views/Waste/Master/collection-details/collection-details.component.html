@@ -1,0 +1,176 @@
+<p-toast key="compacct-toast" [baseZIndex]="99999"></p-toast>
+<p-toast position="center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+            <div class="p-text-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                <h4>{{message.summary}}</h4>
+                <p>{{message.detail}}</p>
+            </div>
+            <div class="p-grid p-fluid">
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="ui-button-success"></button>
+                </div>
+                <!-- <div class="p-col-6" *ngIf="can_popup && !act_popup">
+                    <button type="button" pButton (click)="onConfirm2()" label="Yes" class="ui-button-success"></button>
+                </div> -->
+                <div class="p-col-6">
+                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-primary">
+            <div class="form-horizontal">
+                <div class="box-body">
+                    <p-tabView [activeIndex]="tabIndexToView" (onChange)="TabClick($event)">
+                        <p-tabPanel headerStyleClass="compacct-tabs" [header]="items[0]" leftIcon="glyphicon glyphicon-list-alt">
+                            <div class="no-padding table-id">
+                                <p-table #dt [value]="CollDetailSearchlist" responsiveLayout="scroll" styleClass="p-datatable-customers" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                    [filterDelay]="0" [globalFilterFields]="['Client_Name','Sub_Client_Name','Product_Name','Price']">
+                                    <ng-template pTemplate="caption">
+                                        <div class="row">
+                                            <div class="col-sm-3 pull-right" style="text-align: right">
+                                                <input type="text" pInputText size="50" placeholder="Search" (input)="dt.filterGlobal(getEventValue($event), 'contains')" class="searchInput form-control">
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th style="width:5em">Action</th>
+                                            <th>Client</th>
+                                            <th>Sub Client</th>
+                                            <th>Product Name</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-col>
+                                        <tr>
+
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-default btn-sm tableButton dropdown-toggle" type="button" data-toggle="dropdown" style="height:27px">
+                                                                <i class="fa fa-fw fa-bars"></i>
+                                                                <span class="caret"></span>
+                                                            </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a (click)="EditProduct(col)">
+                                                                <i class="fa fa-fw fa-pencil"></i> Edit
+                                                            </a>
+                                                        </li>
+                                                        <!-- <li>
+                                                                    <a (click)="DeleteProduct(col)">
+                                                                        <i class="fa fa-fw fa-trash"></i>
+                                                                        Delete
+                                                                    </a>
+                                                                </li> -->
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                            <td>{{col.Client_Name ? col.Client_Name : '-'}}</td>
+                                            <td>{{col.Sub_Client_Name ? col.Sub_Client_Name : '-'}}</td>
+                                            <td>{{col.Product_Name ? col.Product_Name : '-'}}</td>
+                                            <td>{{col.Price ? col.Price : '-' }}</td>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="emptymessage">
+                                        <tr>
+                                            <!-- <td colspan="8">No customers found.</td> -->
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+
+                            </div>
+                        </p-tabPanel>
+                        <p-tabPanel headerStyleClass="compacct-tabs" [header]="items[1]" leftIcon="glyphicon glyphicon-floppy-save">
+                            <form name="CollectionDetailsForm" #CollectionDetailsForm="ngForm" novalidate>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <label class="control-label">Client<sup class="text-danger">*</sup></label>
+                                        <p-dropdown [options]="Clientlist" name="client" [(ngModel)]="ObjCollectionDetails.Client_ID" (onChange)="GetSubClientData()" [disabled]="clientdisabled" [showClear]="true" [emptyFilterMessage]="' No Client Found'" [filter]="true" filterBy="label,value.name"
+                                            [placeholder]="'Select Client'" [virtualScroll]="true" [itemSize]="30" #client="ngModel" [styleClass]="CollectionDetailsFormSubmitted && client.errors?.required? 'clearance': ''" [required]="true">
+                                        </p-dropdown>
+                                        <!-- <select class="form-control" name="client" #client="ngModel" [(ngModel)]="ObjProductPlan.Client_ID" (change)="GetSubClientData()" [ngClass]="{'clearance': ProductPlanFormSubmitted && client.errors?.required}" required>
+                                            <option  [ngValue]="undefined">Select</option>
+                                                                <option *ngFor="let option of Clientlist" [ngValue]="option.Client_ID">
+                                                                    {{option.Client_Name}}
+                                                                    </option>
+                                    </select> -->
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="control-label">Sub Client<sup class="text-danger">*</sup></label>
+                                        <p-dropdown [options]="SubClientlist" name="subclient" [(ngModel)]="ObjCollectionDetails.Sub_Client_ID" (onChange)="GetProductData()" [disabled]="clientdisabled" [showClear]="true" [emptyFilterMessage]="' No Subclient Found'" [filter]="true" filterBy="label,value.name"
+                                            [placeholder]="'Select Subclient'" [virtualScroll]="true" [itemSize]="30" #subclient="ngModel" [styleClass]="CollectionDetailsFormSubmitted && subclient.errors?.required? 'clearance': ''" [required]="true">
+                                        </p-dropdown>
+
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="control-label">Product<sup class="text-danger">*</sup></label>
+                                        <p-dropdown [options]="Productlist" name="product" [(ngModel)]="ObjCollectionDetails.Product_ID" (onChange)="ProductdetailsChange()" [showClear]="true" [emptyFilterMessage]="' No Product Found'" [filter]="true" filterBy="label,value.name" [placeholder]="'Select Product'"
+                                            [virtualScroll]="true" [itemSize]="30" #product="ngModel" [styleClass]="CollectionDetailsFormSubmitted && product.errors?.required? 'clearance': ''" [required]="true">
+                                        </p-dropdown>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label">Price<sup class="text-danger">*</sup></label>
+                                        <input class="form-control" type="number" name="price" #price="ngModel" CompacctDigitonly="true" [(ngModel)]="ObjCollectionDetails.Price" [ngClass]="{'clearance': CollectionDetailsFormSubmitted && price.errors?.required}" required>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label class="control-label">Qty<sup class="text-danger">*</sup></label>
+                                        <input class="form-control" type="number" name="qty" #qty="ngModel" CompacctDigitonly="true" [(ngModel)]="ObjCollectionDetails.Qty" [ngClass]="{'clearance': CollectionDetailsFormSubmitted && qty.errors?.required}" required>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <button id="row-Add" class="btn btn-primary pull-right1" (click)="add(CollectionDetailsForm.form.valid)">
+                                           <!-- <i class="fa fa-fw fa-add"></i>&nbsp; Add --> Add
+                                 </button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="table-responsive no-padding">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr style="background-color:#3c8dbc;color:white;">
+                                                <th>Product Name</th>
+                                                <th>Price</th>
+                                                <th>Qty</th>
+                                                <th>Amount</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- ngRepeat: obj in ctrl.ProductCategoryGST -->
+                                            <tr *ngFor="let obj of productaddSubmit ;let ind = index;">
+                                                <td>{{obj.Product_Name}}</td>
+                                                <td>{{obj.Price}}</td>
+                                                <td>{{obj.Qty}}</td>
+                                                <td>{{obj.Amount}}</td>
+                                                <td><button (click)="delete(ind)" class="btn danger"><i class="fa fa-trash"></i></button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-2 pull-left">
+                                        <p-checkbox label="Payment In Cash" name="checkbox" #checkbox="ngModel" [(ngModel)]="Payment_In_Cash" [binary]="true"></p-checkbox>
+
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <button class="btn btn-primary pull-right" (click)="createMasterProductPlan()" id="load" [disabled]="Spinner">
+                                            <p-progressSpinner *ngIf="Spinner" [style]="{width: '15px', height: '15px'}" strokeWidth="8"  animationDuration=".5s"></p-progressSpinner>
+                                        <span *ngIf="!Spinner" class="glyphicon glyphicon-save"></span>{{buttonname}}
+                                    </button>
+                                </div>
+                            </form>
+                        </p-tabPanel>
+                    </p-tabView>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

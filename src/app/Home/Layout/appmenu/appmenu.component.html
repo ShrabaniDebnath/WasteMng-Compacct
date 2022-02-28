@@ -1,0 +1,370 @@
+ <!-- Left side column. contains the logo and sidebar -->
+ <aside class="main-sidebar">
+   <div (click)="getRoute($event)">
+
+     <section class='sidebar'>
+
+       <ul class='sidebar-menu'>
+         <li><a href='/home/Dashboard'><i class='fa fa-dashboard'></i> <span>Dashboard</span></a></li>
+         <li><a href='/Business_Dashboard'><i class='fa fa-dashboard'></i> <span>Business Dashboard</span></a></li>
+         <li class='treeview'><a href='#'><i class='fa fa-th-large'></i> <span>Patient Management</span> <span
+               class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+           <ul class='treeview-menu'>
+             <li class='treeview'><a href='#'><i class='fa fa-dot-circle-o'></i>Master <span
+                   class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+               <ul class='treeview-menu'>
+                 <li class='treeview'><a href='#'><i class='fa fa-dot-circle-o'></i>General <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a href='/BL_CRM_Master_SalesTeam?memtype=sales'><i class='fa fa-circle-o'></i>Sales Team</a>
+                     </li>
+                     <li><a href='/
+BL_Enq_Source_Master'><i class='fa fa-circle-o'></i>Enquiry Source</a></li>
+                     <li><a href='/BL_Enq_Source_Sub_Master'><i class='fa fa-circle-o'></i>Enquiry Source Sub Type</a>
+                     </li>
+                     <li><a href='/BL_CRM_REQUEST_TYPE/Index'><i class='fa fa-circle-o'></i>Action Type</a></li>
+                   </ul>
+                 </li>
+                 <li class='treeview'><a href='#'><i class='fa fa-dot-circle-o'></i>Clinic <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a href='/BL_CRM_Master_Consultancy_V2'><i class='fa fa-dot-circle-o'></i>Consultancy</a></li>
+                     <li><a href='/BL_CRM_Master_Package_New'><i class='fa fa-dot-circle-o'></i>Package</a></li>
+                     <li><a href='/BL_CRM_Master_Doctor'><i class='fa fa-dot-circle-o'></i>Audiologist</a></li>
+                     <li><a href='/BL_CRM_Doctor_Schedule'><i class='fa fa-dot-circle-o'></i>Audiologist Schedule</a>
+                     </li>
+                     <li><a href='/BL_CRM_Master_Prescription'><i class='fa fa-dot-circle-o'></i>Prescription
+                         Template</a></li>
+                   </ul>
+                 </li>
+               </ul>
+             </li>
+             <li class='treeview'><a href='#'><i class='fa fa-dot-circle-o'></i>Transaction <span
+                   class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+               <ul class='treeview-menu'>
+                 <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Clinic <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a href='/Hearing_CRM_Lead'><i class='fa fa-circle-o'></i>Patient Registration / Followup</a>
+                     </li>
+                     <li><a href='/Hearing_Patient_Search'><i class='fa fa-circle-o'></i>Patient Search</a></li>
+                     <li><a href='/Hearing_BL_CRM_Appointment'><i class='fa fa-dot-circle-o'></i>Clinic Appointment</a>
+                     </li>
+                     <li><a href='/BL_Txn_Lead_Upload'><i class='fa fa-circle-o'></i>Lead Upload</a></li>
+                     <li><a href='/Bl_Txn_Time_Sheet'><i class='fa fa-circle-o'></i>Time Sheet</a></li>
+                   </ul>
+                 </li>
+                 <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Audiologist <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a href='/Hearing_DoctorsAppointment'><i class='fa fa-dot-circle-o'></i>Appointment</a></li>
+                     <li><a href='/Bl_Txn_Time_Sheet'><i class='fa fa-circle-o'></i>Time Sheet</a></li>
+                     <li><a href='/Hearing_BL_CRM_Appointment'><i class='fa fa-dot-circle-o'></i>Clinic Appointment</a>
+                     </li>
+                     <li><a href='/BL_CRM_Txn_Prescription'><i class='fa fa-dot-circle-o'></i>Prescription</a></li>
+                     <li><a href='/Hearing_Audiogram_Graph'><i class='fa fa-dot-circle-o'></i>Audiogram Graph</a></li>
+                   </ul>
+                 </li>
+                 <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Sale Bill <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a
+                         href='/Retail_Txn_SALE_Bill_cum_challan_GST?subledger_id=14899&salesman=Y&checkAppo=N&cat_id=121,122,123,125,127,128,129,130,131,132,152,155&salesman_type=Doctor&salesRefCap=Audiologist&Bill_Type=Hearing Aid'><i
+                           class='fa fa-dot-circle-o'></i>Hearing Aid Bill</a></li>
+                     <li><a
+                         href='/Retail_Txn_SALE_Bill_cum_challan_GST?subledger_id=14899&salesman=S&checkAppo=N&cat_id=126,154,156&salesman_type=Doctor&salesRefCap=Audiologist&Bill_Type=Service Bill'><i
+                           class='fa fa-dot-circle-o'></i>Service Bill</a></li>
+                     <li><a
+                         href='/Retail_Txn_SALE_Bill_cum_challan_GST?subledger_id=14899&salesman=N&checkAppo=N&cat_id=125,128,129,130,131,132,155&salesman_type=Doctor&salesRefCap=Audiologist&Bill_Type=Hearing Accessories'><i
+                           class='fa fa-dot-circle-o'></i>Accessories Bill</a></li>
+                     <li><a href='/Hearing_Advance_Order'><i class='fa fa-dot-circle-o'></i>Advance Order</a></li>
+                   </ul>
+                 </li>
+                 <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Challan <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a href='/Retail_Txn_Inward_GST?subledger_id=14899'><i class='fa fa-dot-circle-o'></i>Material
+                         Inward</a></li>
+                     <li><a href='/Retail_Txn_Outward_GST?subledger_id=14899'><i class='fa fa-dot-circle-o'></i>Material
+                         Outward</a></li>
+                     <li><a href='/Hearing_Patient_Trial_Challan'><i class='fa fa-dot-circle-o'></i>Trial Challan</a>
+                     </li>
+                   </ul>
+                 </li>
+                 <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Return <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a href='/Hearing_Sale_Return_Cum_Credit_Note?subledger_id=14899'><i
+                           class='fa fa-dot-circle-o'></i>Material Return</a></li>
+                   </ul>
+                 </li>
+                 <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Vouchers <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a href='/Retail_ACC_Txn_Acc_Journal?Voucher_Type_ID=1&Sub_Ledger_ID=14899&Ledger_ID=568'><i
+                           class='fa fa-dot-circle-o'></i>Receive</a></li>
+                     <li><a href='/Retail_ACC_Txn_Acc_Journal?Voucher_Type_ID=2&Sub_Ledger_ID=14899&Ledger_ID=568'><i
+                           class='fa fa-dot-circle-o'></i>Payment</a></li>
+                     <li><a href='/Retail_ACC_Txn_Acc_Journal?Voucher_Type_ID=4&Sub_Ledger_ID=14899&Ledger_ID=568'><i
+                           class='fa fa-dot-circle-o'></i>Journal</a></li>
+                     <li><a href='/Hearing_Adjustment_Voucher?Sub_Ledger_ID=14899&Ledger_ID=568'><i
+                           class='fa fa-dot-circle-o'></i>Hearing Adjustment</a></li>
+                   </ul>
+                 </li>
+                 <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Speech <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a href='/Speech_DoctorsAppointment'><i class='fa fa-dot-circle-o'></i> Appointment</a></li>
+                   </ul>
+                 </li>
+               </ul>
+             </li>
+             <li><a href='/Dynamic_Report?mtype=CRM&Report_Name=Patient Management Report&Label=Non Billing Days'><i
+                   class='fa fa-genderless'></i>CRM Reports</a></li>
+             <li><a href='/scheduler_operation'><i class='fa fa-genderless'></i>Scheduler Operation</a></li>
+           </ul>
+         </li>
+         <li class='treeview'><a href='#'><i class='fa fa-truck'></i> <span>Material Management</span> <span
+               class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+           <ul class='treeview-menu'>
+             <li class='treeview'><a href='#'><i class='fa fa-dot-circle-o'></i>Master <span
+                   class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+               <ul class='treeview-menu'>
+                 <li><a href='/Master_Cost_Center_V2'><i class='fa fa-circle-o'></i>Cost Centre</a></li>
+                 <li><a href='/Master_Product_Mfg'><i class='fa fa-circle-o'></i>Product Manufacturer</a></li>
+                 <li><a href='/Master_Product_Category?Country=INDIA'><i class='fa fa-circle-o'></i>Product Category</a>
+                 </li>
+                 <li><a href='/Master_Product_New'><i class='fa fa-circle-o'></i>Product</a></li>
+               </ul>
+             </li>
+             <li class='treeview'><a href='#'><i class='fa fa-dot-circle-o'></i>Inward <span
+                   class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+               <ul class='treeview-menu'>
+                 <li><a href='/INV_Txn_Purchase_Order'><i class='fa fa-circle-o'></i>Purchase Order</a></li>
+                 <li><a href='/INV_Txn_Inward'><i class='fa fa-circle-o'></i>Purchase Challan</a></li>
+                 <li><a href='/BL_Txn_GRN'><i class='fa fa-circle-o'></i>GRN Verification</a></li>
+                 <li><a href='/INV_Txn_Inward_Replacement'><i class='fa fa-circle-o'></i>Inward Replacement</a></li>
+                 <li><a href='/BL_Txn_Item_Journal'><i class='fa fa-circle-o'></i>Product Conversion</a></li>
+                 <li><a href='/Sale_Return_Cum_Credit_Note'><i class='fa fa-circle-o'></i>Sales Return</a></li>
+                 <li><a href='/INV_Txn_waybill_register'><i class='fa fa-circle-o'></i>Waybill Register</a></li>
+                 <li><a href='/UpdatePOExpectedDelivery'><i class='fa fa-circle-o'></i>Update Expected Delivery</a></li>
+               </ul>
+             </li>
+             <li class='treeview'><a href='#'><i class='fa fa-dot-circle-o'></i>Outward <span
+                   class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+               <ul class='treeview-menu'>
+                 <li><a href='/BL_Txn_Sale_challan'><i class='fa fa-circle-o'></i>Sale Challan</a></li>
+                 <li><a href='/Purchase_Return_Cum_Debit_Note'><i class='fa fa-circle-o'></i>Purchase Return</a></li>
+               </ul>
+             </li>
+             <li><a href='/INV_Txn_St_Trf_GST'><i class='fa fa-dot-circle-o'></i>Stock Transfer</a></li>
+             <li><a href='/BL_Txn_Serial_Product_Change'><i class='fa fa-dot-circle-o'></i>Change Product Serial</a>
+             </li>
+             <li class='treeview'><a href='#'><i class='fa fa-dot-circle-o'></i>Report <span
+                   class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+               <ul class='treeview-menu'>
+                 <li><a href='/Hearing_Stock_Report'><i class='fa fa-circle-o'></i>Stock</a></li>
+                 <li><a href='/Dynamic_Report?mtype=Inv&Report_Name=Inventory Report&Label=Serial / Batch No.'><i
+                       class='fa fa-circle-o'></i>Inventory Report</a></li>
+               </ul>
+             </li>
+           </ul>
+         </li>
+         <li class='treeview'><a href='#'><i class='fa fa-calculator'></i> <span>Financial Management</span> <span
+               class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+           <ul class='treeview-menu'>
+             <li class='treeview'><a href='#'><i class='fa fa-dot-circle-o'></i>Master <span
+                   class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+               <ul class='treeview-menu'>
+                 <li><a href='/Master_Primary_Group'><i class='fa fa-circle-o'></i>Primary Group</a></li>
+                 <li><a href='/Master_Accounting_Group'><i class='fa fa-circle-o'></i>Group</a></li>
+                 <li><a href='/Master_Accounting_Ledger_V2'><i class='fa fa-circle-o'></i>Ledger</a></li>
+                 <li><a href='/Master_Subledger_Category'><i class='fa fa-circle-o'></i>Sub-Ledger-Category</a></li>
+                 <li><a href='/Master_Acctonting_Subledger?Country=INDIA&ledgerids=568'><i
+                       class='fa fa-circle-o'></i>Sub-Ledger-Customer</a></li>
+                 <li><a href='/Master_Acctonting_Subledger?Country=INDIA&ledgerids=All'><i
+                       class='fa fa-circle-o'></i>Sub-Ledger</a></li>
+                 <li><a href='/Master_Accounting_Cost_Head'><i class='fa fa-circle-o'></i>Cost Head</a></li>
+                 <li><a href='/Master_Accounting_Subledger_For_Acc'><i class='fa fa-circle-o'></i>Sub-Ledger-For
+                     Accounts</a></li>
+                 <li><a href='/Master_Project_Detail'><i class='fa fa-circle-o'></i>Project Detail</a></li>
+                 <li><a href='/Master_Doc_Terms'><i class='fa fa-circle-o'></i>Document Terms</a></li>
+                 <li><a href='/Master_Billing_Terms'><i class='fa fa-circle-o'></i>Billing Terms</a></li>
+                 <li><a href='/Subledger_transfer'><i class='fa fa-circle-o'></i>Subledger Transfer</a></li>
+               </ul>
+             </li>
+             <li class='treeview'><a href='#'><i class='fa fa-dot-circle-o'></i>Transaction <span
+                   class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+               <ul class='treeview-menu'>
+                 <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Voucher <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a href='/ACC_Txn_Acc_Journal?Voucher_Type_ID=1'><i class='fa fa-genderless'></i>Receive
+                         Voucher</a></li>
+                     <li><a href='/ACC_Txn_Acc_Journal?Voucher_Type_ID=2'><i class='fa fa-genderless'></i>Payment
+                         Voucher</a></li>
+                     <li><a href='/ACC_Contra_Voucher?Voucher_Type_ID=3'><i class='fa fa-genderless'></i>Contra
+                         Voucher</a></li>
+                     <li><a href='/ACC_Txn_Acc_Journal?Voucher_Type_ID=4'><i class='fa fa-genderless'></i>Journal
+                         Voucher</a></li>
+                     <li><a href='/Acc_CollectionAccount?ledger_id=415&cost_cen_id=2'><i
+                           class='fa fa-genderless'></i>Collection Voucher</a></li>
+                     <li><a href='/ACC_Txn_Acc_Journal?Voucher_Type_ID=7'><i class='fa fa-genderless'></i>Dr. Note</a>
+                     </li>
+                     <li><a href='/ACC_Txn_Acc_Journal?Voucher_Type_ID=8'><i class='fa fa-genderless'></i>Cr. Note</a>
+                     </li>
+                     <li><a href='/Acc_Adjustment_Voucher'><i class='fa fa-genderless'></i>Adjustment Voucher</a></li>
+                     <li><a href='#'><i class='fa fa-genderless'></i>BRS</a></li>
+                     <li><a href='/Payslip_journal'><i class='fa fa-genderless'></i>Pay In Slip</a></li>
+                     <li><a href='/FundTransfer'><i class='fa fa-genderless'></i>Fund Transfer</a></li>
+                     <li><a href='/ACC_Txn_Acc_Journal?Voucher_Type_ID=11'><i class='fa fa-genderless'></i>Received
+                         Cheque Return</a></li>
+                     <li><a href='/ACC_Txn_Acc_Journal?Voucher_Type_ID=12'><i class='fa fa-genderless'></i>Paid Cheque
+                         Return</a></li>
+                     <li><a href='/ACC_Txn_Acc_Transfer'><i class='fa fa-genderless'></i>Account Transfer</a></li>
+                   </ul>
+                 </li>
+                 <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Sales <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a href='/BL_Txn_SALE_Bill_cum_challan_GST'><i class='fa fa-genderless'></i>Sale Bill GST</a>
+                     </li>
+                     <li><a href='/Sale_Return_Cum_Credit_Note_WO_Stock'><i class='fa fa-genderless'></i>Credit Note
+                         GST</a></li>
+                     <li><a href='/BL_Txn_Bill_Upload'><i class='fa fa-genderless'></i>Upload Sale Bill</a></li>
+                     <li><a href='/BL_Txn_Export_Invoice'><i class='fa fa-circle-o'></i>Export Invoice</a></li>
+                   </ul>
+                 </li>
+                 <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Purchase <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a href='/BL_Txn_Purchase_Bill_GST'><i class='fa fa-genderless'></i>Purchase Bill GST</a></li>
+                     <li><a href='/BL_Txn_Purchase_Bill_GST_Import'><i class='fa fa-genderless'></i>Purchase Bill
+                         Import</a></li>
+                     <li><a href='/Purchase_Return_Cum_Debit_Note_WO_Stock'><i class='fa fa-genderless'></i>Debit Note
+                         GST</a></li>
+                   </ul>
+                 </li>
+                 <li><a href='/Bank_Reconsilation_Update'><i class='fa fa-circle-o'></i>Bank Reconsilation </a></li>
+               </ul>
+             </li>
+             <li class='treeview'><a href='#'><i class='fa fa-dot-circle-o'></i>Report <span
+                   class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+               <ul class='treeview-menu'>
+                 <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Sales <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a href='/Dynamic_Report?mtype=Sale&Report_Name=Sale Register&Label=Sale'><i
+                           class='fa fa-genderless'></i>Sales Register</a></li>
+                     <li><a href='/SalesDueAnalysis?Typ=SAL'><i class='fa fa-genderless'></i>Sale Due Analysis</a></li>
+                   </ul>
+                 </li>
+                 <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Purchase <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a href='/Dynamic_Report?mtype=Purchase&Report_Name=Purchase Register&Label=Purchase'><i
+                           class='fa fa-genderless'></i>Purchase Register</a></li>
+                     <li><a href='/SalesDueAnalysis?Typ=PUR'><i class='fa fa-genderless'></i>Purchase Due Analysis</a>
+                     </li>
+                   </ul>
+                 </li>
+                 <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Accounts <span
+                       class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+                   <ul class='treeview-menu'>
+                     <li><a href='/Rep_Acc_Ledger_Transactions'><i class='fa fa-genderless'></i>General Ledger</a></li>
+                     <li><a href='/SubledgerReport'><i class='fa fa-genderless'></i>Sub-Ledger</a></li>
+                     <li><a href='/Rep_ACC_Cost_Head_Txn'><i class='fa fa-genderless'></i>Cost Head Report</a></li>
+                     <li><a href='#'><i class='fa fa-genderless'></i>Fund Flow Statement</a></li>
+                     <li><a href='/DIPL_Ledger_Details'><i class='fa fa-genderless'></i>Ledger Details</a></li>
+                     <li><a href='#'><i class='fa fa-genderless'></i>Cheque Clearance</a></li>
+                     <li><a href='#'><i class='fa fa-genderless'></i>BRS</a></li>
+                     <li><a href='/Dynamic_Report?mtype=Acc&Report_Name=Accounting Reports&Label=Non Billing Days'><i
+                           class='fa fa-genderless'></i>Accounts Report</a></li>
+                     <li><a href='/Dynamic_Report?mtype=Gst&Report_Name=GST Reprt'><i class='fa fa-genderless'></i>GST
+                         Report</a></li>
+                     <li><a href='/Rep_Ledger_Trial_Balance'><i class='fa fa-genderless'></i>Ledger Trial Balance</a>
+                     </li>
+                     <li><a href='/Dynamic_Report?mtype=Inc&Report_Name=Incentive Report&Label=Incentive Percentage'><i
+                           class='fa fa-genderless'></i>Incentive Report</a></li>
+                     <li><a href='/ReportFinancial'><i class='fa fa-genderless'></i>Financial Report</a></li>
+                     <li><a href='/rep_Columnwise_Subledger'><i class='fa fa-genderless'></i>Columnwise Report</a></li>
+                     <li><a href='/Subledger_View'><i class='fa fa-genderless'></i>Customer Interaction</a></li>
+                     <li><a href='/Subledger_View?Can_Send=N'><i class='fa fa-curcle-o'></i>Cust. Inteaction For
+                         Sales</a></li>
+                   </ul>
+                 </li>
+                 <li><a href='/Rep_Dynamic_Zoom?mtype=Acc&Report_Name=Primary Group Report'><i
+                       class='fa fa-circle-o'></i>Drill Down Report</a></li>
+               </ul>
+             </li>
+             <li><a href='/BL_CRM_Payment_Followup_Search'><i class='fa fa-dot-circle-o'></i>Payment Followup</a></li>
+           </ul>
+         </li>
+         <li class='treeview'><a href='#'><i class='fa fa-calculator'></i> <span>After Sale Support</span> <span
+               class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+           <ul class='treeview-menu'>
+             <li><a href='/Hearing_Support_Ticket'><i class='fa fa-circle-o'></i>Support Ticket</a></li>
+             <li><a href='/Hearing_Sale_Challan_Return_To_Vendor'><i class='fa fa-circle-o'></i>Send To Vendor</a></li>
+             <li><a href='/Hearing_Inward_Receive_from_Vendor'><i class='fa fa-circle-o'></i>Receive From Vendor</a>
+             </li>
+             <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Loaner <span class='pull-right-container'>
+                   <i class='fa fa-angle-left pull-right'></i> </span></a>
+               <ul class='treeview-menu'>
+                 <li><a href='/Hearing_Sup_Tkt_Loaner'><i class='fa fa-circle-o'></i>Issue To Loaner</a></li>
+                 <li><a href='/Hearing_Sup_Tkt_Return_Loaner'><i class='fa fa-circle-o'></i>Return From Loaner</a></li>
+               </ul>
+             </li>
+             <li><a href='/Hearing_Sup_Tkt_Close'><i class='fa fa-circle-o'></i>Close Support Ticket</a></li>
+             <li class='treeview'><a href='#'><i class='fa fa-circle-o'></i>Invoice / Receipt <span
+                   class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+               <ul class='treeview-menu'>
+                 <li><a
+                     href='/Retail_Txn_SALE_Bill_cum_challan_GST?subledger_id=14899&salesman=N&checkAppo=N&cat_id=146&salesman_type=Doctor&salesRefCap=Audiologist&Bill_Type=Service Bill'><i
+                       class='fa fa-dot-circle-o'></i>Repairing Charges Bill</a></li>
+                 <li><a href='/Retail_ACC_Txn_Acc_Journal?Voucher_Type_ID=1&Sub_Ledger_ID=14899&Ledger_ID=568'><i
+                       class='fa fa-dot-circle-o'></i>Receive Payment</a></li>
+                 <li><a href='/Hearing_Advance_Order'><i class='fa fa-dot-circle-o'></i>Advance Order</a></li>
+               </ul>
+             </li>
+             <li class='treeview'><a href='#'><i class='fa fa-dashboard'></i>Report <span class='pull-right-container'>
+                   <i class='fa fa-angle-left pull-right'></i> </span></a>
+               <ul class='treeview-menu'>
+                 <li><a href='/Dynamic_Report?mtype=Sup&Report_Name=After Sales Report&Label=Serial / Batch No'><i
+                       class='fa fa-dashboard'></i>After Sales Report</a></li>
+               </ul>
+             </li>
+           </ul>
+         </li>
+         <li class='treeview'><a href='#'><i class='fa fa-user-plus'></i> <span>User Management</span> <span
+               class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+           <ul class='treeview-menu'>
+             <li><a href='/UR_Master_Dept'><i class='fa fa-dot-circle-o'></i>Department</a></li>
+             <li><a href='/UR_Master_Sub_Dept'><i class='fa fa-dot-circle-o'></i>Sub-Department</a></li>
+             <li><a href='/User_Group'><i class='fa fa-dot-circle-o'></i>User Group</a></li>
+             <li><a href='/Master_User'><i class='fa fa-dot-circle-o'></i>User</a></li>
+             <li><a href='/Bl_Txn_Notification'><i class='fa fa-dot-circle-o'></i>Notification</a></li>
+             <li><a href='/ShowUserActivity'><i class='fa fa-dot-circle-o'></i>User Activity</a></li>
+             <li><a href='/Dynamic_Report_Management'><i class='fa fa-dot-circle-o'></i>Dynamic Report Management</a>
+             </li>
+           </ul>
+         </li>
+         <li class='treeview'><a href='#'><i class='fa fa-dashboard'></i> <span>Delsey</span> <span
+               class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span></a>
+           <ul class='treeview-menu'>
+             <li class='treeview'><a href='#'><i class='fa fa-dashboard'></i>Billing <span class='pull-right-container'>
+                   <i class='fa fa-angle-left pull-right'></i> </span></a>
+               <ul class='treeview-menu'>
+                 <li><a
+                     href='/Retail_Txn_SALE_Bill_cum_challan_GST?subledger_id=14899&salesman=N&checkAppo=N&cat_id=135&salesman_type=Doctor&salesRefCap=Audiologist&Bill_Type=Delsey Cash Bill'><i
+                       class='fa fa-dot-circle-o'></i>Delsey Cash Bill</a></li>
+                 <li><a
+                     href='/Retail_Txn_SALE_Bill_cum_challan_GST?subledger_id=14899&salesman=N&checkAppo=N&cat_id=143&salesman_type=Doctor&salesRefCap=NA&Bill_Type=CD Bill'><i
+                       class='fa fa-dot-circle-o'></i>CD Bill</a></li>
+               </ul>
+             </li>
+           </ul>
+         </li>
+       </ul>
+     </section>
+   </div>
+ </aside>

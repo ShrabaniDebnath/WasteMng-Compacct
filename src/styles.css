@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~primeicons/primeicons.css';
+@import '~primeng/resources/themes/saga-blue/theme.css';
+@import '~primeng/resources/primeng.min.css';
+
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css'; 
+@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css'; 
+@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css'; 
+@import '../node_modules/@syncfusion/ej2-popups/styles/material.css'; 
+@import '../node_modules/@syncfusion/ej2-lists/styles/material.css'; 
+@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css'; 
+@import '../node_modules/@syncfusion/ej2-calendars/styles/material.css'; 
+@import '../node_modules/@syncfusion/ej2-angular-calendars/styles/material.css'; 
+/* table */
+.p-datatable .p-datatable-thead > tr > th{
+  color: #ffffff !important;
+  background-color: #3c8dbc !important;
+  display: table-cell !important;
+  padding: 0.571em 0.857em !important;
+  border: 1px solid #c8c8c8 !important;
+  font-weight: 700 !important;
+}
+.p-datatable .p-datatable-header{
+  background: #fff;
+}
+*{
+  font-size: 1.20rem;
+}

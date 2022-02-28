@@ -1,0 +1,120 @@
+
+<div class="hold-transition login-page" ng-app="Compacct_Login_Module" ng-controller="LoginController as ctrl">
+    <div class="login-box">
+      <div class="login-logo">
+        <img src="/Content/dist/img/Compacct_New_Logo.png" alt="COMPACCT" />
+      </div>
+      <form name="LoginForm" novalidate>
+        <div class="login-box-body" ng-if="ctrl.loginuserlist==true">
+          <h3 class="login-box-msg">Choose an account</h3>
+  
+          <div class="box-body no-padding">
+            <ul class="nav nav-pills nav-stacked list-group">
+              <!-- <li ng-repeat="list in ctrl.loginUserList"
+                  ng-style="ctrl.color">
+                <a href="#" ng-click="ctrl.getUserName(list.userName)" class="list-group-item list-group-item-action"><h4 class="list-group-item-heading "><i class="glyphicon glyphicon-user" aria-hidden="true"></i>      {{list.userName}}</h4></a>
+                <a href="#" class="bt btleft"></a>
+              </li>
+              <li>
+                <a href="#" ng-click="ctrl.useAnotherAccount()" class="list-group-item list-group-item-action"><h4 class="list-group-item-heading "><i class="glyphicon glyphicon-user" aria-hidden="true"></i>       Use another account</h4></a>
+              </li>
+   -->
+            </ul>
+          </div>
+          <br />
+  
+          <div class="social-auth-links text-center">
+          
+            <ul class="nav nav-pills nav-stacked ">
+              <li>
+                <a href="#" ng-click="ctrl.deleteUser()" class=""><h4 class="list-group-item-heading ">       Remove an account</h4></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="login-box-body" ng-if="ctrl.loginpageshow==true">
+          <p class="login-box-msg">Sign in to start your session</p>
+          <div class="form-group has-feedback">
+            <input ng-model="ctrl.ObjCredentional.LoginName"
+                   class="form-control"
+                   placeholder="Login ID"
+                   autofocus
+                   name="loginid"
+                   ng-class="{'clearance':ctrl.loginInfoSubmitted && LoginForm.loginid.$error.required}"
+                   required>
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+            <input type="password"
+                   ng-model="ctrl.ObjCredentional.Pass"
+                   class="form-control"
+                   placeholder="Password"
+                   name="password"
+                   ng-class="{'clearance':ctrl.loginInfoSubmitted && LoginForm.password.$error.required}"
+                   required>
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+            <select class="form-control"
+                    name="finyear"
+                    ng-model="ctrl.ObjCredentional.Fin_Year_ID"
+                    ng-options="v.Fin_Year_ID as v. Fin_Year_Name for v in ctrl.FinYearLists"
+                    ng-class="{'clearance':ctrl.loginInfoSubmitted && LoginForm.finyear.$error.required}"
+                    required></select>
+          </div>
+          <div class="row">
+  
+            <div class="col-xs-12">
+              
+              <button ng-if="ctrl.backshow==true" class="btn btn-primary pull-left" ng-click="ctrl.backToUserLists()">
+                <span class="glyphicon glyphicon-circle-arrow-left"></span> Back
+              </button>
+              <a routerLink="/Home/MasterClient" class="btn btn-primary pull-right">
+                <span class="fa fa-sign-in"></span> Sign In
+              </a>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="alert-box failure"></div>
+    </div>
+  
+    <div class="modal fade" id="OtpModal" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <form name="deliveryOrderForm" novalidate>
+            <div class="modal-header bg-primary">
+              <h4 class="modal-title">Verification Modal</h4>
+            </div>
+  
+            <div class="modal-body">
+              <p>We&rsquo;ve sent a six-digit confirmation code to Your Mobile. Enter it below to confirm your identity.</p>
+              <div class="form-control-static">
+                <div class="col-sm-12">
+                  <input class="form-control" placeholder="Enter OTP" ng-model="ctrl.OtpFetch" />
+                  <div class="alert-box failure" id="otp"></div>
+                </div>
+  
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-social btn-success"
+                      ng-click="ctrl.sendOTP(false)"
+                      id="load2"
+                      data-loading-text="<i class='fa fa-spinner fa-spin '></i> Processing">
+                <i class="fa fa-fw fa-paper-plane"></i> Resend OTP
+              </button>
+              <button class="btn btn-primary pull-right"
+                      ng-click="ctrl.creatNepalCookies(LoginForm.$valid)"
+                      id="load"
+                      data-loading-text="<i class='fa fa-spinner fa-spin '></i> Processing">
+                <span class="glyphicon glyphicon-save"></span> Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  
+</div>
+  

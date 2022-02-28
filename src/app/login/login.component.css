@@ -1,0 +1,47 @@
+.clearance {
+    border-style: solid;
+    border-color: red;
+}
+
+.custom {
+    width: 150px;
+}
+
+   button {
+    margin-top: 25px;
+    margin-left: 15px;
+}
+
+#UserDisplayForm label {
+    display: block;
+}
+
+#UserDisplayForm div {
+    display: inline-block;
+}
+
+
+
+
+  #section {
+width: 82%;
+margin: 15px auto 0 auto;
+padding: 2%;
+border-radius: 12px;
+border: 1px solid #e0e0e0;
+display:table;
+}
+#section ul li
+{
+display:table-cell;
+}
+#section ul li a
+{
+vertical-align:middle;
+text-align:center;
+}
+#section ul li a img
+{
+vertical-align:middle;
+text-align:center;
+}

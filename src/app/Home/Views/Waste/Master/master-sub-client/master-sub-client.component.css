@@ -1,0 +1,5 @@
+#pr_id_4-table > tbody > tr > td:nth-child(4) > a > div > i{
+    font-size: 1.50rem;
+    color: red;
+    cursor: pointer;
+  }

@@ -1,0 +1,9 @@
+.text-red-active>td {
+    color: red;
+}
+
+.p-paginator {
+    margin: 0;
+    text-align: center;
+    padding: 0.6rem 2rem;
+}
