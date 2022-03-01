@@ -29,6 +29,8 @@ export class MasterClientComponent implements OnInit {
   Spinner = false;
   checked: boolean = false;
   clientId:any = 0;
+  can_popup = false;
+  act_popup = false;
   ObjmasterClient: masterClient = new masterClient ();
   ObjcontactPerson: contactPerson = new contactPerson ();
   constructor(
@@ -210,10 +212,52 @@ GetAllBrowse(){
      console.log("All Data",this.getAllData);
    })
 }
-onConfirm() {
-  this.compacctToast.clear('c');
-}
+onConfirm(){
+  if(this.clientId){
+    const obj = {
+      "Sp_Name": "SP_Waste_Mng_Master_Client_SubClient",
+      "Report_Name": "Active_Waste_Mng_Master_Client"
+    }
+    this.apicall.PostData(obj, JSON.stringify({Client_ID: this.clientId})).subscribe((data:any)=>{
+      if (data[0].Column1 === "Done"){
+        this.act_popup = false;
+        this.onReject();
+         this.GetAllBrowse();
+          this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "success",
+            summary: "Product ID: " + this.clientId,
+            detail: "Succesfully Active"
+          });
+      }
 
+    })
+  }
+}
+onConfirm2(){
+  if(this.clientId){
+    const obj = {
+      "Sp_Name": "SP_Waste_Mng_Master_Client_SubClient",
+      "Report_Name": "Deactive_Waste_Mng_Master_Client"
+    }
+    this.apicall.PostData(obj, JSON.stringify({Client_ID: this.clientId})).subscribe((data:any)=>{
+      if (data[0].Column1 === "Done"){
+        this.can_popup = false;
+        this.onReject();
+         this.GetAllBrowse();
+          this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "success",
+            summary: "Product ID: " + this.clientId,
+            detail: "Succesfully Deactive"
+          });
+      }
+
+    })
+  }
+}
 onReject() {
   this.compacctToast.clear('c');
 }
@@ -256,6 +300,38 @@ GetEditMasterclient(id:number){
 }
 DeleteContact(index:any){
   this.addPersonList.splice(index, 1);
+}
+Active(row:any){
+  this.can_popup = false;
+  this.clientId = undefined ;
+  if(row.Client_ID){
+    this.act_popup = true;
+    this.clientId = row.Client_ID ;
+    this.compacctToast.clear();
+    this.compacctToast.add({
+      key: "c",
+      sticky: true,
+      severity: "warn",
+      summary: "Are you sure?",
+      detail: "Confirm to proceed"
+    });
+  }
+}
+Inactive(col:any){
+  this.act_popup = false;
+  this.clientId = undefined ;
+  if(col.Client_ID){
+    this.can_popup = true;
+    this.clientId = col.Client_ID ;
+    this.compacctToast.clear();
+    this.compacctToast.add({
+      key: "c",
+      sticky: true,
+      severity: "warn",
+      summary: "Are you sure?",
+      detail: "Confirm to proceed"
+    });
+  }
 }
   
 }

@@ -28,6 +28,8 @@ export class MasterSubClientComponent implements OnInit {
   ObjcontactPerson: contactPerson = new contactPerson();
   addPersonList:any = [];
   getAllData:any =[]; 
+  can_popup = false;
+  act_popup = false;
   masterClientContactSubmit = false;
   link:any = undefined;
   constructor(private apicall : ApiService,
@@ -68,9 +70,7 @@ export class MasterSubClientComponent implements OnInit {
        console.log("All masterClientList",this.masterClientList);
      })
    }
-   onConfirm() {
-    this.compacctToast.clear('c');
-  }
+  
   onReject() {
     this.compacctToast.clear('c');
   }
@@ -323,6 +323,84 @@ Edit(col:any){
 //   const prichan = this.pricingplanList.filter((ele:any)=> Number(ele.Product_ID) === Number(this.objsubClient.Product_ID));
 //   this.Pricing = prichan[0].Price;
 // }
+onConfirm(){
+  if(this.SubclientId){
+    const obj = {
+      "Sp_Name": "SP_Waste_Mng_Master_Client_SubClient",
+      "Report_Name": "Active_Waste_Mng_Master_SubClient"
+    }
+    this.apicall.PostData(obj, JSON.stringify({Sub_Client_ID: this.SubclientId})).subscribe((data:any)=>{
+      if (data[0].Column1 === "Done"){
+        this.act_popup = false;
+        this.onReject();
+         this.GetAllBrowse();
+          this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "success",
+            summary: "Product ID: " + this.SubclientId,
+            detail: "Succesfully Active"
+          });
+      }
+
+    })
+  }
+}
+onConfirm2(){
+  if(this.SubclientId){
+    const obj = {
+      "Sp_Name": "SP_Waste_Mng_Master_Client_SubClient",
+      "Report_Name": "Deactive_Waste_Mng_Master_SubClient"
+    }
+    this.apicall.PostData(obj, JSON.stringify({Sub_Client_ID: this.SubclientId})).subscribe((data:any)=>{
+      if (data[0].Column1 === "Done"){
+        this.can_popup = false;
+        this.onReject();
+         this.GetAllBrowse();
+          this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "success",
+            summary: "Product ID: " + this.SubclientId,
+            detail: "Succesfully Deactive"
+          });
+      }
+
+    })
+  }
+}
+Active(row:any){
+  this.can_popup = false;
+  this.SubclientId = undefined ;
+  if(row.Sub_Client_ID){
+    this.act_popup = true;
+    this.SubclientId = row.Sub_Client_ID ;
+    this.compacctToast.clear();
+    this.compacctToast.add({
+      key: "c",
+      sticky: true,
+      severity: "warn",
+      summary: "Are you sure?",
+      detail: "Confirm to proceed"
+    });
+  }
+}
+Inactive(col:any){
+  this.act_popup = false;
+  this.SubclientId = undefined ;
+  if(col.Sub_Client_ID){
+    this.can_popup = true;
+    this.SubclientId = col.Sub_Client_ID ;
+    this.compacctToast.clear();
+    this.compacctToast.add({
+      key: "c",
+      sticky: true,
+      severity: "warn",
+      summary: "Are you sure?",
+      detail: "Confirm to proceed"
+    });
+  }
+}
 }
 class subClient{
   Client_ID:any;

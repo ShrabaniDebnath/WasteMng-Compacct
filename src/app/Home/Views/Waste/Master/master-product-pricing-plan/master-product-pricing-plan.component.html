@@ -117,7 +117,7 @@
                                     </div>
                                     <div class="col-sm-1">
                                         <label class="control-label">Price<sup class="text-danger">*</sup></label>
-                                        <input class="form-control" type="number" name="price" #price="ngModel" CompacctDigitonly="true" [(ngModel)]="ObjProductPlan.Price" [ngClass]="{'clearance': ProductPlanFormSubmitted && price.errors?.required}" required>
+                                        <input class="form-control" name="price" #price="ngModel" CompacctDigitonly="true" [(ngModel)]="ObjProductPlan.Price" [ngClass]="{'clearance': ProductPlanFormSubmitted && price.errors?.required}" required>
                                     </div>
                                     <div class="col-sm-1">
                                         <button id="row-Add" class="btn btn-primary pull-right1" (click)="add(ProductPlanForm.form.valid)">

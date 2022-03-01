@@ -7,3 +7,17 @@
     text-align: center;
     padding: 0.6rem 2rem;
 }
+
+.p-toast .p-toast-message .p-toast-message-content{
+    padding: 0.5em 1em !important;
+}
+.p-toast .p-toast-message.p-toast-message-info {
+    background: #fff;
+    border: none;
+    color: black;
+   }
+   .p-toast .p-toast-message.p-toast-message-warn{
+    background: #fff;
+    border: none;
+    color: black;
+   }

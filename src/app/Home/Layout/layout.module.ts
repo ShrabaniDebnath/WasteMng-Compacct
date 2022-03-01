@@ -35,6 +35,8 @@ import { CommonModule } from '@angular/common';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
+
+import {CompacctDigitonlyDirective} from 'src/app/compacct.directives/compacct.digitonly.directive';
 @NgModule({
   declarations: [
     layoutComponent,
@@ -47,6 +49,7 @@ import {MessageModule} from 'primeng/message';
     MasterProductComponent,
     MasterProductPricingPlanComponent,
     CollectionDetailsComponent,
+    CompacctDigitonlyDirective
     
   ],
   imports: [

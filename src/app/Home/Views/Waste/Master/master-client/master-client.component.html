@@ -1,15 +1,18 @@
 <p-toast key="compacct-toast" [baseZIndex]="99999"></p-toast>
-<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+<p-toast position="center" key="c" (onClose)="onReject()" [baseZIndex]="99999">
     <ng-template let-message pTemplate="message">
-        <div class="p-flex p-flex-column" style="flex: 1">
+        <div class="p-flex p-flex-column" style="flex: 1;text-align: center;">
             <div class="p-text-center">
                 <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
                 <h4>{{message.summary}}</h4>
                 <p>{{message.detail}}</p>
             </div>
-            <div class="p-grid p-fluid">
-                <div class="p-col-6">
-                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+            <div class="p-grid p-fluid ">
+                <div class="p-col-6" *ngIf="act_popup && !can_popup">
+                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="ui-button-success"></button>
+                </div>
+                <div class="p-col-6" *ngIf="can_popup && !act_popup">
+                    <button type="button" pButton (click)="onConfirm2()" label="Yes" class="ui-button-success"></button>
                 </div>
                 <div class="p-col-6">
                     <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
@@ -59,8 +62,8 @@
                                       </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-col>
-                                    <tr class="p-selectable-row">
-                                        <td>
+                                    <tr class="p-selectable-row" [class]='col.Is_Visible === "N" ? "text-red-active" : ""'>
+                                        <td >
                                             <div class="dropdown">
                                                 <button class="btn btn-default btn-sm tableButton dropdown-toggle" type="button" data-toggle="dropdown" style="height:27px">
                                                                     <i class="fa fa-fw fa-bars"></i>
@@ -72,9 +75,14 @@
                                                             <i  class="fa fa-fw fa-pencil"></i> Edit
                                                         </a>
                                                     </li>
-                                                    <li>
-                                                        <a>
-                                                            <i class="fa fa-fw fa-trash"></i> Delete
+                                                    <li *ngIf='col.Is_Visible === "N"'>
+                                                        <a (click)="Active(col)">
+                                                            <i class="fa fa-power-off" aria-hidden="true"></i> Active
+                                                        </a>
+                                                    </li>
+                                                    <li *ngIf='col.Is_Visible === "Y"'>
+                                                        <a (click)="Inactive(col)">
+                                                            <i class="fa fa-times" aria-hidden="true"></i> Deactive
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -126,8 +134,11 @@
                                                     name="Pincode" 
                                                     #Pincode="ngModel" 
                                                     [(ngModel)]="ObjmasterClient.Pincode" 
-                                                    placeholder="Pincode" 
-                                                    [ngClass]="{'clearance': masterClientSubmit && Address?.errors?.required}" 
+                                                    placeholder="Pincode"
+                                                    maxlength="6"
+                                                    mminlength="6"
+                                                    [ngClass]="{'clearance': masterClientSubmit && Address?.errors?.required}"
+                                                    CompacctDigitonly="true"
                                                     required>
                                          </div>
                                  </div>
@@ -167,16 +178,21 @@
                                         <div class="row">
                                         <div class="col-sm-4">
                                         <label class="control-label">SMS<sup class="text-danger">*</sup></label>
+                                        <div style="margin-top: 0.5em;">
                                          <p-inputSwitch name="SMS" #SMS="ngModel"  [(ngModel)]="ObjmasterClient.Alert_Manager_SMS"></p-inputSwitch>
-                                         
+                                         </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <label class="control-label">Email<sup class="text-danger">*</sup></label>
+                                            <div style="margin-top: 0.5em;">
                                          <p-inputSwitch name="Email" #Email="ngModel" [(ngModel)]="ObjmasterClient.Alert_Manager_Email"></p-inputSwitch>
+                                        </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <label class="control-label">Whatsapp<sup class="text-danger">*</sup></label>
+                                            <div style="margin-top: 0.5em;">
                                          <p-inputSwitch name="Whatsapp" #Whatsapp="ngModel"  [(ngModel)]="ObjmasterClient.Alert_Manager_Whatsapp"></p-inputSwitch>
+                                        </div>
                                         </div>
                                          </div>
                                         <div class="row">
@@ -220,7 +236,8 @@
                                                                 [(ngModel)]="ObjcontactPerson.Contact_Phone_No" 
                                                                 placeholder="Phone Number"
                                                                 maxlength="10"
-                                                                minlength="10" 
+                                                                minlength="10"
+                                                                CompacctDigitonly="true"
                                                                 [ngClass]="{'clearance': masterClientContactSubmit && Contact_Phone_No?.errors?.required}" 
                                                                 required>
                                                </div>

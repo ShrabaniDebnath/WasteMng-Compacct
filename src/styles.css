@@ -1,6 +1,7 @@
 @import '~primeicons/primeicons.css';
 @import '~primeng/resources/themes/saga-blue/theme.css';
 @import '~primeng/resources/primeng.min.css';
+@import '../node_modules/primeflex/primeflex.css'; 
 
 @import '../node_modules/@syncfusion/ej2-base/styles/material.css'; 
 @import '../node_modules/@syncfusion/ej2-buttons/styles/material.css'; 

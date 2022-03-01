@@ -37,3 +37,13 @@ p-paginator>.p-dropdown-trigger .p-dropdown-trigger-icon {
 .p-paginator .p-dropdown {
     height: 3.357rem !important;
 }
+.p-toast .p-toast-message.p-toast-message-info {
+    background: #fff;
+    border: none;
+    color: black;
+   }
+   .p-toast .p-toast-message.p-toast-message-warn{
+    background: #fff;
+    border: none;
+    color: black;
+   }

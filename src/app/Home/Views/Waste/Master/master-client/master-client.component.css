@@ -3,3 +3,16 @@
     color: red;
     cursor: pointer;
   }
+  .text-red-active>td {
+    color: #E75D5D !important;
+}
+.p-toast .p-toast-message.p-toast-message-info {
+  background: #fff;
+  border: none;
+  color: black;
+ }
+ .p-toast .p-toast-message.p-toast-message-warn{
+  background: #fff;
+  border: none;
+  color: black;
+ }
