@@ -16,7 +16,7 @@ const routes: Routes = [
     children: [
       { path: 'Dashboard',
         component : DashboardComponent,
-        data: { title: "Master Client" }
+        data: { title: "Dashboard" }
     },
       {
         path: "MasterClient",
