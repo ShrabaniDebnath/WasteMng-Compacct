@@ -28,6 +28,7 @@
     "@syncfusion/ej2-lists": "19.3.53",
     "@syncfusion/ej2-popups": "19.3.53",
     "@syncfusion/ej2-splitbuttons": "19.3.53",
+    "ngx-cookie-service": "^13.1.2",
     "primeflex": "^2.0.0",
     "primeicons": "^5.0.0",
     "primeng": "^12.2.2",

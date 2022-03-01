@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-appheader',
@@ -12,9 +14,17 @@ export class AppheaderComponent implements OnInit {
  CompanyName: String = '';
  FinYearName: string = '';
  LogoReqFlag = false;
-  constructor() { }
+ fecthCookiesData:any = [];
+  constructor(
+    private router: Router,
+    private cookie : CookieService) { }
 
   ngOnInit(): void {
+   this.fecthCookiesData =  this.cookie.get('_Compacct_Cookie_data') ? JSON.parse(this.cookie.get('_Compacct_Cookie_data')) : {};
+   this.userName = this.fecthCookiesData.User_Name;
   }
-
+  Logout() {
+    this.cookie.delete('_Compacct_Cookie_data');
+    this.router.navigate(['/Login']);
+  }
 }

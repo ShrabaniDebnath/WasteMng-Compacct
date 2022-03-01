@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DashboardComponent } from '../Views/Dashboard/dashboard/dashboard.component';
 import { CollectionDetailsComponent } from '../Views/Waste/Master/collection-details/collection-details.component';
 import { MasterClientComponent } from '../Views/Waste/Master/master-client/master-client.component';
 import { MasterProductPricingPlanComponent } from '../Views/Waste/Master/master-product-pricing-plan/master-product-pricing-plan.component';
@@ -13,6 +14,10 @@ const routes: Routes = [
     path: "",
     component: layoutComponent,
     children: [
+      { path: 'Dashboard',
+        component : DashboardComponent,
+        data: { title: "Master Client" }
+    },
       {
         path: "MasterClient",
     component: MasterClientComponent,

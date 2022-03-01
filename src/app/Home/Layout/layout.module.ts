@@ -10,7 +10,12 @@ import { MasterSubClientComponent } from '../Views/Waste/Master/master-sub-clien
 import { MasterProductComponent } from '../Views/Waste/Master/master-product/master-product.component';
 import { MasterProductPricingPlanComponent } from '../Views/Waste/Master/master-product-pricing-plan/master-product-pricing-plan.component';
 import { CollectionDetailsComponent } from '../Views/Waste/Master/collection-details/collection-details.component';
-import { ApiService } from 'src/app/Service/API/api.service';
+
+
+
+
+
+
 import { DateTimeConvertService } from 'src/app/Service/dateTime.service';
 import { CompacctHeader } from 'src/app/Service/common.header.service';
 import { TabViewModule } from 'primeng/tabview';
@@ -37,6 +42,7 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 
 import {CompacctDigitonlyDirective} from 'src/app/compacct.directives/compacct.digitonly.directive';
+import { DashboardComponent } from '../Views/Dashboard/dashboard/dashboard.component';
 @NgModule({
   declarations: [
     layoutComponent,
@@ -49,6 +55,7 @@ import {CompacctDigitonlyDirective} from 'src/app/compacct.directives/compacct.d
     MasterProductComponent,
     MasterProductPricingPlanComponent,
     CollectionDetailsComponent,
+    DashboardComponent,
     CompacctDigitonlyDirective
     
   ],
@@ -74,7 +81,7 @@ import {CompacctDigitonlyDirective} from 'src/app/compacct.directives/compacct.d
     MessagesModule,
     MessageModule
   ],
-  providers: [CompacctHeader,DateTimeConvertService,ApiService],
+  providers: [CompacctHeader,DateTimeConvertService],
   bootstrap: [layoutComponent]
 })
 export class AppModule { }

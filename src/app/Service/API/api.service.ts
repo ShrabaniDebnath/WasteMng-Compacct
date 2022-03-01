@@ -5,7 +5,7 @@ import { map, catchError } from 'rxjs/operators';
 import { AppModule } from 'src/app/app.module';
 
 @Injectable({
-  providedIn: AppModule,
+  providedIn: 'root',
 })
 export class ApiService {
 
