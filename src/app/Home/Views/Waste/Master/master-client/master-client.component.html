@@ -28,6 +28,7 @@
             <div class="form-horizontal">
                 <div class="box-body">
                     <p-tabView  [activeIndex]="tabIndexToView" (onChange)="TabClick($event)">
+                        
                         <p-tabPanel headerStyleClass="compacct-tabs" [header]="items[0]" leftIcon="glyphicon glyphicon-list-alt">
                             <div class="table-responsive no-padding">
                                 <p-table #dt 
@@ -44,6 +45,11 @@
                                 <ng-template pTemplate="caption">
                                     <div class="table-header">
                                         <div class="row">
+                                            <div class="col-sm-3 pull-left" style="text-align: left">
+                                                <button class="btn btn-info" (click)="exportexcel(getAllData,'Master_Client')" id="load" [disabled]="!getAllData.length">
+                                                <span *ngIf="!Spinner" class="glyphicon glyphicon-save"></span> Export to excel
+                                        </button>
+                                            </div>
                                             <div class="col-sm-3 pull-right" style="text-align: right">
                                                 <input type="text" pInputText size="50" placeholder="Search" (input)="dt.filterGlobal(getEventValue($event), 'contains')" class="searchInput form-control">
                                             </div>
@@ -92,7 +98,7 @@
                                         <td>{{col.Client_Name}}</td>
                                         <td>{{col.Address}}</td>
                                         <td>{{col.Category}}</td>
-                                        <td>{{col.Google_Maps_Link}}</td>
+                                        <td><a href="{{col.Google_Maps_Link}}" target="_blank">{{col.Google_Maps_Link}}</a></td>
                                         <td>{{col.Alert_Manager_SMS ? "Yes" : "NO"}}</td>
                                         <td>{{col.Alert_Manager_Email ? "Yes" : "NO"}}</td>
                                         <td>{{col.Alert_Manager_Whatsapp ? "Yes" : "NO"}}</td>

@@ -3,6 +3,7 @@ import { never } from 'rxjs';
 import { ApiService } from 'src/app/Service/API/api.service';
 import { CompacctHeader } from 'src/app/Service/common.header.service';
 import {MessageService} from 'primeng/api';
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-master-client',
   templateUrl: './master-client.component.html',
@@ -333,7 +334,25 @@ Inactive(col:any){
     });
   }
 }
+exportexcel(Arr:any,fileName:any): void {
+  let Arr2:any = [];
+  Arr.forEach((element:any) => {
+    const obj = {
+      Client_Name: element.Client_Name,
+      Address: element.Address,
+      Category: element.Category,
+      Google_Maps_Link: element.Google_Maps_Link,
+      Alert_Manager_SMS: element.Alert_Manager_SMS ? "Yes" : "NO",
+      Alert_Manager_Email: element.Alert_Manager_Email ? "Yes" : "NO",
+      Alert_Manager_Whatsapp: element.Alert_Manager_Whatsapp ? "Yes" : "NO",
+    }
+    Arr2.push(obj)
+  });
   
+  const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(Arr2);
+  const workbook: XLSX.WorkBook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
+  XLSX.writeFile(workbook, fileName+'.xlsx');
+} 
 }
 
 class masterClient {
