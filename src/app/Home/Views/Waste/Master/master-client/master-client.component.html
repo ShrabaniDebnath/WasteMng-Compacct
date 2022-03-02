@@ -32,11 +32,12 @@
                             <div class="table-responsive no-padding">
                                 <p-table #dt 
                                 [value]="getAllData" 
-                                dataKey="id" 
                                 [rowHover]="true"
                                 [rows]="10" 
                                 [showCurrentPageReport]="true" 
                                 [rowsPerPageOptions]="[10,25,50]" 
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                responsiveLayout="scroll"
                                 [loading]="loading"
                                 [paginator]="true" 
                                 [globalFilterFields]="['Client_Name','Address','Google_Maps_Link','Alert_Manager_SMS','Alert_Manager_Email','Alert_Manager_Whatsapp']">
