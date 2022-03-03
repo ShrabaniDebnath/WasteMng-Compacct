@@ -28,6 +28,7 @@ export class CollectionDetailsComponent implements OnInit {
   clientdisabled = false;
   Payment_In_Cash = false;
   loading = false;
+  productDataList = [];
   constructor(
     private apicall : ApiService,
     private $http: HttpClient,
@@ -42,7 +43,7 @@ export class CollectionDetailsComponent implements OnInit {
     });
     this.items = ["BROWSE", "CREATE"];
     this.GetClientData();
-    //this.GetProductData();
+    this.GetProductData();
     this.GetBrowseData();
   }
   getEventValue($event:any) :string {
@@ -98,33 +99,29 @@ export class CollectionDetailsComponent implements OnInit {
     
    }
    GetProductData(){
-     const tempobj = {
-      Client_ID: this.ObjCollectionDetails.Client_ID,
-      Sub_Client_ID : this.ObjCollectionDetails.Sub_Client_ID
-     }
-    const obj = {
+     const obj = {
       "Sp_Name": "SP_Waste_Mng_Master_Client_SubClient",
       "Report_Name": "Get_Master_Product_Price_Plan"
      }
-     this.apicall.PostData(obj, JSON.stringify(tempobj)).subscribe((data:any)=>{
+     this.apicall.GetData(obj).subscribe((data:any)=>{
       if(data.length) {
         data.forEach((element:any) => {
             element['label'] = element.Product_Name,
             element['value'] = element.Product_ID
           });
-          this.Productlist = data;
+          this.productDataList = data;
         } else {
-          this.Productlist = [];
+          this.productDataList = [];
   
         }
-       console.log('Productlist=====',this.Productlist)
+       console.log('productDataList=====',this.productDataList)
      })
    }
    ProductdetailsChange() {
     this.ObjCollectionDetails.Price =  undefined;
   if(this.ObjCollectionDetails.Product_ID) {
     const ctrl = this;
-    const productObj = $.grep(ctrl.Productlist,function(item:any) {return item.value == ctrl.ObjCollectionDetails.Product_ID})[0];
+    const productObj = $.grep(ctrl.productDataList,function(item:any) {return item.value == ctrl.ObjCollectionDetails.Product_ID})[0];
     console.log(productObj);
     this.ObjCollectionDetails.Product_Name =  productObj  && productObj.Product_Name ? productObj.Product_Name : undefined;
     this.ObjCollectionDetails.Price =  productObj  && productObj.Price ? productObj.Price : undefined;
@@ -296,7 +293,6 @@ export class CollectionDetailsComponent implements OnInit {
     this.CollectionDetailsFormSubmitted = false;
     this.Spinner = false;
     this.ObjCollectionDetails = new CollectionDetails();
-    this.Productlist = [];
     this.productaddSubmit = [];
     this.clientdisabled = false;
     this.Payment_In_Cash = false;

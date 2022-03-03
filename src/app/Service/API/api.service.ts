@@ -14,17 +14,17 @@ export class ApiService {
   PostData(ParamObj:Query,PostObj:any) {
     const QueryStringobj =`&Report_Name=${ParamObj.Report_Name}&Sp_Name=${ParamObj.Sp_Name}`;
   const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.post(this.api.TutopiacallDataBaseUrl + QueryStringobj,PostObj ,httpOptions).pipe(map((data:any) => data ? JSON.parse(data.message) : []));
+    return this.http.post(this.api.TutopiacallDataBaseUrl + QueryStringobj,PostObj ,httpOptions).pipe(map((data:any) => data.message ? JSON.parse(data.message) : []));
   }
   GetData(ParamObj:Query) {
     const QueryStringobj =`&Report_Name=${ParamObj.Report_Name}&Sp_Name=${ParamObj.Sp_Name}`;
   const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.get(this.api.TutopiacallDataBaseUrl + QueryStringobj,httpOptions).pipe(map((data:any) => data ? JSON.parse(data.message) : []));
+    return this.http.get(this.api.TutopiacallDataBaseUrl + QueryStringobj,httpOptions).pipe(map((data:any) => data.message ? JSON.parse(data.message) : []));
   }
   GetDataWithParamObj(ParamObj:Query,PostObj:any) {
     const QueryStringobj =`&Report_Name=${ParamObj.Report_Name}&Sp_Name=${ParamObj.Sp_Name}`;
   const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.post(this.api.TutopiacallDataBaseUrl + QueryStringobj,PostObj ,httpOptions).pipe(map((data:any) => data ? JSON.parse(data.message) : []));
+    return this.http.post(this.api.TutopiacallDataBaseUrl + QueryStringobj,PostObj ,httpOptions).pipe(map((data:any) => data.message ? JSON.parse(data.message) : []));
   }
 }
 

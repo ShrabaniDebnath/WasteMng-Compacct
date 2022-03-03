@@ -77,7 +77,8 @@ export class MasterClientComponent implements OnInit {
     let  addlist = {
       name:this.ObjcontactPerson.Contact_Name,
       phone:this.ObjcontactPerson.Contact_Phone_No,
-      email:this.ObjcontactPerson.Contact_Email_Id
+      email:this.ObjcontactPerson.Contact_Email_Id,
+      Designation:this.ObjcontactPerson.Designation
     }
     this.addPersonList.push(addlist);
     this.masterClientContactSubmit = false;
@@ -137,6 +138,7 @@ this.masterClientSubmit = true;
         Contact_Name:ele.name,
         Contact_Phone_No:ele.phone, 
         Contact_Email_Id:ele.email,
+        Designation:ele.Designation
       }
       savedata.push(tempsave);
     });
@@ -162,6 +164,7 @@ this.masterClientSubmit = true;
         Contact_Name:ele.name,
         Contact_Phone_No:ele.phone, 
         Contact_Email_Id:ele.email,
+        Designation:ele.Designation
       }
       savedata.push(tempsave);
     });
@@ -373,4 +376,5 @@ class contactPerson{
   Contact_Name:any
   Contact_Phone_No:any 
   Contact_Email_Id:any
+  Designation:any
 }

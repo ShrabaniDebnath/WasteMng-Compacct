@@ -225,7 +225,7 @@
                                     <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Contact Person</div>
                                     <div class="panel-body">
                                         <div class="form-group">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                                 <label class="control-label">Name<sup class="text-danger">*</sup></label>
                                                 <input class="form-control"
                                                          name="Contact_Name" 
@@ -235,7 +235,7 @@
                                                         [ngClass]="{'clearance': masterClientContactSubmit && Contact_Name?.errors?.required}" 
                                                         required>
                                               </div>
-                                              <div class="col-sm-4">
+                                              <div class="col-sm-3">
                                                         <label class="control-label">Phone Number<sup class="text-danger">*</sup></label>
                                                         <input class="form-control"
                                                                 name="Contact_Phone_No" 
@@ -248,7 +248,7 @@
                                                                 [ngClass]="{'clearance': masterClientContactSubmit && Contact_Phone_No?.errors?.required}" 
                                                                 required>
                                                </div>
-                                               <div class="col-sm-4">
+                                               <div class="col-sm-3">
                                                                 <label class="control-label">Email id<sup class="text-danger">*</sup></label>
                                                                 <input class="form-control"
                                                                         name="Contact_Email_Id" 
@@ -256,6 +256,16 @@
                                                                         [(ngModel)]="ObjcontactPerson.Contact_Email_Id" 
                                                                         placeholder="Email id" 
                                                                         [ngClass]="{'clearance': masterClientContactSubmit && Contact_Email_Id?.errors?.required}" 
+                                                                        required>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">Designation<sup class="text-danger">*</sup></label>
+                                                                <input class="form-control"
+                                                                        name="Designation" 
+                                                                        #Designation="ngModel" 
+                                                                        [(ngModel)]="ObjcontactPerson.Designation" 
+                                                                        placeholder="Designation" 
+                                                                        [ngClass]="{'clearance': masterClientContactSubmit && Designation?.errors?.required}" 
                                                                         required>
                                                 </div>
                                                 <div class="box-footer ">
@@ -278,6 +288,7 @@
                                       <th>Name</th>
                                       <th>Phone Number</th>
                                       <th>Email Id</th>
+                                      <th>Designation</th>
                                       <th></th>
                                       </tr>
                                 </ng-template>
@@ -286,6 +297,7 @@
                                         <td>{{col.name}}</td>
                                         <td>{{col.phone}}</td>
                                         <td>{{col.email}}</td>
+                                        <td>{{col.Designation}}</td>
                                         <td><a (click)="DeleteContact(rowIndex)">
                                             <div><i class="fa fa-fw fa-trash"> </i></div>
                                         </a></td>

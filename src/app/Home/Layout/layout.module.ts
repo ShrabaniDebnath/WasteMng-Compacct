@@ -42,7 +42,9 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 
 import {CompacctDigitonlyDirective} from 'src/app/compacct.directives/compacct.digitonly.directive';
+import {SafeHtmlPipe} from 'src/app/compacct.pipes/compacct.safeHtml/safe-html.pipe';
 import { DashboardComponent } from '../Views/Dashboard/dashboard/dashboard.component';
+import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     layoutComponent,
@@ -56,7 +58,8 @@ import { DashboardComponent } from '../Views/Dashboard/dashboard/dashboard.compo
     MasterProductPricingPlanComponent,
     CollectionDetailsComponent,
     DashboardComponent,
-    CompacctDigitonlyDirective
+    CompacctDigitonlyDirective,
+    SafeHtmlPipe
     
   ],
   imports: [
@@ -64,6 +67,7 @@ import { DashboardComponent } from '../Views/Dashboard/dashboard/dashboard.compo
     layoutRoutingModule,
     TabViewModule,
     TableModule,
+    RouterModule,
     ProgressBarModule,
     PaginatorModule,
     DropdownModule,

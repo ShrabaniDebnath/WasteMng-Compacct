@@ -156,8 +156,8 @@
                       [(ngModel)]="objsubClient.Product_ID"
                       [ngClass]="{'clearance': mastersubClientSubmit && Pricing_Plan?.errors?.required}" required>
                       <option [ngValue]="undefined">Select</option>
-                      <option *ngFor="let option of pricingplanList" value="{{option.Product_ID}}">
-                        {{option.Product_Name}}
+                      <option *ngFor="let option of pricingplanList" value="{{option.Plan_Name}}">
+                        {{option.Plan_Name}}
                       </option>
 
                     </select>
@@ -202,7 +202,7 @@
                 </div>
               </form>
               <form name="masterClientContactForm" #masterClientContactForm="ngForm" novalidate mt-5>
-                <div class="panel panel-primary" style="    margin-top: 1rem;">
+                <div class="panel panel-primary" style="margin-top: 1rem;">
                   <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Contact Person</div>
                   <div class="panel-body">
                     <div class="form-group">

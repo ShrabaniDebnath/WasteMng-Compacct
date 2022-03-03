@@ -27,8 +27,9 @@ export class MasterProductPricingPlanComponent implements OnInit {
   EditList = [];
   clientdisabled = false;
   loading = false;
-
-
+  CreatePlanFormFormSubmitted = false;
+  ShowPlanSubmitted = false;
+  pricingplanList:any = [];
   constructor(
     private apicall : ApiService,
     private $http: HttpClient,
@@ -45,6 +46,7 @@ export class MasterProductPricingPlanComponent implements OnInit {
     this.GetClientData();
     this.GetProductData();
     this.GetBrowseData();
+    this.Getpricingplan();
   }
   getEventValue($event:any) :string {
     return $event.target.value;
@@ -165,41 +167,30 @@ export class MasterProductPricingPlanComponent implements OnInit {
     this.productSubmit.splice(index,1)
   
   }
-   createMasterProductPlan(){
+   createMasterProductPlan(valid:any){
     //this.ProductPlanFormSubmitted = true;
-    // if (valid) {
-      this.Spinner = true;
+    this.ShowPlanSubmitted = true;
+     if (valid) {
+     
       //const obj = { Product_String: JSON.stringify([this.ObjProduct]) };
       if(this.productSubmit.length) {
+        this.Spinner = true;
         let tempArr:any =[]
         this.productSubmit.forEach((item:any) => {
           const obj = {
-              Product_ID : item.Product_ID,
-              Product_Name : item.Product_Name,
-              Price : Number(item.Price),
+            Plan_Name : this.ObjProductPlan.Pricing_Plan,
+            Product_ID : item.Product_ID,
+            Price : Number(item.Price),
           }
-    
-        const TempObj = {
-          Unique_ID : this.ObjProductPlan.Unique_ID ? this.ObjProductPlan.Unique_ID : 0,
-          Client_ID : this.ObjProductPlan.Client_ID,
-          Sub_Client_ID : this.ObjProductPlan.Sub_Client_ID,
-    
-        }
-        tempArr.push({...obj,...TempObj})
+      tempArr.push(obj)
       });
      // console.log("save bill =" , tempArr)
       //return JSON.stringify(tempArr);
      // }
-      let reportname;
-      if (this.buttonname != "Update") {
-        reportname = "Waste_Mng_Master_Product_Price_Plan_Create"
-      } 
-      else {
-        reportname = "Waste_Mng_Master_Product_Price_Plan_Update"
-      }
-      const obj = {
+     console.log("tempArr",tempArr)
+     const obj = {
         "Sp_Name": "SP_Waste_Mng_Master_Client_SubClient",
-        "Report_Name": reportname
+        "Report_Name":"Waste_Mng_Master_Product_Price_Plan_Create"
       }
       this.apicall.PostData(obj,JSON.stringify(tempArr)).subscribe((data:any)=>{
         console.log('createstatus ===', data[0].Column1)
@@ -209,14 +200,13 @@ export class MasterProductPricingPlanComponent implements OnInit {
               key: "compacct-toast",
               severity: "success",
               summary: "",
-              detail: this.ObjProductPlan.Unique_ID ? "Succesfully Updated" : "Succesfully Created"
+              detail: "Product pricing plan Succesfully Created"
             });
             // this.clientdisabled = false;
             this.clearData();
             this.GetBrowseData();
-            this.tabIndexToView = 0;
-            this.items = ["BROWSE", "Create"];
-            this.buttonname = "Create";
+            this.ShowPlanSubmitted = false;
+            this.Spinner = false;
         } else {
           this.compacctToast.clear();
           this.compacctToast.add({
@@ -228,6 +218,69 @@ export class MasterProductPricingPlanComponent implements OnInit {
         }
       });
     }
+  }
+   }
+   createPlan(valid:any){
+     this.CreatePlanFormFormSubmitted = true;
+     if(valid){
+       const checkValue = this.pricingplanList.filter((el:any)=> el.Plan_Name ===  this.ObjProductPlan.Plan_Name);
+       console.log("checkValue",checkValue);
+       console.log("checkValue[0].length",checkValue.length);
+       if(checkValue.length){
+        this.compacctToast.clear();
+        this.compacctToast.add({
+          key: "compacct-toast",
+          severity: "error",
+          summary: "Warn Message",
+          detail: "plan name already exists "
+        });
+        return
+       }
+      const objData = {
+        Product_ID : 0,
+        Price : 0,
+        Plan_Name : this.ObjProductPlan.Plan_Name
+    }
+    const obj = {
+      "Sp_Name": "SP_Waste_Mng_Master_Client_SubClient",
+      "Report_Name": "Waste_Mng_Master_Product_Price_Plan_Create"
+    }
+    this.apicall.PostData(obj,JSON.stringify(objData)).subscribe((data:any)=>{
+      if (data[0].Column1) {
+        this.CreatePlanFormFormSubmitted = false;
+        this.Getpricingplan();
+        this.ObjProductPlan.Plan_Name = undefined; 
+        this.compacctToast.clear();
+        this.compacctToast.add({
+          key: "compacct-toast",
+          severity: "success",
+          summary: "",
+          detail: "Plan Succesfully Created"
+        });
+        // this.clientdisabled = false;
+     } else {
+      this.compacctToast.clear();
+      this.compacctToast.add({
+        key: "compacct-toast",
+        severity: "error",
+        summary: "Warn Message",
+        detail: "Error Occured "
+      });
+    }
+    })
+     }
+
+
+   }
+   Getpricingplan(){
+    const ParamObj:any = {
+        "Sp_Name":"SP_Waste_Mng_Master_Client_SubClient",
+        "Report_Name":"Get_Product_Price_Plan_For_Sub_Client"
+       }
+      this.apicall.GetData(ParamObj).subscribe((data:any)=>{
+         this.pricingplanList = data;
+         console.log("All pricingplanList",this.pricingplanList);
+       })
    }
    GetBrowseData(){
     this.PricingPlanSearchlist = []
@@ -241,44 +294,24 @@ export class MasterProductPricingPlanComponent implements OnInit {
        //this.seachSpinner = false;
      })
    }
-   EditProduct(edit:any){
-    this.EditList = [];
-    this.productSubmit = [];
-    this.ObjProductPlan.Unique_ID = undefined;
-    this.clearData();
-     if (edit.Unique_ID) {
-       console.log("edit.Unique_ID ===", edit.Unique_ID )
-       this.ObjProductPlan.Unique_ID = edit.Unique_ID;
-       this.tabIndexToView = 1;
-       this.items = ["BROWSE", "UPDATE"];
-       this.buttonname = "Update";
-     const obj = {
-       "Sp_Name": "SP_Waste_Mng_Master_Client_SubClient",
-       "Report_Name": "Get_Waste_Mng_Master_Product_Price_Plan_Edit_Data"
-      }
-      this.apicall.PostData(obj, JSON.stringify({Unique_ID: this.ObjProductPlan.Unique_ID})).subscribe((data:any)=>{
-       this.EditList = data;
-       this.ObjProductPlan.Client_ID = data[0].Client_ID;
-       this.GetClientData();
-       this.ObjProductPlan.Sub_Client_ID = data[0].Sub_Client_ID;
-       this.GetSubClientData();
-      //  this.ObjProductPlan.Product_ID = data[0].Product_ID;
-      //  this.GetProductData();
-      //  this.ObjProductPlan.Price = data[0].Price;
-        console.log('EditList =====',this.EditList)
-        //this.seachSpinner = false;
-        data.forEach((element:any) => {
-          const  productObj = {
-              Product_ID : element.Product_ID,
-              Product_Name : element.Product_Name,
-              Price : Number(element.Price)
-            };
-      
-            this.productSubmit.push(productObj);
-          });
-      })
+   showPlan(valid:any){
+     this.ShowPlanSubmitted = true;
+     this.productSubmit=[];
+     if(valid){
+      this.ShowPlanSubmitted = false;
+      this.productSubmit = [];
+      const obj = {
+         "Sp_Name": "SP_Waste_Mng_Master_Client_SubClient",
+         "Report_Name": "Get_Waste_Mng_Master_Product_Price_Plan_Edit_Data"
+        }
+        this.apicall.PostData(obj, JSON.stringify({Plan_Name: this.ObjProductPlan.Pricing_Plan})).subscribe((data:any)=>{
+         this.EditList = data;
+         this.productSubmit = data;
+         console.log("Show Data",data);
+         })
      }
-   }
+   
+    }
   onConfirm(){}
   onReject(){}
    clearData(){
@@ -298,5 +331,7 @@ class ProductPlan {
   Product_ID!: any;
   Product_Name!: string;
   Price!: any;
+  Plan_Name:any;
+  Pricing_Plan:any;
 }
 

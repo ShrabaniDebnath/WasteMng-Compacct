@@ -104,20 +104,32 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <label class="control-label">Sub Client<sup class="text-danger">*</sup></label>
-                                        <p-dropdown [options]="SubClientlist" name="subclient" [(ngModel)]="ObjCollectionDetails.Sub_Client_ID" (onChange)="GetProductData()" [disabled]="clientdisabled" [showClear]="true" [emptyFilterMessage]="' No Subclient Found'" [filter]="true" filterBy="label,value.name"
+                                        <p-dropdown [options]="SubClientlist" name="subclient" [(ngModel)]="ObjCollectionDetails.Sub_Client_ID" [disabled]="clientdisabled" [showClear]="true" [emptyFilterMessage]="' No Subclient Found'" [filter]="true" filterBy="label,value.name"
                                             [placeholder]="'Select Subclient'" [virtualScroll]="true" [itemSize]="30" #subclient="ngModel" [styleClass]="CollectionDetailsFormSubmitted && subclient.errors?.required? 'clearance': ''" [required]="true">
                                         </p-dropdown>
 
                                     </div>
                                     <div class="col-sm-3">
                                         <label class="control-label">Product<sup class="text-danger">*</sup></label>
-                                        <p-dropdown [options]="Productlist" name="product" [(ngModel)]="ObjCollectionDetails.Product_ID" (onChange)="ProductdetailsChange()" [showClear]="true" [emptyFilterMessage]="' No Product Found'" [filter]="true" filterBy="label,value.name" [placeholder]="'Select Product'"
-                                            [virtualScroll]="true" [itemSize]="30" #product="ngModel" [styleClass]="CollectionDetailsFormSubmitted && product.errors?.required? 'clearance': ''" [required]="true">
+                                        <p-dropdown [options]="productDataList" 
+                                        name="product" 
+                                        [(ngModel)]="ObjCollectionDetails.Product_ID" 
+                                        (onChange)="ProductdetailsChange()" 
+                                        [showClear]="true" 
+                                        [emptyFilterMessage]="' No Product Found'" 
+                                        [filter]="true" 
+                                        filterBy="label,value.name" 
+                                        [placeholder]="'Select Product'"
+                                        [virtualScroll]="true" 
+                                        [itemSize]="30" 
+                                        #product="ngModel" 
+                                        [styleClass]="CollectionDetailsFormSubmitted && product.errors?.required? 'clearance': ''" 
+                                        [required]="true">
                                         </p-dropdown>
                                     </div>
                                     <div class="col-sm-1">
                                         <label class="control-label">Price<sup class="text-danger">*</sup></label>
-                                        <input class="form-control" name="price" #price="ngModel" CompacctDigitonly="true" [(ngModel)]="ObjCollectionDetails.Price" [ngClass]="{'clearance': CollectionDetailsFormSubmitted && price.errors?.required}" required>
+                                        <input class="form-control" type="number" name="price" #price="ngModel"  [(ngModel)]="ObjCollectionDetails.Price" [ngClass]="{'clearance': CollectionDetailsFormSubmitted && price.errors?.required}" required>
                                     </div>
                                     <div class="col-sm-1">
                                         <label class="control-label">Qty<sup class="text-danger">*</sup></label>

@@ -120,7 +120,7 @@
 
                                     <div class="col-sm-4">
                                         <label class="control-label">Price<sup class="text-danger">*</sup></label>
-                                        <input class="form-control" type="number" name="price" #price="ngModel" CompacctDigitonly="true" [(ngModel)]="ObjProduct.Price" placeholder="Price" [ngClass]="{'clearance': ProductFormSubmitted && price.errors?.required}" required>
+                                        <input class="form-control" type="number" name="price" #price="ngModel" [(ngModel)]="ObjProduct.Price" placeholder="Price" [ngClass]="{'clearance': ProductFormSubmitted && price.errors?.required}" required>
                                     </div>
 
                                 </div>

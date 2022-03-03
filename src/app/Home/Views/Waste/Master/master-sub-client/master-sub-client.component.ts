@@ -107,10 +107,8 @@ export class MasterSubClientComponent implements OnInit {
         "Sp_Name":"SP_Waste_Mng_Master_Client_SubClient",
         "Report_Name":"Get_Product_Price_Plan_For_Sub_Client"
        }
-       const savedata = {
-        Client_ID:id
-       }
-       this.apicall.PostData(ParamObj,JSON.stringify(savedata)).subscribe((data:any)=>{
+      
+       this.apicall.GetData(ParamObj).subscribe((data:any)=>{
          this.pricingplanList = data;
          console.log("All pricingplanList",this.pricingplanList);
          this.objsubClient.Product_ID  = value ? value : undefined;
@@ -172,7 +170,7 @@ export class MasterSubClientComponent implements OnInit {
        Sub_Client_ID:Number(this.SubclientId),
        Client_ID:Number(this.objsubClient.Client_ID),
        Sub_Client_Name:this.objsubClient.Sub_Client_Name,
-       Product_ID:Number(this.objsubClient.Product_ID),
+       Plan_Name:this.objsubClient.Product_ID,
        Google_Maps_Link:this.objsubClient.Google_Maps_Link,
        Sub_Client_Address:this.objsubClient.Sub_Client_Address?this.objsubClient.Sub_Client_Address : "NA",
        Sub_Client_Pincode:this.objsubClient.Sub_Client_Pincode?this.objsubClient.Sub_Client_Pincode : "NA",
@@ -195,7 +193,7 @@ export class MasterSubClientComponent implements OnInit {
       let tempData = {
        Client_ID:Number(this.objsubClient.Client_ID),
        Sub_Client_Name:this.objsubClient.Sub_Client_Name,
-       Product_ID:Number(this.objsubClient.Product_ID),
+       Plan_Name:this.objsubClient.Product_ID,
        Google_Maps_Link:this.objsubClient.Google_Maps_Link,
        Sub_Client_Address:this.objsubClient.Sub_Client_Address?this.objsubClient.Sub_Client_Address : "NA",
        Sub_Client_Pincode:this.objsubClient.Sub_Client_Pincode?this.objsubClient.Sub_Client_Pincode : "NA",
