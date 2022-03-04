@@ -30,8 +30,7 @@
                     <p-tabView  [activeIndex]="tabIndexToView" (onChange)="TabClick($event)">
                         
                         <p-tabPanel headerStyleClass="compacct-tabs" [header]="items[0]" leftIcon="glyphicon glyphicon-list-alt">
-                            <div class="table-responsive no-padding">
-                                <p-table #dt 
+                             <p-table #dt 
                                 [value]="getAllData" 
                                 [rowHover]="true"
                                 [rows]="10" 
@@ -98,7 +97,7 @@
                                         <td>{{col.Client_Name}}</td>
                                         <td>{{col.Address}}</td>
                                         <td>{{col.Category}}</td>
-                                        <td><a href="{{col.Google_Maps_Link}}" target="_blank">{{col.Google_Maps_Link}}</a></td>
+                                        <td><a class="btn btn-xs btn-info" (click)='OpenInNewTab(col.Google_Maps_Link)'><i class="fa fa-link"></i></a></td>
                                         <td>{{col.Alert_Manager_SMS ? "Yes" : "NO"}}</td>
                                         <td>{{col.Alert_Manager_Email ? "Yes" : "NO"}}</td>
                                         <td>{{col.Alert_Manager_Whatsapp ? "Yes" : "NO"}}</td>
@@ -110,7 +109,7 @@
                                     </tr>
                                 </ng-template>
                             </p-table>
-                                </div>
+                                
                         </p-tabPanel>
                         <p-tabPanel headerStyleClass="compacct-tabs" [header]="items[1]" leftIcon="glyphicon glyphicon-list-alt">
                             <form name="masterClientForm" #masterClientForm="ngForm" novalidate>
@@ -212,14 +211,64 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                        <label class="control-label">Add Documents<sup class="text-danger">*</sup></label>
-                                        <p-fileUpload #fileInput *ngIf="!PDFViewFlag" name="aFile" accept="image/*,application/pdf"  [chooseLabel]="'Browse'" [showUploadButton]="false" (onSelect)="FetchPDFFile($event)"></p-fileUpload>
-                                         <a [href]="ProductPDFLink" *ngIf="PDFViewFlag" style="display: block;"><img src="/PDF_Logo/PDF-logo.png" class='img-rounded pdf' style="width:40px; height:50px " alt="PDF"></a>
+                                       
                                  </div>
-                                        
-                                           
                                  </div>
                                </form>
+                               <form name="DocumentsForm" #DocumentsForm="ngForm" novalidate mt-5>
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Add Documents</div>
+                                    <div class="panel-body">
+                                            <div class="col-sm-4">
+                                                <label class="control-label">Add Documents<sup class="text-danger">*</sup></label>
+                                                <p-fileUpload #fileInput name="myfile[]" *ngIf="!PDFViewFlag" name="aFile" accept="image/*,application/pdf"  [chooseLabel]="'Browse'" [showUploadButton]="false" (onSelect)="FetchPDFFile($event)"></p-fileUpload>
+                                                 <a [href]="ProductPDFLink" *ngIf="PDFViewFlag" style="display: block;"><img src="/PDF_Logo/PDF-logo.png" class='img-rounded pdf' style="width:40px; height:50px " alt="PDF"></a>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label class="control-label">Document Remarks<sup class="text-danger">*</sup></label>
+                                                <input class="form-control" 
+                                                name="Document_Remarks" 
+                                                #Document_Remarks="ngModel" 
+                                                [(ngModel)]="DocumentRemarks" 
+                                                placeholder="Document Remarks" 
+                                                [ngClass]="{'clearance': DocumentRemarksSubmit && Document_Remarks?.errors?.required}" 
+                                                required>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button class="btn btn-primary custombutton1" (click)="addDocuments(DocumentsForm.form.valid)">
+                                                    Add Document
+                                                </button>
+                                               
+                                            </div>
+                                        </div>
+                                        </div>
+                               </form>
+                               <div class="table-responsive no-padding">
+                                <p-table #dt 
+                                [value]="DocumentList" 
+                                dataKey="id" 
+                               >
+                               <ng-template pTemplate="header">
+                                    <tr>
+                                      <th>File</th>
+                                      <th>Remarks</th>
+                                       <th></th>
+                                      </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                                    <tr class="p-selectable-row">
+                                        <td>{{col.file.name}}</td>
+                                        <td>{{col.Document_Remarks}}</td>
+                                        <td><button type="button" class="btn btn-danger" (click)="onClear(rowIndex,col.file.name)"><i class="fa fa-fw fa-close"></i></button></td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="8">No Data found.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                                </div>
                                <form name="masterClientContactForm" #masterClientContactForm="ngForm" novalidate mt-5>
                                 <div class="panel panel-primary">
                                     <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Contact Person</div>

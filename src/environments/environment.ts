@@ -11,6 +11,9 @@ export const environment = {
   baseUrl: 'https://tutopiacallaz.azurewebsites.net/api',
   urlDatbase : '/Mobile_Func_Adv',
   urlcode : '?code=CLSiAdJbe7iil5hQ9n8aVAOmiFt3KPjk2AnARj3vaY7mjKSsHBxSmg=='
+  // baseUrl: 'https://hytoneazmain.azurewebsites.net/api',
+  // urlDatbase : '/CommonFunc',
+  // urlcode : '?code=INEvOcX8o/iXaUfI031hRZNMnhaPT0GGI8tTm8Ia4oXEmR/ONbFAoA=='
 };
 export const api = {
  TutopiacallDataBaseUrl : `${environment.baseUrl+environment.urlDatbase+environment.urlcode}`

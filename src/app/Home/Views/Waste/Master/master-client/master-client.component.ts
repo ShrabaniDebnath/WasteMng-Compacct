@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { never } from 'rxjs';
 import { ApiService } from 'src/app/Service/API/api.service';
 import { CompacctHeader } from 'src/app/Service/common.header.service';
 import {MessageService} from 'primeng/api';
+
 import * as XLSX from 'xlsx';
+import { FileUpload } from 'primeng/fileupload';
 @Component({
   selector: 'app-master-client',
   templateUrl: './master-client.component.html',
@@ -32,8 +34,15 @@ export class MasterClientComponent implements OnInit {
   clientId:any = 0;
   can_popup = false;
   act_popup = false;
+  tempDocumentArr = [];
+  uploadedFiles: any[] = [];
+  DocumentRemarks = "";
+  DocumentRemarksSubmit = false;
   ObjmasterClient: masterClient = new masterClient ();
   ObjcontactPerson: contactPerson = new contactPerson ();
+ 
+  @ViewChild("fileInput", { static: false }) fileInput!: FileUpload;
+  DocumentList:any = [];
   constructor(
     private apicall : ApiService,
     private Header: CompacctHeader,
@@ -46,6 +55,11 @@ export class MasterClientComponent implements OnInit {
     });
     this.items = ["BROWSE", "CREATE"];
     this.GetAllBrowse();
+  }
+  OpenInNewTab(link:any) {
+    if(link) {
+      window.open(link,'_blank');
+    }
   }
   TabClick(e:any) {
     this.tabIndexToView = e.index;
@@ -69,6 +83,15 @@ export class MasterClientComponent implements OnInit {
       this.PDFFlag = true;
     }
   }
+  // onClear(e:any,file:any){
+  //   for(let k=0;k < this.ProductPDFFile.length;k++){
+  //     if(this.ProductPDFFile[k].name === file.name){
+  //       this.ProductPDFFile.splice(k,1);
+  //       this.tempDocumentArr.splice(k,1);
+  //       this.fileInput.remove(e,k);
+  //     }
+  //   }
+  // }
   addPerson(valid:any){
    // let addlist:any = []
    this.masterClientContactSubmit = true;
@@ -83,9 +106,94 @@ export class MasterClientComponent implements OnInit {
     this.addPersonList.push(addlist);
     this.masterClientContactSubmit = false;
     this.ObjcontactPerson = new contactPerson();
-    
-   }
+    }
 }
+addDocuments(valid:any){
+  this.DocumentRemarksSubmit = true;
+ if(valid && this.ProductPDFFile['size']){
+   const obj = {
+     file : this.ProductPDFFile,
+     Document_Remarks : this.DocumentRemarks
+   }
+   this.DocumentList.push(obj);
+   this.PDFFlag = false;
+   this.ProductPDFFile = {};
+  //  this.fileInput.clear();
+  console.log(this.DocumentList);
+  this.DocumentRemarks = "";
+  this.DocumentRemarksSubmit = false;
+ }
+}
+onClear(e:any,file:any){
+  this.DocumentList.splice(e, 1);
+}
+// 
+
+// UploadDoc(ind:any) {
+//   const formData: FormData = new FormData();
+//   formData.append("file",this.ProductPDFFile[ind]);
+//   const ConTyp = this.ProductPDFFile[ind].type;
+//   const ext =  this.ProductPDFFile[ind].name.slice((this.ProductPDFFile[ind].name.lastIndexOf(".") - 1 >>> 0) + 2);
+//   const endpoint = "https://onlineexamstudent.azurewebsites.net/api/Upload_Tender_Document?code=26GEc0CZNCQAr5vipV99JYVq61m76KzvL2uepn22liB4k9Ys5re9jg==&BlCont=ocpl&ConTyp="+ConTyp+"&FootFall="+this.FootFall+"&DId="+docId+"&ext="+ext;
+//   return  this.$http.post(endpoint, formData).toPromise()
+// }
+// async SaveDoc (obj:any,id:any) {
+//    const UploadDoc = await this.UploadDoc(id);
+//    console.log(UploadDoc);
+//    const UpdateDocObj = {
+//     'Client_ID' :id,
+//     'Document_Remarks' : this.DocumentRemarks,
+//     'File_Path' : UploadDoc[0].ImageURL
+//   }
+//   const ParamObj:any = {
+//     "Sp_Name":"SP_Waste_Mng_Master_Client_SubClient",
+//     "Report_Name": 'Waste_Mng_Master_Client_Document_Create'
+//   }
+  
+//   const UpdatedDOC = await this.apicall.PostData(ParamObj,JSON.stringify(UpdateDocObj)).toPromise();
+//   console.log(UpdatedDOC)
+// }
+// async upload(id:any){
+//   if(id) {
+//     this.Spinner = true;
+//     const endpoint = "/BL_CRM_Txn_Enq_Tender/Upload_Tender_Document";
+//     for(let k=0;k < this.DocumentList.length;k++){
+//       const formData: FormData = new FormData();
+//     formData.append("anint",   id );
+//     formData.append("aFile",   this.DocumentList[k] );
+//     console.log(this.DocumentList[k]);
+//       const mgs = await this.SaveDoc(this.DocumentList[k],id);
+//       console.log('Done' + k);
+//       const totalLength = this.ProductPDFFile.length -1;
+//       if(k ===totalLength) {
+//           this.compacctToast.clear();
+//             this.compacctToast.add({
+//               key: "compacct-toast",
+//               severity: "success",
+//               summary: "Lead ID  :" +id,
+//               detail: "Document uploaded successfully"
+//             });
+//             //this.GetDocument(this.FootFall);
+//             this.Spinner = false;
+//             this.PDFFlag = false;
+//             this.ProductPDFFile = [];
+//             this.fileInput.clear();
+//             this.tempDocumentArr = [];
+//             // this.tempDocumentObj ={
+//             //   'file': {},
+//             //   'Remarks' :'',
+//             //   'Doc_Name' : ''
+//             // }
+//             this.DocumentRemarksSubmit = false;
+//             //this.ObjDocument = new Document();
+//           console.group("Compacct V2");
+//           console.log("%c  Document Sucess:", "color:green;");
+//           console.log(endpoint);
+//       }
+//     }
+// };
+
+// }
 saveMasterClient(valid:any){
 this.masterClientSubmit = true;
  if(valid){
@@ -295,9 +403,10 @@ GetEditMasterclient(id:number){
      console.log("ObjmasterClient",this.ObjmasterClient);
      data.forEach((ele:any) => {
         this.addPersonList.push({
-          name:ele.Client_Name,
+          name:ele.Contact_Name,
           phone:ele.Contact_Phone_No,
-          email:ele.Contact_Email_Id
+          email:ele.Contact_Email_Id,
+          Designation:ele.Designation
         })
      });
    })
