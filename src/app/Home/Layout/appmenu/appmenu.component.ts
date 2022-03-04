@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/Service/API/api.service';
@@ -8,18 +8,22 @@ import { ApiService } from 'src/app/Service/API/api.service';
   templateUrl: './appmenu.component.html',
   styleUrls: ['./appmenu.component.css']
 })
-export class AppmenuComponent implements OnInit {
+export class AppmenuComponent implements OnInit ,AfterViewChecked {
 
   navItems: any;
   constructor(
     private apicall : ApiService,
     private router: Router,
-    private sanitizer:DomSanitizer
+    private sanitizer:DomSanitizer,
+    private changeDetector : ChangeDetectorRef
   ) { 
-    this.getmenuList();
+    
   }
   ngOnInit(): void {
-   
+    this.getmenuList();
+  }
+  ngAfterViewChecked(): void {
+    this.changeDetector.detectChanges();
   }
   getRoute(event:any){
     const goRoute = event.target.getAttribute("routerLink");
