@@ -9,6 +9,8 @@ import { MasterProductComponent } from '../Views/Waste/Master/master-product/mas
 import { MasterSubClientComponent } from '../Views/Waste/Master/master-sub-client/master-sub-client.component';
 import { layoutComponent } from './layout.component';
 
+import { MasterDocumentComponent } from '../Views/Hytone/Master/master-document/master-document.component';
+
 const routes: Routes = [
   {
     path: "",
@@ -42,6 +44,11 @@ const routes: Routes = [
         path: "CollectionDetails",
     component: CollectionDetailsComponent,
     data: { title: "Collection Details" }
+      },
+      {
+        path: "MasterDocument",
+    component: MasterDocumentComponent,
+    data: { title: "Master Document" }
       },
     ]
   },

@@ -12,6 +12,9 @@ import { MasterProductPricingPlanComponent } from '../Views/Waste/Master/master-
 import { CollectionDetailsComponent } from '../Views/Waste/Master/collection-details/collection-details.component';
 
 
+import { MasterDocumentComponent } from '../Views/Hytone/Master/master-document/master-document.component';
+
+
 
 
 
@@ -59,7 +62,8 @@ import { RouterModule } from '@angular/router';
     CollectionDetailsComponent,
     DashboardComponent,
     CompacctDigitonlyDirective,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    MasterDocumentComponent,
     
   ],
   imports: [
