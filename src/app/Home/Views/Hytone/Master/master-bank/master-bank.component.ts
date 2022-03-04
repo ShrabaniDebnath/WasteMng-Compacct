@@ -4,26 +4,25 @@ import { ApiService } from 'src/app/Service/API/api.service';
 import { CompacctHeader } from 'src/app/Service/common.header.service';
 import { MessageService } from "primeng/api";
 
-
 @Component({
-  selector: 'app-master-document',
-  templateUrl: './master-document.component.html',
-  styleUrls: ['./master-document.component.css'],
+  selector: 'app-master-bank',
+  templateUrl: './master-bank.component.html',
+  styleUrls: ['./master-bank.component.css'],
   providers: [MessageService],
   encapsulation: ViewEncapsulation.None
 })
-export class MasterDocumentComponent implements OnInit {
+export class MasterBankComponent implements OnInit {
   tabIndexToView = 0;
   items:any = [];
   buttonname = "Create";
-  ObjDocument = new Document();
-  DocumentFormSubmitted = false;
+  ObjBank = new Bank();
+  BankFormSubmitted = false;
   Spinner = false;
-  Searchlist = [];
-  EditList = [];
+  BankSearchlist = [];
+  BankEditList = [];
   can_popup = false;
   act_popup = false;
-  documentid = undefined;
+  bankid = undefined;
   loading = false;
   CheckBrowselist = [];
 
@@ -53,58 +52,58 @@ export class MasterDocumentComponent implements OnInit {
    }
    CheckBrowseData(valid:any){
     this.CheckBrowselist = []
-    this.DocumentFormSubmitted = true;
+    this.BankFormSubmitted = true;
     if (valid) {
     const obj = {
       "Sp_Name": "SP_Master_02",
-      "Report_Name": "Master_Document_Browse"
+      "Report_Name": "Master_Bank_Browse"
      }
      this.apicall.GetData(obj).subscribe((data:any)=>{
       this.CheckBrowselist = data;
        console.log('CheckBrowselist=====',this.CheckBrowselist)
        //this.seachSpinner = false;
-       const samedname = this.CheckBrowselist.filter((item:any)=> item.Document_Name == this.ObjDocument.Document_Name );
-       if(samedname.length) {
+       const samename = this.CheckBrowselist.filter((item:any)=> item.Bank_Name == this.ObjBank.Bank_Name );
+       if(samename.length) {
          this.compacctToast.clear();
              this.compacctToast.add({
                key: "compacct-toast",
                severity: "error",
                summary: "Warn Message",
-               detail: "Document Name Already Exit"
+               detail: "Bank Name Already Exit"
              });
        } 
        else {
-           this.createMasterDocument();
+           this.createMasterBank();
          }
      })
     }
   }
-   createMasterDocument(){
-    //this.DocumentFormSubmitted = true;
-    //if (valid) {
+   createMasterBank(){
+    this.BankFormSubmitted = true;
+   // if (valid) {
       this.Spinner = true;
       //const obj = { Product_String: JSON.stringify([this.ObjProduct]) };
       let reportname;
       if (this.buttonname != "Update") {
-        reportname = "Master_Document_Create"
+        reportname = "Master_Bank_Create"
       } 
       else {
-        reportname = "Master_Document_Update"
+        reportname = "Master_Bank_Update"
       }
-      this.ObjDocument.Document_ID = this.ObjDocument.Document_ID ? this.ObjDocument.Document_ID : 0
+      this.ObjBank.Bank_ID = this.ObjBank.Bank_ID ? this.ObjBank.Bank_ID : 0
       const obj = {
         "Sp_Name": "SP_Master_02",
         "Report_Name": reportname
       }
-      this.apicall.PostData(obj,JSON.stringify([this.ObjDocument])).subscribe((data:any)=>{
+      this.apicall.PostData(obj,JSON.stringify([this.ObjBank])).subscribe((data:any)=>{
         console.log('createstatus ===', data[0].Column1)
         if (data[0].Column1) {
             this.compacctToast.clear();
             this.compacctToast.add({
               key: "compacct-toast",
               severity: "success",
-              summary: "Document Name ",
-              detail: this.ObjDocument.Document_ID ? "Succesfully Updated" : "Succesfully Created"
+              summary: "Bank Name ",
+              detail: this.ObjBank.Bank_ID ? "Succesfully Updated" : "Succesfully Created"
             });
             //if (this.buttonname != "Update") {
             this.clearData();
@@ -130,42 +129,42 @@ export class MasterDocumentComponent implements OnInit {
     //this.Searchlist = []
     const obj = {
       "Sp_Name": "SP_Master_02",
-      "Report_Name": "Master_Document_Browse"
+      "Report_Name": "Master_Bank_Browse"
      }
      this.apicall.GetData(obj).subscribe((data:any)=>{
-      this.Searchlist = data;
-       console.log('Searchlist=====',this.Searchlist)
+      this.BankSearchlist = data;
+       console.log('BankSearchlist=====',this.BankSearchlist)
        //this.seachSpinner = false;
      })
   }
     EditProduct(edit:any){
-   this.ObjDocument.Document_ID = undefined;
+   this.ObjBank.Bank_ID = undefined;
    this.clearData();
-    if (edit.Document_ID) {
-      console.log("edit.Document_ID ===", edit.Document_ID )
-      this.ObjDocument.Document_ID = edit.Document_ID;
+    if (edit.Bank_ID) {
+      console.log("edit.Bank_ID ===", edit.Bank_ID )
+      this.ObjBank.Bank_ID = edit.Bank_ID;
       this.tabIndexToView = 1;
       this.items = ["BROWSE", "UPDATE"];
       this.buttonname = "Update";
     const obj = {
       "Sp_Name": "SP_Master_02",
-      "Report_Name": "Get_Master_Document_Data"
+      "Report_Name": "Get_Master_Bank_Data"
      }
-     this.apicall.PostData(obj, JSON.stringify({Document_ID: this.ObjDocument.Document_ID})).subscribe((data:any)=>{
-      this.EditList = data;
-      this.ObjDocument.Document_Name = data[0].Document_Name;
-       console.log('EditList =====',this.EditList)
+     this.apicall.PostData(obj, JSON.stringify({Bank_ID: this.ObjBank.Bank_ID})).subscribe((data:any)=>{
+      this.BankEditList = data;
+      this.ObjBank.Bank_Name = data[0].Bank_Name;
+       console.log('BankEditList =====',this.BankEditList)
        //this.seachSpinner = false;
      })
     }
   }
   Active(row:any){
     this.can_popup = false;
-    this.documentid = undefined ;
-    if(row.Document_ID){
+    this.bankid = undefined ;
+    if(row.Bank_ID){
       this.act_popup = true;
-      this.documentid = row.Document_ID  ;
-      console.log("active Row ===", this.documentid);
+      this.bankid = row.Bank_ID  ;
+      console.log("active Row ===", this.bankid);
       this.compacctToast.clear();
       this.compacctToast.add({
         key: "c",
@@ -177,12 +176,12 @@ export class MasterDocumentComponent implements OnInit {
     }
   }
   onConfirm(){
-    if(this.documentid){
+    if(this.bankid){
       const obj = {
         "Sp_Name": "SP_Master_02",
-        "Report_Name": "Active_Master_Document_Data"
+        "Report_Name": "Active_Master_Bank_Data"
       }
-      this.apicall.PostData(obj, JSON.stringify({Document_ID : this.documentid})).subscribe((data:any)=>{
+      this.apicall.PostData(obj, JSON.stringify({Bank_ID : this.bankid})).subscribe((data:any)=>{
         if (data[0].Column1 === "Done"){
           this.act_popup = false;
           this.onReject();
@@ -191,7 +190,7 @@ export class MasterDocumentComponent implements OnInit {
             this.compacctToast.add({
               key: "compacct-toast",
               severity: "success",
-              summary: "Product ID: " + this.documentid,
+              summary: "Product ID: " + this.bankid,
               detail: "Succesfully Active"
             });
         }
@@ -201,11 +200,11 @@ export class MasterDocumentComponent implements OnInit {
   }
   Inactive(col:any){
     this.act_popup = false;
-    this.documentid = undefined ;
-    if(col.Document_ID){
+    this.bankid = undefined ;
+    if(col.Bank_ID){
       this.can_popup = true;
-      this.documentid = col.Document_ID  ;
-      console.log("deactive Row ===", this.documentid);
+      this.bankid = col.Bank_ID  ;
+      console.log("deactive Row ===", this.bankid);
       this.compacctToast.clear();
       this.compacctToast.add({
         key: "c",
@@ -217,12 +216,12 @@ export class MasterDocumentComponent implements OnInit {
     }
   }
   onConfirm2(){
-    if(this.documentid){
+    if(this.bankid){
       const obj = {
         "Sp_Name": "SP_Master_02",
-        "Report_Name": "Deactive_Master_Document_Data"
+        "Report_Name": "Deactive_Master_Bank_Data"
       }
-      this.apicall.PostData(obj, JSON.stringify({Document_ID : this.documentid})).subscribe((data:any)=>{
+      this.apicall.PostData(obj, JSON.stringify({Bank_ID : this.bankid})).subscribe((data:any)=>{
         if (data[0].Column1 === "Done"){
           this.can_popup = false;
           this.onReject();
@@ -231,7 +230,7 @@ export class MasterDocumentComponent implements OnInit {
             this.compacctToast.add({
               key: "compacct-toast",
               severity: "success",
-              summary: "Product ID: " + this.documentid ,
+              summary: "Product ID: " + this.bankid ,
               detail: "Succesfully Deactive"
             });
         }
@@ -243,10 +242,10 @@ export class MasterDocumentComponent implements OnInit {
     this.compacctToast.clear("c");
   }
    clearData(){
-    this.DocumentFormSubmitted = false;
+    this.BankFormSubmitted = false;
     this.Spinner = false;
-    this.ObjDocument = new Document();
-    this.ObjDocument.Document_ID = undefined;
+    this.ObjBank = new Bank();
+    this.ObjBank.Bank_ID = undefined;
     // if (this.buttonname != "create") {
     // this.GetBrowseData();
     // this.tabIndexToView = 0;
@@ -256,7 +255,7 @@ export class MasterDocumentComponent implements OnInit {
    }
 
 }
-class Document {
-  Document_ID!: any;
-  Document_Name!: string;
+class Bank {
+  Bank_ID!: any;
+  Bank_Name!: string;
 }

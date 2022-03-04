@@ -10,6 +10,7 @@ import { MasterSubClientComponent } from '../Views/Waste/Master/master-sub-clien
 import { layoutComponent } from './layout.component';
 
 import { MasterDocumentComponent } from '../Views/Hytone/Master/master-document/master-document.component';
+import { MasterBankComponent } from '../Views/Hytone/Master/master-bank/master-bank.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,11 @@ const routes: Routes = [
         path: "MasterDocument",
     component: MasterDocumentComponent,
     data: { title: "Master Document" }
+      },
+      {
+        path: "MasterBank",
+    component: MasterBankComponent,
+    data: { title: "Master Bank" }
       },
     ]
   },

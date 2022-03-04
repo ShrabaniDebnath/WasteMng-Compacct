@@ -13,6 +13,7 @@ import { CollectionDetailsComponent } from '../Views/Waste/Master/collection-det
 
 
 import { MasterDocumentComponent } from '../Views/Hytone/Master/master-document/master-document.component';
+import { MasterBankComponent } from '../Views/Hytone/Master/master-bank/master-bank.component';
 
 
 
@@ -64,6 +65,7 @@ import { RouterModule } from '@angular/router';
     CompacctDigitonlyDirective,
     SafeHtmlPipe,
     MasterDocumentComponent,
+    MasterBankComponent
     
   ],
   imports: [

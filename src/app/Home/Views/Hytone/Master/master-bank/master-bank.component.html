@@ -49,8 +49,8 @@
                     <p-tabView [activeIndex]="tabIndexToView" (onChange)="TabClick($event)">
                         <p-tabPanel headerStyleClass="compacct-tabs" [header]="items[0]" leftIcon="glyphicon glyphicon-list-alt">
                             <div class="no-padding table-id">
-                                <p-table #dt [value]="Searchlist" responsiveLayout="scroll" styleClass="p-datatable-customers" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                                    [filterDelay]="0" [globalFilterFields]="['Document_Name']">
+                                <p-table #dt [value]="BankSearchlist" responsiveLayout="scroll" styleClass="p-datatable-customers" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                    [filterDelay]="0" [globalFilterFields]="['Bank_Name']">
                                     <ng-template pTemplate="caption">
                                         <div class="row">
                                             <div class="col-sm-3 pull-right" style="text-align: right">
@@ -62,7 +62,7 @@
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th style="width:5em">Action</th>
-                                            <th>Document Name</th>
+                                            <th>Bank Name</th>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-col>
@@ -93,7 +93,7 @@
                                                     </ul>
                                                 </div>
                                             </td>
-                                            <td>{{col.Document_Name ? col.Document_Name : '-'}}</td>
+                                            <td>{{col.Bank_Name ? col.Bank_Name : '-'}}</td>
                                         </tr>
                                     </ng-template>
                                     <tr>
@@ -103,14 +103,14 @@
                             </div>
                         </p-tabPanel>
                         <p-tabPanel headerStyleClass="compacct-tabs" [header]="items[1]" leftIcon="glyphicon glyphicon-floppy-save">
-                            <form name="DocumentForm" #DocumentForm="ngForm" novalidate>
+                            <form name="BankForm" #BankForm="ngForm" novalidate>
                                 <div class="form-group">
                                     <div class="col-sm-6">
-                                        <label class="control-label">Document Name<sup class="text-danger">*</sup></label>
-                                        <input class="form-control" name="dname" #dname="ngModel" [(ngModel)]="ObjDocument.Document_Name" placeholder="Document Name" [ngClass]="{'clearance': DocumentFormSubmitted && dname.errors?.required}" required>
+                                        <label class="control-label">Bank Name<sup class="text-danger">*</sup></label>
+                                        <input class="form-control" name="bankname" #bankname="ngModel" [(ngModel)]="ObjBank.Bank_Name" placeholder="Bank Name" [ngClass]="{'clearance': BankFormSubmitted && bankname.errors?.required}" required>
                                     </div>
                                     <div class="col-sm-1">
-                                        <button class="btn btn-primary pull-right1" (click)="CheckBrowseData(DocumentForm.form.valid)" id="load" [disabled]="Spinner">
+                                        <button class="btn btn-primary pull-right1" (click)="CheckBrowseData(BankForm.form.valid)" id="load" [disabled]="Spinner">
                                         <p-progressSpinner *ngIf="Spinner" [style]="{width: '15px', height: '15px'}" strokeWidth="8"  animationDuration=".5s"></p-progressSpinner>
                                     <span *ngIf="!Spinner" class="glyphicon glyphicon-save"></span>{{buttonname}}
                                 </button>
