@@ -79,7 +79,6 @@ export class MasterProductComponent implements OnInit {
             //if (this.buttonname != "Update") {
             this.clearData();
             this.GetBrowseData();
-            this.tabIndexToView = 0;
             this.items = ["BROWSE", "Create"];
             this.buttonname = "Create";
             //}

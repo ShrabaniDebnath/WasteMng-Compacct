@@ -121,7 +121,8 @@
                                             #Name="ngModel" 
                                             [(ngModel)]="ObjmasterClient.Client_Name" 
                                             placeholder="Name" 
-                                            [ngClass]="{'clearance': masterClientSubmit && Name?.errors?.required}" 
+                                            pattern="[a-zA-Z ]*"
+                                            [ngClass]="{'clearance':masterClientSubmit && (Name?.errors?.required || Name?.errors?.pattern ) }" 
                                             required>
                                         </div>
                                         <div class="col-sm-4">
@@ -131,7 +132,7 @@
                                                 #Address="ngModel" 
                                                 [(ngModel)]="ObjmasterClient.Address" 
                                                 placeholder="Address" 
-                                                [ngClass]="{'clearance': masterClientSubmit && Name?.errors?.required}" 
+                                                [ngClass]="{'clearance': masterClientSubmit && Address?.errors?.required}" 
                                                 required>
                                             </div>
                                             <div class="col-sm-4">
@@ -143,7 +144,7 @@
                                                     placeholder="Pincode"
                                                     maxlength="6"
                                                     mminlength="6"
-                                                    [ngClass]="{'clearance': masterClientSubmit && Address?.errors?.required}"
+                                                    [ngClass]="{'clearance': masterClientSubmit && Pincode?.errors?.required}"
                                                     CompacctDigitonly="true"
                                                     required>
                                          </div>
@@ -169,9 +170,10 @@
                                                 name="Google_Maps_Link" 
                                                 #Google_Maps_Link="ngModel" 
                                                 [(ngModel)]="ObjmasterClient.Google_Maps_Link" 
-                                                placeholder="URL" 
-                                                [ngClass]="{'clearance': masterClientSubmit && Google_Maps_Link?.errors?.required}" 
-                                                required>
+                                                placeholder="URL"
+                                                (change)="ChangeMapLink()"
+                                                [ngClass]="{'clearance':masterClientSubmit && (Google_Maps_Link?.errors?.required || (!ChangeMapLink()) ) }" 
+                                               required>
                                             </div>
                                             <div class="col-sm-4">
                                                
@@ -280,8 +282,9 @@
                                                          name="Contact_Name" 
                                                         #Contact_Name="ngModel" 
                                                         [(ngModel)]="ObjcontactPerson.Contact_Name" 
-                                                        placeholder="Contact Name" 
-                                                        [ngClass]="{'clearance': masterClientContactSubmit && Contact_Name?.errors?.required}" 
+                                                        placeholder="Contact Name"
+                                                        pattern="[a-zA-Z ]*"
+                                                        [ngClass]="{'clearance':masterClientContactSubmit && (Contact_Name?.errors?.required || Contact_Name?.errors?.pattern ) }" 
                                                         required>
                                               </div>
                                               <div class="col-sm-3">
@@ -304,7 +307,8 @@
                                                                         #Contact_Email_Id="ngModel" 
                                                                         [(ngModel)]="ObjcontactPerson.Contact_Email_Id" 
                                                                         placeholder="Email id" 
-                                                                        [ngClass]="{'clearance': masterClientContactSubmit && Contact_Email_Id?.errors?.required}" 
+                                                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                                                        [ngClass]="{'clearance':masterClientContactSubmit && (Contact_Email_Id?.errors?.required || Contact_Email_Id?.errors?.pattern ) }" 
                                                                         required>
                                                 </div>
                                                 <div class="col-sm-3">
@@ -339,9 +343,10 @@
                                       <th>Email Id</th>
                                       <th>Designation</th>
                                       <th></th>
+                                      
                                       </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                                <ng-template pTemplate="body" let-col let-rowIndex="rowIndex" let-rowData="rowData">
                                     <tr class="p-selectable-row">
                                         <td>{{col.name}}</td>
                                         <td>{{col.phone}}</td>
@@ -350,6 +355,7 @@
                                         <td><a (click)="DeleteContact(rowIndex)">
                                             <div><i class="fa fa-fw fa-trash"> </i></div>
                                         </a></td>
+                                     
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="emptymessage">

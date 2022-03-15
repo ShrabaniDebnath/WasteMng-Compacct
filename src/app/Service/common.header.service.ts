@@ -14,7 +14,7 @@ export class CompacctHeader {
 
   pushHeader(newHeaderObj:any) {
     console.log(newHeaderObj)
-    // this.Header = new BehaviorSubject<{} | undefined>(undefined);
+     this.Header = new BehaviorSubject<{} | undefined>(undefined);
     if(newHeaderObj.Header) {
       const HeaderTemplate = `<h1>${newHeaderObj.Header} <small></small> </h1>
         <ol class="breadcrumb">

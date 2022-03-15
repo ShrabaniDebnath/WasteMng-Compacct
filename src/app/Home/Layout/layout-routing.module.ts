@@ -11,7 +11,17 @@ import { layoutComponent } from './layout.component';
 
 import { MasterDocumentComponent } from '../Views/Hytone/Master/master-document/master-document.component';
 import { MasterBankComponent } from '../Views/Hytone/Master/master-bank/master-bank.component';
-
+import { MasterIfscComponent } from '../Views/Hytone/Master/master-ifsc/master-ifsc.component';
+import { MasterCustomerTypeComponent } from '../Views/Hytone/Master/master-customer-type/master-customer-type.component';
+import { MasterPoliceStationComponent } from '../Views/Hytone/Master/master-police-station/master-police-station.component';
+import { MasterPostOfficeComponent } from '../Views/Hytone/Master/master-post-office/master-post-office.component';
+import { MasterPincodeComponent } from '../Views/Hytone/Master/master-pincode/master-pincode.component';
+import { MasterOccupationComponent } from '../Views/Hytone/Master/master-occupation/master-occupation.component';
+import { MasterRelationComponent } from '../Views/Hytone/Master/master-relation/master-relation.component';
+import { MasterAgencyComponent } from '../Views/Hytone/Master/master-agency/master-agency.component';
+import { MasterAssetComponent } from '../Views/Hytone/Master/master-asset/master-asset.component';
+import { RequestDetalisComponent } from '../Views/App-Admin/request-detalis/request-detalis.component';
+import { NonCollectionReasonComponent } from '../Views/Waste/Master/non-collection-reason/non-collection-reason.component';
 const routes: Routes = [
   {
     path: "",
@@ -55,6 +65,61 @@ const routes: Routes = [
         path: "MasterBank",
     component: MasterBankComponent,
     data: { title: "Master Bank" }
+      },
+      {
+        path: "MasterIfsc",
+    component: MasterIfscComponent,
+    data: { title: "Master Ifsc" }
+      },
+      {
+        path: "MasterCustomerType",
+    component: MasterCustomerTypeComponent,
+    data: { title: "Master Customer" }
+      },
+      {
+        path: "Masterpolicestation",
+    component: MasterPoliceStationComponent,
+    data: { title: "Master Police Station" }
+      },
+      {
+        path: "MasterPostOffice",
+    component: MasterPostOfficeComponent,
+    data: { title: "Master Post Office" }
+      },
+      {
+        path: "MasterPincode",
+    component: MasterPincodeComponent,
+    data: { title: "Master Pincode" }
+      },
+      {
+        path: "MasterOccupation",
+    component: MasterOccupationComponent,
+    data: { title: "Master Occupation" }
+      },
+      {
+        path: "MasterRelation",
+    component: MasterRelationComponent,
+    data: { title: "Master Relation" }
+      },
+      {
+        path: "MasterAgency",
+    component: MasterAgencyComponent,
+    data: { title: "Master Agency" }
+      },
+      {
+        path: "MasterAsset",
+    component: MasterAssetComponent,
+    data: { title: "Master Asset" }
+      },
+      {
+        path: "RequestDetalis",
+    component: RequestDetalisComponent,
+    data: { title: "Request Detalis" }
+      },
+      {
+        path: "NonCollectionReason",
+    component: NonCollectionReasonComponent,
+    data: { title: "Non Collection Reason" }
       },
     ]
   },

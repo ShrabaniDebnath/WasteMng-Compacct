@@ -1,0 +1,57 @@
+body .p-dropdown {
+    width: 100% !important;
+    border: 1px solid #d2d6de !important;
+    height: 34px;
+    padding: 6px 12px;
+}
+
+.p-inputtext {
+    font-size: 1.3rem;
+    padding: 0.1rem;
+}
+
+p-paginator>.p-dropdown-trigger .p-dropdown-trigger-icon {
+    top: 50%;
+    left: 50%;
+    margin-top: -0.5em;
+    margin-left: 10.8em;
+    position: absolute;
+}
+
+.p-dropdown-clear-icon {
+    position: absolute;
+    top: 50%;
+    margin-top: -0.5rem;
+    margin-right: 5%;
+}
+
+.pull-right1 {
+    float: right!important;
+    margin-top: 26px;
+}
+
+.fa-fw {
+    text-align: center;
+}
+
+.p-paginator .p-dropdown {
+    height: 3.357rem !important;
+}
+.p-toast .p-toast-message.p-toast-message-info {
+    background: #fff;
+    border: none;
+    color: black;
+   }
+   .p-toast .p-toast-message.p-toast-message-warn{
+    background: #fff;
+    border: none;
+    color: black;
+   }
+   
+.custombutton1 {
+    margin-top: 24px;
+    
+}
+.text-red-active>td {
+    color: #E75D5D !important;
+}

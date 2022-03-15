@@ -127,7 +127,8 @@ export class MasterSubClientComponent implements OnInit {
      let  addlist = {
        name:this.ObjcontactPerson.Contact_Name,
        phone:this.ObjcontactPerson.Contact_Phone_No,
-       email:this.ObjcontactPerson.Contact_Email_Id
+       email:this.ObjcontactPerson.Contact_Email_Id,
+       Designation:this.ObjcontactPerson.Designation
      }
      this.addPersonList.push(addlist);
      this.masterClientContactSubmit = false;
@@ -138,7 +139,7 @@ export class MasterSubClientComponent implements OnInit {
  saveMastersubClient(valid:any){
    console.log("valid",valid);
    this.mastersubClientSubmit =true;
-  if(valid){
+  if(valid && this.ChangeMapLink()){
     if(!this.objsubClient.Alert_SubClient_Email && !this.objsubClient.Alert_SubClient_SMS && !this.objsubClient.Alert_SubClient_Whatsapp){
       this.compacctToast.clear();
       this.compacctToast.add({
@@ -181,7 +182,8 @@ export class MasterSubClientComponent implements OnInit {
        Alert_SubClient_Whatsapp:this.objsubClient.Alert_SubClient_Whatsapp?1:0,
        Contact_Name:ele.name,
        Contact_Phone_No:ele.phone,
-       Contact_Email_Id:ele.email
+       Contact_Email_Id:ele.email,
+       Designation:ele.Designation ? ele.Designation : null
       }
       savedata.push(tempData)
     });
@@ -204,7 +206,8 @@ export class MasterSubClientComponent implements OnInit {
        Alert_SubClient_Whatsapp:this.objsubClient.Alert_SubClient_Whatsapp?1:0,
        Contact_Name:ele.name,
        Contact_Phone_No:ele.phone,
-       Contact_Email_Id:ele.email
+       Contact_Email_Id:ele.email,
+       Designation:ele.Designation ? ele.Designation : null
       }
       savedata.push(tempData)
     });
@@ -226,6 +229,8 @@ export class MasterSubClientComponent implements OnInit {
       this.link = undefined;
       this.Pricing = undefined;
       this.addressCheckHou = false;
+      this.items = ["BROWSE", "CREATE"];
+      this.buttonname = "Create"
       this.GetAllBrowse();
       this.compacctToast.clear();
       this.compacctToast.add({
@@ -287,14 +292,17 @@ Edit(col:any){
     Sub_Client_ID:id
    }
    this.apicall.PostData(ParamObj,JSON.stringify(savedata)).subscribe((data:any)=>{
-    this.Getpricingplan(data[0].Client_ID,data[0].Product_ID);
+     console.log("Get Edit Data",data);
+    this.Getpricingplan(data[0].Client_ID,data[0].Plan_Name);
      this.objsubClient = data[0];
+     console.log("objsubClient",this.objsubClient);
     this.link = data[0].Google_Maps_Link;
      data.forEach((ele:any) => {
         this.addPersonList.push({
           name:ele.Contact_Name,
           phone:ele.Contact_Phone_No,
-          email:ele.Contact_Email_Id
+          email:ele.Contact_Email_Id,
+          Designation:ele.Designation
         })
      });
      console.log("addPersonList",this.addPersonList);
@@ -399,6 +407,22 @@ Inactive(col:any){
     });
   }
 }
+ChangeMapLink(){
+  if(this.objsubClient.Google_Maps_Link) {
+   const  pattern1 = new RegExp("https://www.google.com/maps.*");
+   const valid1 = pattern1.test(this.objsubClient.Google_Maps_Link);
+   if(!valid1) {
+    const  pattern2 = new RegExp("https://goo.gl/maps.*");
+    const valid2 = pattern2.test(this.objsubClient.Google_Maps_Link);
+      return  valid2;
+   } else {
+    return true;
+   }
+  } else {
+    return false;
+  }
+  
+}
 }
 class subClient{
   Client_ID:any;
@@ -417,4 +441,5 @@ class contactPerson{
   Contact_Name:any
   Contact_Phone_No:any 
   Contact_Email_Id:any
+  Designation:any
 }
