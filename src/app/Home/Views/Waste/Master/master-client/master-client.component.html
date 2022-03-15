@@ -40,7 +40,7 @@
                                 responsiveLayout="scroll"
                                 [loading]="loading"
                                 [paginator]="true" 
-                                [globalFilterFields]="['Client_Name','Address','Google_Maps_Link','Alert_Manager_SMS','Alert_Manager_Email','Alert_Manager_Whatsapp']">
+                                [globalFilterFields]="['Client_Name','Address','Google_Maps_Link','Alert_Manager_SMS','Alert_Manager_Email','Alert_Manager_Whatsapp','Client_ID']">
                                 <ng-template pTemplate="caption">
                                     <div class="table-header">
                                         <div class="row">
@@ -58,6 +58,7 @@
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th style="width:5em">Action</th>
+                                                <th>Client ID</th>
                                                 <th>Client Name</th>
                                                 <th>Address</th>
                                                 <th>Category</th>
@@ -94,6 +95,7 @@
                                                 </ul>
                                             </div>
                                         </td>
+                                        <td>{{col.Client_ID}}</td>
                                         <td>{{col.Client_Name}}</td>
                                         <td>{{col.Address}}</td>
                                         <td>{{col.Category}}</td>

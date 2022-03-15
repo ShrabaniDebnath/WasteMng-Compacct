@@ -22,6 +22,8 @@ import { MasterAgencyComponent } from '../Views/Hytone/Master/master-agency/mast
 import { MasterAssetComponent } from '../Views/Hytone/Master/master-asset/master-asset.component';
 import { RequestDetalisComponent } from '../Views/App-Admin/request-detalis/request-detalis.component';
 import { NonCollectionReasonComponent } from '../Views/Waste/Master/non-collection-reason/non-collection-reason.component';
+import { UserMasterComponent } from '../Views/Hytone/Master/user-master/user-master.component';
+import { CustomerCreationIndividualComponent } from '../Views/Hytone/Master/customer-creation-individual/customer-creation-individual.component';
 const routes: Routes = [
   {
     path: "",
@@ -118,8 +120,18 @@ const routes: Routes = [
       },
       {
         path: "NonCollectionReason",
-    component: NonCollectionReasonComponent,
+    component: NonCollectionReasonComponent, 
     data: { title: "Non Collection Reason" }
+      },
+      {
+        path: "UserMaster",
+    component: UserMasterComponent, 
+    data: { title: "User Master" }
+      },
+      {
+        path: "CustomerCreationIndividual",
+    component: CustomerCreationIndividualComponent, 
+    data: { title: "Customer Creation (Individual)" }
       },
     ]
   },

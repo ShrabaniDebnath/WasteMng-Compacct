@@ -22,6 +22,9 @@ import { MasterPincodeComponent } from '../Views/Hytone/Master/master-pincode/ma
 import { MasterOccupationComponent } from '../Views/Hytone/Master/master-occupation/master-occupation.component';
 import { MasterAgencyComponent } from '../Views/Hytone/Master/master-agency/master-agency.component';
 import { MasterAssetComponent } from '../Views/Hytone/Master/master-asset/master-asset.component';
+import { UserMasterComponent } from '../Views/Hytone/Master/user-master/user-master.component';
+import { CustomerCreationIndividualComponent } from '../Views/Hytone/Master/customer-creation-individual/customer-creation-individual.component';
+
 import { RequestDetalisComponent } from '../Views/App-Admin/request-detalis/request-detalis.component';
 
 
@@ -85,6 +88,8 @@ import { MasterRelationComponent } from '../Views/Hytone/Master/master-relation/
     MasterAssetComponent,
     RequestDetalisComponent,
     NonCollectionReasonComponent,
+    UserMasterComponent,
+    CustomerCreationIndividualComponent
   ],
   imports: [
     CommonModule,

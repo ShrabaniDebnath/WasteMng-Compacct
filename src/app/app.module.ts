@@ -13,29 +13,13 @@ import { CookieService } from 'ngx-cookie-service';
 
 
 
-
-
-
-
-
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     
-    
-    
-    
-    
-   
-   
-   
-    
-   ],
+  
+    ],
   imports: [
     BrowserModule,
     HttpClientModule,
