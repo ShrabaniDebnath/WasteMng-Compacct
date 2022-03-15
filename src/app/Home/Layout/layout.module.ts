@@ -44,6 +44,7 @@ import {DialogModule} from 'primeng/dialog';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {CheckboxModule} from 'primeng/checkbox';
 import {SelectButtonModule} from 'primeng/selectbutton';
+import {ChipsModule} from 'primeng/chips';
 // DateRange
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { TimePickerModule } from '@syncfusion/ej2-angular-calendars';
@@ -113,7 +114,8 @@ import { MasterRelationComponent } from '../Views/Hytone/Master/master-relation/
     DateTimePickerModule,
     ProgressSpinnerModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    ChipsModule
   ],
   providers: [CompacctHeader,DateTimeConvertService],
   bootstrap: [layoutComponent]
