@@ -33,6 +33,7 @@ export class CustomerCreationIndividualComponent implements OnInit {
   objReference = new Reference();
   objSpouseDetails = new SpouseDetails();
   objVerificationReport = new VerificationReport();
+  objCreditReport = new CreditReport()
   customerFormSubmitted = false;
   AddressFormSubmitted = false;
   OccupationFormSubmitted = false;
@@ -56,6 +57,24 @@ export class CustomerCreationIndividualComponent implements OnInit {
   bankList:any = [];
   IFSCList:any = [];
   addBankList:any = [];
+  fatherDetalisFormSubmit = false;
+  addFatherDetalis:any=[];
+  motherDetalisFormSubmit = false;
+  addMotherDetalisList:any=[];
+  SpouseDetalisFormSubmit = false;
+  addSpouseDetalisList:any = [];
+  ReferenceFormSubmit = false;
+  addReferenceList:any = [];
+  AssetList:any = [];
+  assetDetalisFormSubmit = false;
+  addAssetList:any =[];
+  CreditReportFormsubmit = false;
+  addCreditReportList:any = [];
+  VerificationReportFormSubmit = false;
+  AgencyList:any = [];
+  EmployeeusernameList:any = [];
+  addVerificationReportList = [];
+  VerificationDate = new Date()
   constructor(private apicall : ApiService,
     private $http: HttpClient,
     private Header: CompacctHeader,
@@ -109,6 +128,24 @@ export class CustomerCreationIndividualComponent implements OnInit {
   }
   addBankDetalis(valid:any){
    console.log("Bank Detalis Valid",valid);
+  }
+  addfatherDetalis(valid:any){
+   console.log("Father Detalis Valid",valid);
+  }
+  addMotherDetalis(valid:any){
+   console.log("Mother Detalis Valid",valid);
+  }
+  addSpouseDetalis(valid:any){
+  console.log("Spouse Detalis valid",valid);
+  }
+  addReference(valid:any){
+   console.log("Reference Valid",valid);
+  }
+  addassetDetalis(valid:any){
+  console.log("Asset Detalis valid",valid)
+  }
+  addCreditReport(valid:any){
+   console.log("Credit Report",valid);
   }
 }
 class customer{
@@ -192,4 +229,10 @@ class VerificationReport{
 	Report_Reference_No:any;
 	User_ID:any;
 	Verification_Date:any;
+  ExternalInternal:any;
+}
+class CreditReport{
+  Customer_ID:any;
+	CIC_Name:any;
+	Score:any;
 }
