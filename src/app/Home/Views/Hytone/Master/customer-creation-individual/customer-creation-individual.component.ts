@@ -5,6 +5,7 @@ import { CompacctHeader } from 'src/app/Service/common.header.service';
 import { MessageService } from "primeng/api";
 import { Subject, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DateTimeConvertService } from 'src/app/Service/dateTime.service';
 
 @Component({
   selector: 'app-customer-creation-individual',
@@ -76,16 +77,18 @@ export class CustomerCreationIndividualComponent implements OnInit {
   VerificationReportFormSubmit = false;
   AgencyList:any = [];
   EmployeeusernameList:any = [];
-  addVerificationReportList = [];
+  addVerificationReportList:any = [];
   VerificationDate = new Date();
   pincodeList:any = [];
   phoneFormSubmitted = false;
   emailIdFormSubmitted = false;
   addPhoneList:any = [];
   addEmailIdList:any = [];
+  PostOfficeList:any = [];
   constructor(private apicall : ApiService,
     private $http: HttpClient,
     private Header: CompacctHeader,
+    private DateService: DateTimeConvertService,
     private compacctToast: MessageService) { }
 
   ngOnInit(): void {
@@ -97,12 +100,13 @@ export class CustomerCreationIndividualComponent implements OnInit {
     this.getType();
     this.getPoliceStation();
     this.getPostOffice();
-    this.getPincode();
     this.getOccupation();
     this.getRelation();
     this.getDocument();
     this.getBankName();
-    this.getIFSC();
+    this.getAsset();
+    this.getAgency();
+    this.getUser();
   }
   getEventValue($event:any) :string {
     return $event.target.value;
@@ -128,8 +132,25 @@ export class CustomerCreationIndividualComponent implements OnInit {
   addAddress(valid:any){
    console.log("Address valid",valid);
    this.AddressFormSubmitted = true;
+   const tempFilterCustType = this.typeList.filter((el:any)=>Number(el.Cust_Type_ID) === Number(this.objaddress.Cust_Type_ID))
+   const tempFilterPoliceStation= this.PoliceStationList.filter((el:any)=>Number(el.Police_Station_ID) === Number(this.objaddress.Police_Station_ID))
+   const tempFilterPincode = this.pincodeList.filter((el:any)=>Number(el.Pincode_ID) === Number(this.objaddress.Pincode_ID))
+   const tempFilterPostOffice = this.PostOfficeList.filter((el:any)=>Number(el.Post_Office_ID) === Number(this.objaddress.Post_Office_ID))
+
    if(valid){
+     this.addressList.push({
+      Cust_Type_ID:this.objaddress.Cust_Type_ID,
+      Address_Type:tempFilterCustType[0].Cust_Type,
+      Address:this.objaddress.Address,				
+      Police_Station_ID:this.objaddress.Police_Station_ID,
+      Police_Station_Name:tempFilterPoliceStation[0].Police_Station_Name,
+      Pincode_ID:this.objaddress.Pincode_ID,
+      Pincode:tempFilterPincode[0].Pincode,
+      Post_Office_ID:this.objaddress.Post_Office_ID,
+      Post_Office_Name:tempFilterPostOffice[0].Post_Office_Name
+     })
      this.AddressFormSubmitted = false;
+     this.objaddress = new address();
    }
   }
   addPhone(valid:any){
@@ -174,6 +195,30 @@ export class CustomerCreationIndividualComponent implements OnInit {
     }
     else if(value === "Father_Details"){
       this.addFatherDetalis.splice(index, 1);
+    }
+    else if(value === "Bank_Details"){
+      this.addBankList.splice(index, 1);
+    }
+    else if(value === "Mother_Detalis"){
+      this.addMotherDetalisList.splice(index, 1);
+    }
+    else if(value === "Spouse_Details"){
+      this.addSpouseDetalisList.splice(index, 1);
+    }
+    else if(value === "Reference"){
+      this.addReferenceList.splice(index, 1);
+    }
+    else if(value === "Asset"){
+      this.addAssetList.splice(index, 1);
+    }
+    else if(value === "Credit_Report"){
+      this.addCreditReportList.splice(index, 1);
+    }
+    else if(value === "Verification_Report"){
+      this.addVerificationReportList.splice(index, 1);
+    }
+    else if(value === "Address"){
+      this.addressList.splice(index, 1);
     }
     else {
       console.log("Delete error")
@@ -236,6 +281,21 @@ export class CustomerCreationIndividualComponent implements OnInit {
   }
   addBankDetalis(valid:any){
    console.log("Bank Detalis Valid",valid);
+   this.BankFormSubmitted = true;
+   if(valid){
+     const tempFilterbank = this.bankNameList.filter((el:any)=>Number(el.Bank_ID) === Number(this.objbank.Bank_ID));
+     const tempFilterIESC = this.IFSCList.filter((el:any)=>Number(el.IFSC_ID) === Number(this.objbank.IFSC_ID))
+    this.addBankList.push({
+      Bank_ID:this.objbank.Bank_ID,
+      Bank_Name:tempFilterbank[0].Bank_Name,
+      Account_No:this.objbank.Account_No,
+      IFSC_ID:this.objbank.IFSC_ID,
+      IFSC_Code : tempFilterIESC[0].IFSC_Code,
+      Branch_Name:this.objbank.Branch_Name
+    })
+    this.BankFormSubmitted = false;
+    this.objbank = new bank();
+   }
   }
   addfatherDetalis(valid:any){
    console.log("Father Detalis Valid",valid);
@@ -251,19 +311,99 @@ export class CustomerCreationIndividualComponent implements OnInit {
   }
   addMotherDetalis(valid:any){
    console.log("Mother Detalis Valid",valid);
+   this.motherDetalisFormSubmit = true;
+   if(valid){
+    this.addMotherDetalisList.push({
+      Mother_Adress : this.objMotherDetails.Mother_Adress,
+      Mother_Phone_No : this.objMotherDetails.Mother_Phone_No
+    })
+    this.objMotherDetails = new MotherDetails();
+    this.motherDetalisFormSubmit = false;
+   }
   }
   addSpouseDetalis(valid:any){
   console.log("Spouse Detalis valid",valid);
+  this.SpouseDetalisFormSubmit = true;
+  if(valid){
+    this.addSpouseDetalisList.push({
+      Address:this.objSpouseDetails.Address,
+      Spouse_Phone_No:this.objSpouseDetails.Spouse_Phone_No,
+    })
+    this.objSpouseDetails = new SpouseDetails();
+    this.SpouseDetalisFormSubmit = false;
+   }
   }
   addReference(valid:any){
    console.log("Reference Valid",valid);
+   this.ReferenceFormSubmit = true;
+   if(valid){
+     const tempFilter = this.RelationList.filter((el:any)=>Number(el.Relation_ID) === Number(this.objReference.Relation_ID))
+    this.addReferenceList.push({
+      Reference_Name:this.objReference.Reference_Name,
+      Relation_ID:this.objReference.Relation_ID,
+      Relation_Name:tempFilter[0].Relation_Name,
+      Address:this.objReference.Address,
+      Phone_No:this.objReference.Phone_No,
+    })
+    this.ReferenceFormSubmit = false;
+    this.objReference = new Reference();
+   }
   }
   addassetDetalis(valid:any){
   console.log("Asset Detalis valid",valid)
+  this.assetDetalisFormSubmit = true;
+  if(valid){
+      const tempFilter = this.AssetList.filter((el:any)=>Number(el.Asset_ID) === Number(this.objasset.Asset_ID))
+     this.addAssetList.push({
+      Asset_ID:this.objasset.Asset_ID,
+      Asset_Name : tempFilter[0].Asset_Name,
+      Asset_value:this.objasset.Asset_value
+     })
+     this.assetDetalisFormSubmit = false;
+     this.objasset = new asset();
+    }
+  
   }
   addCreditReport(valid:any){
    console.log("Credit Report",valid);
+   this.CreditReportFormsubmit = true;
+   if(valid){
+   this.addCreditReportList.push({
+    CIC_Name:this.objCreditReport.CIC_Name,
+	  Score:this.objCreditReport.Score
+   })
+   this.CreditReportFormsubmit = false;
+   this.objCreditReport = new CreditReport();
   }
+  }
+  addVerificationReport(valid:any){
+    console.log("Credit Report",valid);
+    this.VerificationReportFormSubmit = true;
+    if(valid){
+      const tempFilterUser = this.EmployeeusernameList.filter((el:any)=>Number(el.User_ID) === Number(this.objVerificationReport.User_ID))
+      const tempFilteragent = this.AgencyList.filter((el:any)=>Number(el.Agent_ID) === Number(this.objVerificationReport.Agent_ID))
+      let user = undefined;
+      let agencyName = undefined;
+      if(tempFilterUser.length){
+       user =  tempFilterUser[0].User_Name
+      }
+      if(tempFilteragent.length){
+        agencyName = tempFilteragent[0].Name
+      }
+      this.addVerificationReportList.push({
+      Agent_ID:this.objVerificationReport.Agent_ID ? this.objVerificationReport.Agent_ID : undefined,
+      Agent_Name: agencyName ? agencyName :undefined,
+      Report_Reference_No:this.objVerificationReport.Report_Reference_No ? this.objVerificationReport.Report_Reference_No : undefined,
+      User_ID:this.objVerificationReport.User_ID ? this.objVerificationReport.User_ID : undefined,
+      User_Name:user ? user : undefined,
+      Verification_Date:this.DateService.dateTimeConvert(new Date(this.VerificationDate))
+     })
+    this.VerificationReportFormSubmit = false;
+    let Extrnal  = this.objVerificationReport.ExternalInternal;
+    this.objVerificationReport = new VerificationReport();
+    this.objVerificationReport.ExternalInternal = Extrnal;
+   }
+   }
   getType(){
     const obj = {
       "Sp_Name": "SP_Master_01",
@@ -292,26 +432,29 @@ export class CustomerCreationIndividualComponent implements OnInit {
       "Report_Name": "Get_Post_Office_For_Dropdown"
      }
      this.apicall.GetData(obj).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
-      this.PoliceStationList = data;
-       console.log('PoliceStationList=====',this.PoliceStationList)
+      this.PostOfficeList = data;
+       console.log('PostOfficeList=====',this.PostOfficeList)
        //this.seachSpinner = false;
      })
   }
   getPincode(){
-    const obj = {
-      "Sp_Name": "SP_Master_01",
-      "Report_Name": "Get_Pincode_For_Dropdown"
-     }
-     this.apicall.GetData(obj).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
-      this.pincodeList = data;
-       console.log('pincodeList=====',this.pincodeList)
-       //this.seachSpinner = false;
-     })
+    if(this.objaddress.Post_Office_ID){
+      const obj = {
+        "Sp_Name": "SP_Master_01",
+        "Report_Name": "Get_Pincode_For_Dropdown"
+       }
+       this.apicall.PostData(obj,JSON.stringify({Post_Office_ID : this.objaddress.Post_Office_ID})).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
+        this.pincodeList = data;
+         console.log('pincodeList=====',this.pincodeList)
+         //this.seachSpinner = false;
+       })
+    }
+    
   }
   getOccupation(){
     const obj = {
       "Sp_Name": "SP_Master_01",
-      "Report_Name": "Get_Occupatin_Data_For_Dropdown "
+      "Report_Name": "Get_Occupatin_Data_For_Dropdown"
      }
      this.apicall.GetData(obj).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
       this.OccupationList = data;
@@ -322,7 +465,7 @@ export class CustomerCreationIndividualComponent implements OnInit {
   getRelation(){
     const obj = {
       "Sp_Name": "SP_Master_01",
-      "Report_Name": "Get_Relation_Data_For_Dropdown  "
+      "Report_Name": "Get_Relation_Data_For_Dropdown"
      }
      this.apicall.GetData(obj).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
       this.RelationList = data;
@@ -353,16 +496,83 @@ export class CustomerCreationIndividualComponent implements OnInit {
      })
   }
   getIFSC(){
-    const obj = {
-      "Sp_Name": "SP_Master_01",
-      "Report_Name": "Get_IFSC_For_Dropdown"
-     }
-     this.apicall.GetData(obj).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
-      this.IFSCList = data;
-       console.log('IFSCList=====',this.IFSCList)
-       //this.seachSpinner = false;
-     })
+    if(this.objbank.Bank_ID){
+      const obj = {
+        "Sp_Name": "SP_Master_01",
+        "Report_Name": "Get_IFSC_For_Dropdown"
+       }
+       this.apicall.PostData(obj,JSON.stringify({Bank_ID : this.objbank.Bank_ID})).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
+        this.IFSCList = data;
+         console.log('IFSCList=====',this.IFSCList)
+         //this.seachSpinner = false;
+       })
+    }
+    else{
+      this.objbank.IFSC_ID = undefined
+       this.objbank.Branch_Name = undefined
+    }
+   
   }
+  getBranchName(){
+    if(this.objbank.IFSC_ID){
+      const tempFilter = this.IFSCList.filter((el:any)=>Number(el.IFSC_ID) === Number(this.objbank.IFSC_ID));
+      this.objbank.Branch_Name = tempFilter[0].Branch_Name
+    }
+    else{
+      this.objbank.Branch_Name = undefined
+    }
+
+  }
+  getAsset(){
+     const obj = {
+        "Sp_Name": "SP_Master_01",
+        "Report_Name": "Get_Asset_Name_For_Dropdown"
+       }
+       this.apicall.GetData(obj).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
+        this.AssetList = data;
+         console.log('AssetList=====',this.AssetList)
+         //this.seachSpinner = false;
+       })
+  
+   
+  }
+  getAgency(){
+    const obj = {
+       "Sp_Name": "SP_Master_01",
+       "Report_Name": "Get_Agency_Data_Dropdwn"
+      }
+      this.apicall.GetData(obj).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
+       this.AgencyList = data;
+        console.log('AgencyList=====',this.AgencyList)
+        //this.seachSpinner = false;
+      })
+ }
+ getUser(){
+  const obj = {
+     "Sp_Name": "SP_Master_01",
+     "Report_Name": "Get_Master_User_Dropdown"
+    }
+    this.apicall.GetData(obj).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
+     this.EmployeeusernameList = data;
+      console.log('EmployeeusernameList=====',this.EmployeeusernameList)
+      //this.seachSpinner = false;
+    })
+}
+ExternalInternalChange(){
+  if(this.objVerificationReport.ExternalInternal){
+      this.addVerificationReportList = [];
+      this.VerificationReportFormSubmit = false;
+      let Extrnal  = this.objVerificationReport.ExternalInternal;
+      this.objVerificationReport = new VerificationReport();
+      this.objVerificationReport.ExternalInternal = Extrnal;
+  }
+}
+saveCustomerCreation(valid:any){
+ this.customerFormSubmitted = true;
+ if(valid){
+   console.log("Save",this.objcustomer);
+ }
+}
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

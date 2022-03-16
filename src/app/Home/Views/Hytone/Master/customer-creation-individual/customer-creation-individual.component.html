@@ -92,8 +92,8 @@
                                                       [ngClass]="{'clearance': AddressFormSubmitted && Police_Station?.errors?.required}" 
                                                       required>
                                                       <option [ngValue]="undefined">Select</option>
-                                                      <option *ngFor="let option of PoliceStationList" value="{{option.Client_ID}}">
-                                                        {{option.Client_Name}}
+                                                      <option *ngFor="let option of PoliceStationList" value="{{option.Police_Station_ID}}">
+                                                        {{option.Police_Station_Name}}
                                                       </option>
                                                     </select>
                                                  </div>
@@ -106,11 +106,12 @@
                                                 name="Post_Office" 
                                                 #Post_Office="ngModel"
                                                   [(ngModel)]="objaddress.Post_Office_ID" 
+                                                  (change)="getPincode()"
                                                   [ngClass]="{'clearance': AddressFormSubmitted && Post_Office?.errors?.required}" 
                                                   required>
                                                   <option [ngValue]="undefined">Select</option>
-                                                  <option *ngFor="let option of PoliceStationList" value="{{option.Client_ID}}">
-                                                    {{option.Client_Name}}
+                                                  <option *ngFor="let option of PostOfficeList" value="{{option.Post_Office_ID}}">
+                                                    {{option.Post_Office_Name}}
                                                   </option>
                                                 </select>
                                             </div>
@@ -123,8 +124,8 @@
                                                       [ngClass]="{'clearance': AddressFormSubmitted && Pincode?.errors?.required}" 
                                                       required>
                                                       <option [ngValue]="undefined">Select</option>
-                                                      <option *ngFor="let option of pincodeList" value="{{option.Client_ID}}">
-                                                        {{option.Client_Name}}
+                                                      <option *ngFor="let option of pincodeList" value="{{option.Pincode_ID}}">
+                                                        {{option.Pincode}}
                                                       </option>
                                                     </select>
                                                 </div>
@@ -145,18 +146,22 @@
                                     <p-table [value]="addressList" dataKey="id">
                                       <ng-template pTemplate="header">
                                         <tr>
-                                          <th>Name</th>
-                                          <th>Phone Number</th>
-                                          <th>Email Id</th>
+                                          <th>Type</th>
+                                          <th>Address Line</th>
+                                          <th>Police Station</th>
+                                          <th>Post Office</th>
+                                          <th>Pincode</th>
                                           <th></th>
                                         </tr>
                                       </ng-template>
                                       <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
                                         <tr class="p-selectable-row">
-                                          <td>{{col.name}}</td>
-                                          <td>{{col.phone}}</td>
-                                          <td>{{col.email}}</td>
-                                           <td><a (click)="DeleteContact(rowIndex)">
+                                          <td>{{col.Address_Type}}</td>
+                                          <td>{{col.Address}}</td>
+                                          <td>{{col.Police_Station_Name}}</td>
+                                          <td>{{col.Post_Office_Name}}</td>
+                                          <td>{{col.Pincode}}</td>
+                                           <td><a (click)="DeleteContact(rowIndex,'Address')">
                                               <div><i class="fa fa-fw fa-trash"> </i></div>
                                             </a></td>
                                         </tr>
@@ -440,7 +445,7 @@
                                         name="Driving_License" 
                                         #Driving_License="ngModel" 
                                         [(ngModel)]="objcustomer.Driving_License" 
-                                        placeholder="Mriving Number" 
+                                        placeholder="Driving Number" 
                                        >
                                       </div>
                                       <div class="col-sm-4">
@@ -593,7 +598,8 @@
                                           <select class="form-control" 
                                           name="Bank_ID" 
                                           #Bank_ID="ngModel"
-                                            [(ngModel)]="objbank.Bank_ID" 
+                                            [(ngModel)]="objbank.Bank_ID"
+                                            (change)="getIFSC()"
                                             [ngClass]="{'clearance': BankFormSubmitted && Bank_ID?.errors?.required}" 
                                             required>
                                             <option [ngValue]="undefined">Select</option>
@@ -607,7 +613,7 @@
                                             <input class="form-control" 
                                             name="Account_No" 
                                             #Account_No="ngModel" 
-                                            [(ngModel)]="objbank.Account_No" 
+                                            [(ngModel)]="objbank.Account_No"
                                             placeholder="Account No" 
                                             [ngClass]="{'clearance': BankFormSubmitted && Account_No.errors?.required}" 
                                             required>
@@ -615,14 +621,15 @@
                                         <div class="col-sm-3">
                                           <label class="control-label">IFS Code<sup class="text-danger">*</sup></label>
                                           <select class="form-control" 
-                                          name="IFSC_ID" 
-                                          #IFSC_ID="ngModel"
-                                            [(ngModel)]="objbank.IFSC_ID" 
+                                            name="IFSC_ID" 
+                                            #IFSC_ID="ngModel"
+                                            [(ngModel)]="objbank.IFSC_ID"
+                                            (change)="getBranchName()"
                                             [ngClass]="{'clearance': BankFormSubmitted && IFSC_ID?.errors?.required}" 
                                             required>
                                             <option [ngValue]="undefined">Select</option>
                                             <option *ngFor="let option of IFSCList" value="{{option.IFSC_ID}}">
-                                              {{option.Cust_Type}}
+                                              {{option.IFSC_Code}}
                                             </option>
                                           </select>
                                         </div>
@@ -633,7 +640,8 @@
                                           #Branch_Name="ngModel" 
                                           [(ngModel)]="objbank.Branch_Name" 
                                           placeholder="Branch Name" 
-                                          [ngClass]="{'clearance': BankFormSubmitted && Branch_Name.errors?.required}" 
+                                          [ngClass]="{'clearance': BankFormSubmitted && Branch_Name.errors?.required}"
+                                          disabled 
                                           required>
                                         </div>
                                       </div>
@@ -659,11 +667,11 @@
                                       </ng-template>
                                       <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
                                         <tr class="p-selectable-row">
-                                          <td>{{col.name}}</td>
-                                          <td>{{col.phone}}</td>
-                                          <td>{{col.email}}</td>
-                                          <td>{{col.email}}</td>
-                                           <td><a (click)="DeleteContact(rowIndex)">
+                                          <td>{{col.Bank_Name}}</td>
+                                          <td>{{col.Account_No}}</td>
+                                          <td>{{col.IFSC_Code}}</td>
+                                          <td>{{col.Branch_Name}}</td>
+                                           <td><a (click)="DeleteContact(rowIndex,'Bank_Details')">
                                               <div><i class="fa fa-fw fa-trash"> </i></div>
                                             </a></td>
                                         </tr>
@@ -778,9 +786,12 @@
                                                 <div class="p-inputgroup">
                                                  <select 
                                                     name="Mother_Status" 
-                                                    #Father_Status="ngModel"
-                                                      [(ngModel)]="objcustomer.Mother_Status" 
-                                                     >
+                                                    #Mother_Status="ngModel"
+                                                      [(ngModel)]="objcustomer.Mother_Status"
+                                                      [ngClass]="{'clearance': motherDetalisFormSubmit && Mother_Status.errors?.required}" 
+                                                      [disabled]="addMotherDetalisList.length"
+                                                      required
+                                                      >
                                                       <option [ngValue]="undefined">Select</option>
                                                       <option value="Alive">
                                                         Late
@@ -793,7 +804,10 @@
                                                     name="Mother_Name" 
                                                     #Mother_Name="ngModel" 
                                                     [(ngModel)]="objcustomer.Mother_Name" 
-                                                    placeholder="Mother Name" 
+                                                    placeholder="Mother Name"
+                                                    [ngClass]="{'clearance': motherDetalisFormSubmit && Mother_Name.errors?.required}" 
+                                                    [disabled]="addMotherDetalisList.length" 
+                                                    required
                                                     >   
                                               </div>
                                               </div>
@@ -814,6 +828,7 @@
                                                 #Mother_Phone_No="ngModel" 
                                                 [(ngModel)]="objMotherDetails.Mother_Phone_No" 
                                                 placeholder="Phone Number"
+                                                CompacctDigitonly="true"
                                                 maxlength="10"
                                                 minlength="10"
                                                 [ngClass]="{'clearance': motherDetalisFormSubmit && Mother_Phone_No.errors?.required}" 
@@ -840,9 +855,9 @@
                                       </ng-template>
                                       <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
                                         <tr class="p-selectable-row">
-                                          <td>{{col.name}}</td>
-                                          <td>{{col.phone}}</td>
-                                           <td><a (click)="DeleteContact(rowIndex)">
+                                          <td>{{col.Mother_Adress}}</td>
+                                          <td>{{col.Mother_Phone_No}}</td>
+                                           <td><a (click)="DeleteContact(rowIndex,'Mother_Detalis')">
                                               <div><i class="fa fa-fw fa-trash"> </i></div>
                                             </a></td>
                                         </tr>
@@ -865,7 +880,10 @@
                                                  <select 
                                                     name="Marital_Status" 
                                                     #Marital_Status="ngModel"
-                                                      [(ngModel)]="objcustomer.Marital_Status" 
+                                                      [(ngModel)]="objcustomer.Marital_Status"
+                                                      [ngClass]="{'clearance': SpouseDetalisFormSubmit && Marital_Status.errors?.required}" 
+                                                      [disabled]="addSpouseDetalisList.length"
+                                                      required
                                                      >
                                                       <option [ngValue]="undefined">Select</option>
                                                       <option value="Married">
@@ -879,7 +897,10 @@
                                                     name="Spouse_Name" 
                                                     #Spouse_Name="ngModel" 
                                                     [(ngModel)]="objcustomer.Spouse_Name" 
-                                                    placeholder="Spouse Name" 
+                                                    placeholder="Spouse Name"
+                                                    [ngClass]="{'clearance': SpouseDetalisFormSubmit && Spouse_Name.errors?.required}" 
+                                                    [disabled]="addSpouseDetalisList.length"
+                                                    required
                                                     >   
                                               </div>
                                               </div>
@@ -900,6 +921,7 @@
                                                 #Spouse_Phone_No="ngModel" 
                                                 [(ngModel)]="objSpouseDetails.Spouse_Phone_No" 
                                                 placeholder="Phone Number"
+                                                CompacctDigitonly="true"
                                                 maxlength="10"
                                                 minlength="10"
                                                 [ngClass]="{'clearance': SpouseDetalisFormSubmit && Spouse_Phone_No.errors?.required}" 
@@ -926,9 +948,9 @@
                                       </ng-template>
                                       <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
                                         <tr class="p-selectable-row">
-                                          <td>{{col.name}}</td>
-                                          <td>{{col.phone}}</td>
-                                           <td><a (click)="DeleteContact(rowIndex)">
+                                          <td>{{col.Address}}</td>
+                                          <td>{{col.Spouse_Phone_No}}</td>
+                                           <td><a (click)="DeleteContact(rowIndex,'Spouse_Details')">
                                               <div><i class="fa fa-fw fa-trash"> </i></div>
                                             </a></td>
                                         </tr>
@@ -952,8 +974,6 @@
                                                 #Reference_Name="ngModel" 
                                                 [(ngModel)]="objReference.Reference_Name" 
                                                 placeholder="Reference Name"
-                                                maxlength="10"
-                                                minlength="10"
                                                 [ngClass]="{'clearance': ReferenceFormSubmit && Reference_Name.errors?.required}" 
                                                 required>
                                               </div>
@@ -967,7 +987,7 @@
                                                   required>
                                                   <option [ngValue]="undefined">Select</option>
                                                   <option *ngFor="let option of RelationList" value="{{option.Relation_ID}}">
-                                                    {{option.Cust_Type}}
+                                                    {{option.Relation_Name}}
                                                   </option>
                                                 </select>
                                               </div>
@@ -978,8 +998,7 @@
                                                 #Reference_Address="ngModel" 
                                                 [(ngModel)]="objReference.Address" 
                                                 placeholder="Reference Address"
-                                                maxlength="10"
-                                                minlength="10"
+                                                
                                                 [ngClass]="{'clearance': ReferenceFormSubmit && Reference_Address.errors?.required}" 
                                                 required>
                                               </div>
@@ -990,6 +1009,7 @@
                                                 #Reference_Phone_No="ngModel" 
                                                 [(ngModel)]="objReference.Phone_No" 
                                                 placeholder="Reference Phone No"
+                                                CompacctDigitonly="true"
                                                 maxlength="10"
                                                 minlength="10"
                                                 [ngClass]="{'clearance': ReferenceFormSubmit && Reference_Phone_No.errors?.required}" 
@@ -1018,11 +1038,11 @@
                                       </ng-template>
                                       <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
                                         <tr class="p-selectable-row">
-                                          <td>{{col.name}}</td>
-                                          <td>{{col.phone}}</td>
-                                          <td>{{col.name}}</td>
-                                          <td>{{col.phone}}</td>
-                                           <td><a (click)="DeleteContact(rowIndex)">
+                                          <td>{{col.Reference_Name}}</td>
+                                          <td>{{col.Relation_Name}}</td>
+                                          <td>{{col.Address}}</td>
+                                          <td>{{col.Phone_No}}</td>
+                                           <td><a (click)="DeleteContact(rowIndex,'Reference')">
                                               <div><i class="fa fa-fw fa-trash"> </i></div>
                                             </a></td>
                                         </tr>
@@ -1049,7 +1069,7 @@
                                                   required>
                                                   <option [ngValue]="undefined">Select</option>
                                                   <option *ngFor="let option of AssetList" value="{{option.Asset_ID}}">
-                                                    {{option.Cust_Type}}
+                                                    {{option.Asset_Name}}
                                                   </option>
                                                 </select>
                                               </div>
@@ -1087,10 +1107,10 @@
                                       </ng-template>
                                       <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
                                         <tr class="p-selectable-row">
-                                          <td>{{col.name}}</td>
-                                          <td>{{col.phone}}</td>
+                                          <td>{{col.Asset_Name}}</td>
+                                          <td>{{col.Asset_value}}</td>
                                           
-                                           <td><a (click)="DeleteContact(rowIndex)">
+                                           <td><a (click)="DeleteContact(rowIndex,'Asset')">
                                               <div><i class="fa fa-fw fa-trash"> </i></div>
                                             </a></td>
                                         </tr>
@@ -1151,10 +1171,10 @@
                                       </ng-template>
                                       <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
                                         <tr class="p-selectable-row">
-                                          <td>{{col.name}}</td>
-                                          <td>{{col.phone}}</td>
+                                          <td>{{col.CIC_Name}}</td>
+                                          <td>{{col.Score}}</td>
                                           
-                                           <td><a (click)="DeleteContact(rowIndex)">
+                                           <td><a (click)="DeleteContact(rowIndex,'Credit_Report')">
                                               <div><i class="fa fa-fw fa-trash"> </i></div>
                                             </a></td>
                                         </tr>
@@ -1166,7 +1186,7 @@
                                       </ng-template>
                                     </p-table>
                                   </div>
-                                  <form name="CreditReportForm" #CreditReportForm="ngForm" novalidate>
+                                  <form name="VerificationReportForm" #VerificationReportForm="ngForm" novalidate>
                                     <div class="panel panel-primary">
                                       <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Verification Report</div>
                                        <div class="panel-body">
@@ -1177,6 +1197,7 @@
                                               name="ExternalInternal" 
                                               #ExternalInternal="ngModel"
                                                 [(ngModel)]="objVerificationReport.ExternalInternal" 
+                                                (change)="ExternalInternalChange()"
                                                 [ngClass]="{'clearance': VerificationReportFormSubmit && ExternalInternal?.errors?.required}" 
                                                 required>
                                                 <option [ngValue]="undefined">Select</option>
@@ -1189,16 +1210,16 @@
                                               </select>
                                               </div>
                                               <div class="col-sm-3" *ngIf="objVerificationReport.ExternalInternal === 'External'">
-                                                <label class="control-label">Asset Name<sup class="text-danger">*</sup></label>
+                                                <label class="control-label">Agency Name<sup class="text-danger">*</sup></label>
                                                 <select class="form-control" 
-                                                name="Agent_name" 
-                                                #Agent_name="ngModel"
+                                                name="Agency_Name" 
+                                                #Agency_Name="ngModel"
                                                   [(ngModel)]="objVerificationReport.Agent_ID" 
-                                                  [ngClass]="{'clearance': VerificationReportFormSubmit && Agent_name?.errors?.required}" 
-                                                  required>
+                                                  [ngClass]="{'clearance': VerificationReportFormSubmit && Agency_Name?.errors?.required}" 
+                                                  [required]="objVerificationReport.ExternalInternal === 'External'">
                                                   <option [ngValue]="undefined">Select</option>
                                                   <option *ngFor="let option of AgencyList" value="{{option.Agent_ID}}">
-                                                    {{option.Cust_Type}}
+                                                    {{option.Name}}
                                                   </option>
                                                 </select>
                                               </div>
@@ -1210,7 +1231,7 @@
                                                 [(ngModel)]="objVerificationReport.Report_Reference_No" 
                                                 placeholder="Report Reference No"
                                                [ngClass]="{'clearance': VerificationReportFormSubmit && Report_Reference_No.errors?.required}" 
-                                                required>
+                                                [required]="objVerificationReport.ExternalInternal === 'External'">
                                               </div>
                                               <div class="col-sm-3" *ngIf="objVerificationReport.ExternalInternal === 'Internal'">
                                                 <label class="control-label">Employee username<sup class="text-danger">*</sup></label>
@@ -1219,10 +1240,10 @@
                                                 #Employeeusername="ngModel"
                                                   [(ngModel)]="objVerificationReport.User_ID" 
                                                   [ngClass]="{'clearance': VerificationReportFormSubmit && Employeeusername?.errors?.required}" 
-                                                  required>
+                                                  [required]="objVerificationReport.ExternalInternal === 'Internal'">
                                                   <option [ngValue]="undefined">Select</option>
                                                   <option *ngFor="let option of EmployeeusernameList" value="{{option.User_ID}}">
-                                                    {{option.Cust_Type}}
+                                                    {{option.User_Name}}
                                                   </option>
                                                 </select>
                                               </div>
@@ -1233,7 +1254,7 @@
                                             </div>
                                             <button class="btn btn-primary pull-right" 
                                                 style="margin-top: 15px;"
-                                                (click)="addCreditReport(CreditReportForm.form.valid)" 
+                                                (click)="addVerificationReport(VerificationReportForm.form.valid)" 
                                                >
                                                 Add
                                               </button>
@@ -1253,11 +1274,11 @@
                                       </ng-template>
                                       <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
                                         <tr class="p-selectable-row">
-                                          <td *ngIf="objVerificationReport.ExternalInternal === 'External'">{{col.name}}</td>
-                                          <td *ngIf="objVerificationReport.ExternalInternal === 'External'">{{col.phone}}</td>
-                                          <td *ngIf="objVerificationReport.ExternalInternal === 'Internal'">{{col.phone}}</td>
-                                          <td >{{col.phone}}</td>
-                                           <td><a (click)="DeleteContact(rowIndex)">
+                                          <td *ngIf="objVerificationReport.ExternalInternal === 'External'">{{col.Agent_Name}}</td>
+                                          <td *ngIf="objVerificationReport.ExternalInternal === 'External'">{{col.Report_Reference_No}}</td>
+                                          <td *ngIf="objVerificationReport.ExternalInternal === 'Internal'">{{col.User_Name}}</td>
+                                          <td >{{col.Verification_Date | date: "dd/MMM/yyyy"}}</td>
+                                           <td><a (click)="DeleteContact(rowIndex,'Verification_Report')">
                                               <div><i class="fa fa-fw fa-trash"> </i></div>
                                             </a></td>
                                         </tr>
@@ -1269,6 +1290,12 @@
                                       </ng-template>
                                     </p-table>
                                   </div>
+                                  <div class="box-footer ">
+                                    <button class="btn btn-primary pull-right" style="margin-top: 15px;" (click)="saveCustomerCreation(customerForm.form.valid)" id="load" [disabled]="Spinner">
+                                                    <p-progressSpinner *ngIf="Spinner" [style]="{width: '15px', height: '15px'}" strokeWidth="8"  animationDuration=".5s"></p-progressSpinner>
+                                                <span *ngIf="!Spinner" class="glyphicon glyphicon-save"></span>{{buttonname}}
+                                        </button>
+                                </div>
                               </form>
                         </p-tabPanel>
                         </p-tabView>
