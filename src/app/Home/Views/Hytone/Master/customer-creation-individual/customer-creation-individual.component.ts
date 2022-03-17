@@ -85,6 +85,7 @@ export class CustomerCreationIndividualComponent implements OnInit {
   addPhoneList:any = [];
   addEmailIdList:any = [];
   PostOfficeList:any = [];
+  GetAlldataList:any = [];
   constructor(private apicall : ApiService,
     private $http: HttpClient,
     private Header: CompacctHeader,
@@ -107,6 +108,7 @@ export class CustomerCreationIndividualComponent implements OnInit {
     this.getAsset();
     this.getAgency();
     this.getUser();
+    this.GetBrowseData();
   }
   getEventValue($event:any) :string {
     return $event.target.value;
@@ -118,7 +120,50 @@ export class CustomerCreationIndividualComponent implements OnInit {
     this.clearData();
    }
    clearData(){
-     
+    this.customerFormSubmitted = false;
+    this.AddressFormSubmitted = false;
+    this.OccupationFormSubmitted = false;
+    this.DependentFormSubmitted = false;
+    this.OtheraddressFormSubmitted = false;
+    this.DocumentFormSubmitted = false;
+    this.BankFormSubmitted = false;
+    this.phoneFormSubmitted = false;
+    this.emailIdFormSubmitted = false;
+    this.VerificationReportFormSubmit = false;
+    this.fatherDetalisFormSubmit = false;
+    this.addFatherDetalis=[];
+    this.motherDetalisFormSubmit = false;
+    this.addMotherDetalisList=[];
+    this.SpouseDetalisFormSubmit = false;
+    this.addSpouseDetalisList = [];
+    this.ReferenceFormSubmit = false;
+    this.addReferenceList = [];
+    this.assetDetalisFormSubmit = false;
+    this.addAssetList =[];
+    this.CreditReportFormsubmit = false;
+    this.addCreditReportList = [];
+    this.objcustomer = new customer();
+    this.objaddress = new address();
+    this.objasset = new asset();
+    this.objbank = new bank();
+    this.objDependent= new Dependent();
+    this.objFatherDetails = new FatherDetails();
+    this.objMotherDetails = new MotherDetails();
+    this.objDocument = new Document();
+    this.objReference = new Reference();
+    this.objSpouseDetails = new SpouseDetails();
+    this.objVerificationReport = new VerificationReport();
+    this.objCreditReport = new CreditReport();
+    this.VerificationDate = new Date();
+    this.Spinner = false;
+    this.addVerificationReportList = [];
+    this.addBankList = [];
+    this.AddOtheraddressList = [];
+    this.DependentAddList = [];
+    this.OccupationAddList = [];
+    this.addEmailIdList = [];
+    this.addPhoneList = [];
+    this.addressList = [];
    }
    onReject(){
     this.compacctToast.clear("c");
@@ -157,7 +202,7 @@ export class CustomerCreationIndividualComponent implements OnInit {
     this.phoneFormSubmitted = true;
     if(valid){
       this.addPhoneList.push({
-        phone:this.PhoneNumber
+        Mobile_No:this.PhoneNumber
       })
       this.PhoneNumber = undefined;
       this.phoneFormSubmitted = false;
@@ -167,10 +212,11 @@ export class CustomerCreationIndividualComponent implements OnInit {
     this.emailIdFormSubmitted = true;
     if(valid){
       this.addEmailIdList.push({
-        Email:this.emailId
+        Email_ID:this.emailId
       })
       this.emailId = undefined;
       this.emailIdFormSubmitted = false;
+      console.log("addEmailIdList",this.addEmailIdList);
     }
   }
   
@@ -230,7 +276,8 @@ export class CustomerCreationIndividualComponent implements OnInit {
    if(valid){
      const tempGetOccupationname = this.OccupationList.filter((el:any)=> Number(el.Occupation_ID) === Number(this.OccupationID))
     this.OccupationAddList.push({
-      Occupation_name: tempGetOccupationname[0].Occupation_Name
+      Occupation_name: tempGetOccupationname[0].Occupation_Name,
+      Occupation_ID: this.OccupationID
     })
     this.OccupationFormSubmitted = false;
     this.OccupationID = undefined;
@@ -402,6 +449,7 @@ export class CustomerCreationIndividualComponent implements OnInit {
     let Extrnal  = this.objVerificationReport.ExternalInternal;
     this.objVerificationReport = new VerificationReport();
     this.objVerificationReport.ExternalInternal = Extrnal;
+    this.VerificationDate = new Date();
    }
    }
   getType(){
@@ -570,8 +618,239 @@ ExternalInternalChange(){
 saveCustomerCreation(valid:any){
  this.customerFormSubmitted = true;
  if(valid){
+   let meg = "Create"
+  this.Spinner = true;
+    if(!this.addressList.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message",
+            detail: "Enter minimum one Address Detalis"
+          });
+      return
+    }
+    if(!this.addAssetList.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message",
+            detail: "Enter minimum one Asset Detalis"
+          });
+      return
+    }
+    if(!this.addBankList.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message",
+            detail: "Enter minimum one Bank Detalis"
+          });
+      return
+    }
+    if(!this.addPhoneList.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message",
+            detail: "Enter minimum one Phone Number"
+          });
+      return
+    }
+    if(!this.DependentAddList.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message", 
+            detail: "Enter minimum one Dependent Detalis"
+          });
+      return
+    }
+    if(!this.addEmailIdList.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message", 
+            detail: "Enter minimum one Email Id"
+          });
+      return
+    }
+    if(!this.addFatherDetalis.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message", 
+            detail: "Enter minimum Father Detalis"
+          });
+      return
+    }
+    if(!this.addMotherDetalisList.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message", 
+            detail: "Enter minimum  Mother Detalis"
+          });
+      return
+    }
+    if(!this.OccupationAddList.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message", 
+            detail: "Enter minimum one Occupation Detalis"
+          });
+      return
+    }
+    if(!this.AddOtheraddressList.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message", 
+            detail: "Enter minimum one Other Address"
+          });
+      return
+    }
+    if(!this.addDocumentList.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message", 
+            detail: "Enter minimum Document Detalis"
+          });
+      return
+    }
+    if(!this.addReferenceList.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message", 
+            detail: "Enter minimum Reference Detalis"
+          });
+      return
+    }
+    if(!this.addSpouseDetalisList.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message", 
+            detail: "Enter minimum Spouse Detalis"
+          });
+      return
+    }
+    if(!this.addVerificationReportList.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message", 
+            detail: "Enter minimum Verification Report"
+          });
+      return
+    }
+    if(!this.addCreditReportList.length){
+      this.Spinner = false;
+      this.compacctToast.clear();
+          this.compacctToast.add({
+            key: "compacct-toast",
+            severity: "error",
+            summary: "Warn Message", 
+            detail: "Enter minimum Credit Report"
+          });
+      return
+    }
+    this.objcustomer.Ad = this.addressList;
+   this.objcustomer.Asset = this.addAssetList;
+   this.objcustomer.Bank = this.addBankList;
+   this.objcustomer.Contact = this.addPhoneList;
+   this.objcustomer.Dependent = this.DependentAddList;
+   this.objcustomer.Email = this.addEmailIdList;
+   this.objcustomer.Father = this.addFatherDetalis;
+   this.objcustomer.Mother = this.addMotherDetalisList;
+   this.objcustomer.Occupation = this.OccupationAddList;
+   this.objcustomer.Other_A = this.AddOtheraddressList;
+   this.objcustomer.Other_D = this.addDocumentList;
+   this.objcustomer.Ref =this.addReferenceList;
+   this.objcustomer.Spouse = this.addSpouseDetalisList;
+   this.objcustomer.V_rep = this.addVerificationReportList;
+   this.objcustomer.CIC = this.addCreditReportList;
+   this.objVerificationReport.Verification_Date = this.DateService.dateTimeConvert(new Date(this.VerificationDate))
    console.log("Save",this.objcustomer);
+   const ParamObj:any = {
+    "Sp_Name":"SP_Master_01",
+    "Report_Name":"Add_Master_Customer_Data"
+  }
+  this.apicall.PostData(ParamObj,JSON.stringify(this.objcustomer)).subscribe((data:any)=>{
+    console.log("Save",data);
+    if (data[0].Column1) {
+      this.compacctToast.clear();
+      this.compacctToast.add({
+        key: "compacct-toast",
+        severity: "success",
+        summary: "Master Customar Type",
+        detail: "Succesfully "+meg
+      });
+      this.GetBrowseData();
+      this.clearData();
+    }
+  })
  }
+ else{
+  this.compacctToast.clear();
+  this.compacctToast.add({
+    key: "compacct-toast",
+    severity: "error",
+    summary: "Warn Message",
+    detail: "Error Occured "
+  });
+ }
+}
+GetBrowseData(){
+  //this.Searchlist = []
+  const obj = {
+    "Sp_Name": "SP_Master_01",
+    "Report_Name": "Browse_Master_Customer_Data"
+   }
+   this.apicall.GetData(obj).subscribe((data:any)=>{
+    this.GetAlldataList = data;
+     console.log('GetAlldataList=====',this.GetAlldataList)
+     //this.seachSpinner = false;
+   })
+}
+EditProduct(col:any){
+
+}
+Active(col:any){
+
+}
+Inactive(col:any){
+
 }
   ngOnDestroy() {
     this.destroy$.next(true);
@@ -579,6 +858,7 @@ saveCustomerCreation(valid:any){
   }
 }
 class customer{
+  Customer_Type:any = "Individual";
   Name:any;								
   Alias_Name:any;							
   Monthly_Income:any;						
@@ -593,6 +873,21 @@ class customer{
   Mother_Name	:any;					
   Marital_Status:any;					
   Spouse_Name:any;
+  Ad:any;
+  Asset:any;
+  Bank:any;
+  Contact:any;
+  Dependent:any;
+  Email:any;
+  Father:any;
+  Mother:any;
+  Occupation:any;
+  Other_A:any;
+  Other_D:any;
+  Ref:any;
+  Spouse:any;
+  V_rep:any;
+  CIC:any;
 }
 class address{
   Customer_ID:any
