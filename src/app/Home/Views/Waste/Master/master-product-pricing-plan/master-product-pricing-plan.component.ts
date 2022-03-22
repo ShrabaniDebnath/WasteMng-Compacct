@@ -207,6 +207,8 @@ export class MasterProductPricingPlanComponent implements OnInit {
             this.GetBrowseData();
             this.ShowPlanSubmitted = false;
             this.Spinner = false;
+            this.items = ["BROWSE", "CREATE"];
+            this.buttonname = "Create";
         } else {
           this.compacctToast.clear();
           this.compacctToast.add({

@@ -17,7 +17,9 @@ import { CookieService } from 'ngx-cookie-service';
   declarations: [
     AppComponent,
     LoginComponent,
-   ],
+    
+  
+    ],
   imports: [
     BrowserModule,
     HttpClientModule,

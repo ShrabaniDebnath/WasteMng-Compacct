@@ -47,7 +47,9 @@
                   <ng-template pTemplate="header">
                     <tr>
                       <th style="width:5em">Action</th>
+                      <th>Client ID</th>
                       <th>Client Name</th>
+                      <th>Sub Client ID</th>
                       <th>Sub Client Name</th>
                       <th>Address</th>
                       <th>Flat No</th>
@@ -84,13 +86,15 @@
                           </ul>
                         </div>
                       </td>
+                      <td>{{col.Client_ID}}</td>
                       <td>{{col.Client_Name}}</td>
+                      <td>{{col.Sub_Client_ID}}</td>
                       <td>{{col.Sub_Client_Name}}</td>
                       <td>{{col.Sub_Client_Address}}</td>
                       <td>{{col.Sub_Client_Flat_No}}</td>
                       <td>{{col.Sub_Client_Pincode}}</td>
                       <td>{{col.Sub_Client_Tower}}</td>
-                      <td>{{col.Product_Name}}</td>
+                      <td>{{col.Plan_Name}}</td>
 
                     </tr>
                   </ng-template>
@@ -120,7 +124,8 @@
                     <label class="control-label">Name<sup class="text-danger">*</sup></label>
                     <input class="form-control" name="Sub_Client_Name" #Sub_Client_Name="ngModel"
                       [(ngModel)]="objsubClient.Sub_Client_Name" placeholder="Name"
-                      [ngClass]="{'clearance': mastersubClientSubmit && Sub_Client_Name?.errors?.required}" required>
+                      pattern="[a-zA-Z ]*"
+                      [ngClass]="{'clearance':mastersubClientSubmit && (Sub_Client_Name?.errors?.required || Sub_Client_Name?.errors?.pattern ) }" required>
                   </div>
                   <div class="col-sm-4" *ngIf="addressCheckHou">
                     <label class="control-label">Tower <sup class="text-danger">*</sup></label>
@@ -164,9 +169,14 @@
                   </div>
                   <div class="col-sm-4">
                     <label class="control-label">Google Map Links <sup class="text-danger">*</sup></label>
-                    <input class="form-control" name="Google_Maps_Link " #Google_Maps_Link="ngModel"
-                      [(ngModel)]="objsubClient.Google_Maps_Link" placeholder="Google Maps Link"
-                      [ngClass]="{'clearance': mastersubClientSubmit && Google_Maps_Link ?.errors?.required}" required
+                    <input class="form-control" 
+                      name="Google_Maps_Link" 
+                      #Google_Maps_Link="ngModel"
+                      type="url"
+                      [(ngModel)]="objsubClient.Google_Maps_Link" 
+                      placeholder="Google Maps Link"
+                      (change)="ChangeMapLink()"
+                      [ngClass]="{'clearance':mastersubClientSubmit && (Google_Maps_Link?.errors?.required || (!ChangeMapLink()) ) }"  required
                       [disabled]="addressCheckHou">
                   </div>
                   <div class="col-sm-6">
@@ -206,14 +216,18 @@
                   <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Contact Person</div>
                   <div class="panel-body">
                     <div class="form-group">
-                      <div class="col-sm-4">
+                      <div class="col-sm-3">
                         <label class="control-label">Name<sup class="text-danger">*</sup></label>
-                        <input class="form-control" name="Contact_Name" #Contact_Name="ngModel"
-                          [(ngModel)]="ObjcontactPerson.Contact_Name" placeholder="Contact Name"
-                          [ngClass]="{'clearance': masterClientContactSubmit && Contact_Name?.errors?.required}"
+                        <input class="form-control" 
+                        name="Contact_Name" 
+                        #Contact_Name="ngModel"
+                          [(ngModel)]="ObjcontactPerson.Contact_Name" 
+                          placeholder="Contact Name"
+                          pattern="[a-zA-Z ]*"
+                          [ngClass]="{'clearance':masterClientContactSubmit && (Contact_Name?.errors?.required || Contact_Name?.errors?.pattern ) }" 
                           required>
                       </div>
-                      <div class="col-sm-4">
+                      <div class="col-sm-3">
                         <label class="control-label">Phone Number<sup class="text-danger">*</sup></label>
                         <input class="form-control" name="Contact_Phone_No" #Contact_Phone_No="ngModel"
                           [(ngModel)]="ObjcontactPerson.Contact_Phone_No" placeholder="Phone Number" maxlength="10"
@@ -222,13 +236,27 @@
                           [ngClass]="{'clearance': masterClientContactSubmit && Contact_Phone_No?.errors?.required}"
                           required>
                       </div>
-                      <div class="col-sm-4">
+                      <div class="col-sm-3">
                         <label class="control-label">Email id<sup class="text-danger">*</sup></label>
-                        <input class="form-control" name="Contact_Email_Id" #Contact_Email_Id="ngModel"
-                          [(ngModel)]="ObjcontactPerson.Contact_Email_Id" placeholder="Email id"
-                          [ngClass]="{'clearance': masterClientContactSubmit && Contact_Email_Id?.errors?.required}"
+                        <input class="form-control" 
+                        name="Contact_Email_Id" 
+                        #Contact_Email_Id="ngModel"
+                          [(ngModel)]="ObjcontactPerson.Contact_Email_Id" 
+                          placeholder="Email id"
+                          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                          [ngClass]="{'clearance':masterClientContactSubmit && (Contact_Email_Id?.errors?.required || Contact_Email_Id?.errors?.pattern ) }" 
                           required>
                       </div>
+                      <div class="col-sm-3" *ngIf="addressCheckCor">
+                        <label class="control-label">Designation<sup class="text-danger">*</sup></label>
+                                    <input class="form-control"
+                                            name="Designation" 
+                                            #Designation="ngModel" 
+                                            [(ngModel)]="ObjcontactPerson.Designation" 
+                                            placeholder="Designation" 
+                                            [ngClass]="{'clearance': masterClientContactSubmit && Designation?.errors?.required}" 
+                                            required>
+                    </div>
                       <div class="box-footer ">
                         <button class="btn btn-primary pull-right" style="margin-top: 15px;"
                           (click)="addPerson(masterClientContactForm.form.valid)" id="load" [disabled]="Spinner">
@@ -248,6 +276,7 @@
                       <th>Name</th>
                       <th>Phone Number</th>
                       <th>Email Id</th>
+                      <th *ngIf="addressCheckCor">Designation</th> 
                       <th></th>
                     </tr>
                   </ng-template>
@@ -256,6 +285,7 @@
                       <td>{{col.name}}</td>
                       <td>{{col.phone}}</td>
                       <td>{{col.email}}</td>
+                      <td *ngIf="addressCheckCor">{{col.Designation}}</td>
                       <td><a (click)="DeleteContact(rowIndex)">
                           <div><i class="fa fa-fw fa-trash"> </i></div>
                         </a></td>

@@ -35,8 +35,8 @@ export class MasterBankComponent implements OnInit {
 
   ngOnInit(): void {
     this.Header.pushHeader({
-      Header: "Master Document",
-      Link: " Master Document"
+      Header: "Master Bank",
+      Link: " Master Bank"
     });
     this.items = ["BROWSE", "CREATE"];
     this.GetBrowseData();

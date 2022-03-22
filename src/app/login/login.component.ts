@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit {
      }
      this.apicall.GetData(ParamObj).subscribe((data:any)=>{
       this.finList = data;
+      console.log("data",data);
       console.log(this.finList);
       console.log(this.finList.length - 1);
       this.finYear = this.finList[this.finList.length - 1].Fin_Year_ID

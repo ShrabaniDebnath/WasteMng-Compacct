@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
 import { CompacctHeader } from 'src/app/Service/common.header.service';
 declare var $: any;
 
@@ -7,7 +7,7 @@ declare var $: any;
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css']
 })
-export class layoutComponent  implements AfterViewInit  {
+export class layoutComponent  implements AfterContentChecked  {
   CompacctHeaderTemplate: any = undefined;
   constructor(
     private Header: CompacctHeader,
@@ -20,7 +20,7 @@ export class layoutComponent  implements AfterViewInit  {
        this.CompacctHeaderTemplate = value;
      });
     }
-    ngAfterViewInit() {
+    ngAfterContentChecked() {
       this.cdr.detectChanges();
     }
 }

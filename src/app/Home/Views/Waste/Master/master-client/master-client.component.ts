@@ -37,6 +37,7 @@ export class MasterClientComponent implements OnInit {
   tempDocumentArr = [];
   uploadedFiles: any[] = [];
   DocumentRemarks = "";
+  EditFlag = false;
   DocumentRemarksSubmit = false;
   ObjmasterClient: masterClient = new masterClient ();
   ObjcontactPerson: contactPerson = new contactPerson ();
@@ -196,7 +197,7 @@ onClear(e:any,file:any){
 // }
 saveMasterClient(valid:any){
 this.masterClientSubmit = true;
- if(valid){
+ if(valid && this.ChangeMapLink()){
    if(!this.ObjmasterClient.Alert_Manager_Whatsapp && !this.ObjmasterClient.Alert_Manager_Email && !this.ObjmasterClient.Alert_Manager_SMS){
     this.compacctToast.clear();
     this.compacctToast.add({
@@ -289,9 +290,12 @@ this.masterClientSubmit = true;
           this.addPersonList = [];
           this.masterClientSubmit = false;
           this.clientId = undefined;
+          this.EditFlag = false;
           this.ObjmasterClient = new masterClient();
           this.ObjcontactPerson = new contactPerson();
           this.GetAllBrowse();
+          this.items = ["BROWSE", "CREATE"];
+          this.buttonname = "Create";
           this.compacctToast.clear();
           this.compacctToast.add({
             key:"compacct-toast",
@@ -399,7 +403,7 @@ GetEditMasterclient(id:number){
    }
    this.apicall.PostData(ParamObj,JSON.stringify(savedata)).subscribe((data:any)=>{
      this.ObjmasterClient = data[0];
-     console.log("Edit",data);
+    console.log("Edit",data);
      console.log("ObjmasterClient",this.ObjmasterClient);
      data.forEach((ele:any) => {
         this.addPersonList.push({
@@ -464,7 +468,23 @@ exportexcel(Arr:any,fileName:any): void {
   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(Arr2);
   const workbook: XLSX.WorkBook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
   XLSX.writeFile(workbook, fileName+'.xlsx');
-} 
+}
+ChangeMapLink(){
+  if(this.ObjmasterClient.Google_Maps_Link) {
+   const  pattern1 = new RegExp("https://www.google.com/maps.*");
+   const valid1 = pattern1.test(this.ObjmasterClient.Google_Maps_Link);
+   if(!valid1) {
+    const  pattern2 = new RegExp("https://goo.gl/maps.*");
+    const valid2 = pattern2.test(this.ObjmasterClient.Google_Maps_Link);
+      return  valid2;
+   } else {
+    return true;
+   }
+  } else {
+    return false;
+  }
+  
+}
 }
 
 class masterClient {
@@ -486,4 +506,4 @@ class contactPerson{
   Contact_Phone_No:any 
   Contact_Email_Id:any
   Designation:any
-}
+} 

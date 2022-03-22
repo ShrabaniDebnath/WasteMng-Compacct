@@ -27,7 +27,7 @@ export class AppmenuComponent implements OnInit ,AfterViewChecked {
   }
   getRoute(event:any){
     const goRoute = event.target.getAttribute("routerLink");
-    
+    console.log(goRoute)
     if (goRoute) {
       if (goRoute.indexOf("?") !== -1) {
         const path = goRoute.slice(0, goRoute.indexOf("?"));
@@ -56,8 +56,8 @@ export class AppmenuComponent implements OnInit ,AfterViewChecked {
 
        localStorage.setItem("systemmenu_v2", res[0].Column1);
        
-        const tempNav:any = localStorage.getItem("systemmenu_v2");
-        this.navItems = this.sanitizer.bypassSecurityTrustHtml(tempNav);
+        
+        this.navItems =  localStorage.getItem("systemmenu_v2");
         
        })
   }

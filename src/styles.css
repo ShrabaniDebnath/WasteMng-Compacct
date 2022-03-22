@@ -26,3 +26,6 @@
 *{
   font-size: 1.20rem;
 }
+app-appmenu > aside > div > section > ul > li{
+  cursor: pointer !important;
+}

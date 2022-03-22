@@ -31,7 +31,7 @@
                         <p-tabPanel headerStyleClass="compacct-tabs" [header]="items[0]" leftIcon="glyphicon glyphicon-list-alt">
                             <div class="no-padding table-id">
                                 <p-table #dt [value]="CollDetailSearchlist" responsiveLayout="scroll" styleClass="p-datatable-customers" [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading" [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                                    [filterDelay]="0" [globalFilterFields]="['Client_Name','Sub_Client_Name','Product_Name','Price']">
+                                    [filterDelay]="0" [globalFilterFields]="['Client_Name','Sub_Client_Name','Product_Name','Price','Doc_No']">
                                     <ng-template pTemplate="caption">
                                         <div class="row">
                                             <div class="col-sm-3 pull-right" style="text-align: right">
@@ -42,10 +42,14 @@
                                     <ng-template pTemplate="header">
                                         <tr>
                                             <th style="width:5em">Action</th>
+                                            <th>Doc No</th>
+                                            <th>Collection On</th>
+                                            <th>Status</th>
                                             <th>Client</th>
                                             <th>Sub Client</th>
-                                            <th>Product Name</th>
-                                            <th>Price</th>
+                                            <th>Remarks</th>
+                                            <th>Total Value</th>
+
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="body" let-col>
@@ -72,10 +76,13 @@
                                                     </ul>
                                                 </div>
                                             </td>
-                                            <td>{{col.Client_Name ? col.Client_Name : '-'}}</td>
-                                            <td>{{col.Sub_Client_Name ? col.Sub_Client_Name : '-'}}</td>
-                                            <td>{{col.Product_Name ? col.Product_Name : '-'}}</td>
-                                            <td>{{col.Price ? col.Price : '-' }}</td>
+                                            <td>{{col.Doc_No ? col.Doc_No : '-'}}</td>
+                                            <td>{{col.Posted_On | date: "dd/MMM/yyyy"}}</td>
+                                            <td>{{col.Status ? col.Status : '-'}}</td>
+                                            <td>{{col.Client_Name ? col.Client_Name : '-' }}</td>
+                                            <td>{{col.Sub_Client_Name ? col.Sub_Client_Name : '-' }}</td>
+                                            <td>{{col.Remarks ? col.Remarks : '-'}}</td>
+                                            <td>{{col.Grand_Total ? col.Grand_Total : '-' }}</td>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="emptymessage">
@@ -90,7 +97,7 @@
                         <p-tabPanel headerStyleClass="compacct-tabs" [header]="items[1]" leftIcon="glyphicon glyphicon-floppy-save">
                             <form name="CollectionDetailsForm" #CollectionDetailsForm="ngForm" novalidate>
                                 <div class="form-group">
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                         <label class="control-label">Client<sup class="text-danger">*</sup></label>
                                         <p-dropdown [options]="Clientlist" name="client" [(ngModel)]="ObjCollectionDetails.Client_ID" (onChange)="GetSubClientData()" [disabled]="clientdisabled" [showClear]="true" [emptyFilterMessage]="' No Client Found'" [filter]="true" filterBy="label,value.name"
                                             [placeholder]="'Select Client'" [virtualScroll]="true" [itemSize]="30" #client="ngModel" [styleClass]="CollectionDetailsFormSubmitted && client.errors?.required? 'clearance': ''" [required]="true">
@@ -102,47 +109,72 @@
                                                                     </option>
                                     </select> -->
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                         <label class="control-label">Sub Client<sup class="text-danger">*</sup></label>
-                                        <p-dropdown [options]="SubClientlist" name="subclient" [(ngModel)]="ObjCollectionDetails.Sub_Client_ID" [disabled]="clientdisabled" [showClear]="true" [emptyFilterMessage]="' No Subclient Found'" [filter]="true" filterBy="label,value.name"
-                                            [placeholder]="'Select Subclient'" [virtualScroll]="true" [itemSize]="30" #subclient="ngModel" [styleClass]="CollectionDetailsFormSubmitted && subclient.errors?.required? 'clearance': ''" [required]="true">
+                                        <p-dropdown [options]="SubClientlist" name="subclient" [(ngModel)]="ObjCollectionDetails.Sub_Client_ID" (onChange)="GetProductData()" [disabled]="clientdisabled" [showClear]="true" [emptyFilterMessage]="' No Subclient Found'" [filter]="true" filterBy="label,value.name"
+                                            [placeholder]="'Select Sub client'" [virtualScroll]="true" [itemSize]="30" #subclient="ngModel" 
+                                            [styleClass]="CollectionDetailsFormSubmitted && subclient.errors?.required? 'clearance': ''" [required]="true">
                                         </p-dropdown>
 
                                     </div>
-                                    <div class="col-sm-3">
-                                        <label class="control-label">Product<sup class="text-danger">*</sup></label>
-                                        <p-dropdown [options]="productDataList" 
-                                        name="product" 
-                                        [(ngModel)]="ObjCollectionDetails.Product_ID" 
-                                        (onChange)="ProductdetailsChange()" 
-                                        [showClear]="true" 
-                                        [emptyFilterMessage]="' No Product Found'" 
-                                        [filter]="true" 
-                                        filterBy="label,value.name" 
-                                        [placeholder]="'Select Product'"
-                                        [virtualScroll]="true" 
-                                        [itemSize]="30" 
-                                        #product="ngModel" 
-                                        [styleClass]="CollectionDetailsFormSubmitted && product.errors?.required? 'clearance': ''" 
-                                        [required]="true">
-                                        </p-dropdown>
+                                    <div class="col-sm-4">
+                                        <div class="col-sm-2"><button id="row-Add" class="btn btn-primary custombutton1" (click)="NonCollection()">
+                                            {{collectionBTN}}
+                                  </button>
                                     </div>
-                                    <div class="col-sm-1">
-                                        <label class="control-label">Price<sup class="text-danger">*</sup></label>
-                                        <input class="form-control" type="number" name="price" #price="ngModel"  [(ngModel)]="ObjCollectionDetails.Price" [ngClass]="{'clearance': CollectionDetailsFormSubmitted && price.errors?.required}" required>
                                     </div>
-                                    <div class="col-sm-1">
-                                        <label class="control-label">Qty<sup class="text-danger">*</sup></label>
-                                        <input class="form-control" name="qty" #qty="ngModel" CompacctDigitonly="true" [(ngModel)]="ObjCollectionDetails.Qty" [ngClass]="{'clearance': CollectionDetailsFormSubmitted && qty.errors?.required}" required>
                                     </div>
-                                    <div class="col-sm-1">
-                                        <button id="row-Add" class="btn btn-primary pull-right1" (click)="add(CollectionDetailsForm.form.valid)">
-                                           <!-- <i class="fa fa-fw fa-add"></i>&nbsp; Add --> Add
-                                 </button>
+                                    <div class="form-group">
+                                        <div class="col-sm-4" *ngIf="nonCollectionFlg">
+                                            <label class="control-label">Product<sup class="text-danger">*</sup></label>
+                                            <p-dropdown [options]="productDataList" 
+                                            name="product" 
+                                            [(ngModel)]="ObjCollectionDetails.Product_ID" 
+                                            (onChange)="ProductdetailsChange()" 
+                                            [showClear]="true" 
+                                            [emptyFilterMessage]="' No Product Found'" 
+                                            [filter]="true" 
+                                            filterBy="label,value.name" 
+                                            [placeholder]="'Select Product'"
+                                            [virtualScroll]="true" 
+                                            [itemSize]="30" 
+                                            #product="ngModel" 
+                                            [styleClass]="CollectionDetailsFormSubmitted && product.errors?.required? 'clearance': ''" 
+                                            [required]="true">
+                                            </p-dropdown>
+                                        </div>
+                                        <div class="col-sm-4" *ngIf="nonCollectionFlg">
+                                            <label class="control-label">Price<sup class="text-danger">*</sup></label>
+                                            <input class="form-control" type="number" name="price" #price="ngModel"  [(ngModel)]="ObjCollectionDetails.Price" placeholder="Price" [ngClass]="{'clearance': CollectionDetailsFormSubmitted && price.errors?.required}" required>
+                                        </div>
+                                        <div class="col-sm-2" *ngIf="nonCollectionFlg">
+                                            <label class="control-label">Qty<sup class="text-danger">*</sup></label>
+                                            <input class="form-control" name="qty" #qty="ngModel" CompacctDigitonly="true" placeholder="Qty" [(ngModel)]="ObjCollectionDetails.Qty" [ngClass]="{'clearance': CollectionDetailsFormSubmitted && qty.errors?.required}" required>
+                                        </div>
+                                        <div class="col-sm-4" *ngIf="!nonCollectionFlg">
+                                            <label class="control-label">Remarks<sup class="text-danger">*</sup></label>
+                                            <textarea class="form-control" style="margin: 0px -16.6719px 0px 0px; width: 334px;height: 69px;" name="Remarks" #Remarks="ngModel" rows='1' [(ngModel)]="ObjCollectionDetails.Remarks" [ngClass]="{'clearance': CollectionDetailsFormSubmitted && Remarks.errors?.required}" required></textarea>
+                                        </div>
+                                        <div class="col-sm-4" *ngIf="!nonCollectionFlg">
+                                            <label class="control-label">Non Collection Reason</label>
+                                            <select class="form-control" 
+                                             name="Non_Collection_Reason_ID" 
+                                             #Non_Collection_Reason_ID="ngModel"
+                                             [(ngModel)]="ObjCollectionDetails.Non_Collection_Reason_ID"
+                                             [ngClass]="{'clearance': CollectionDetailsFormSubmitted && Non_Collection_Reason_ID.errors?.required}" required
+                                              >
+                                                <option  [ngValue]="undefined">Select</option>
+                                                <option *ngFor="let option of collectionList" [ngValue]="option.Non_Collection_Reason">
+                                                  {{option.Non_Collection_Reason}}
+                                                 </option>
+                                        </select>
+                                        </div>
+                                       <div class="col-sm-2" *ngIf="nonCollectionFlg"><button id="row-Add" class="btn btn-primary custombutton1" (click)="add(CollectionDetailsForm.form.valid)">
+                                        Add
+                              </button></div>
                                     </div>
-                                </div>
-                                <br>
-                                <div class="table-responsive no-padding">
+                                  <br>
+                                <div class="table-responsive no-padding" *ngIf="nonCollectionFlg">
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr style="background-color:#3c8dbc;color:white;">
@@ -162,22 +194,64 @@
                                                 <td>{{obj.Amount}}</td>
                                                 <td><button (click)="delete(ind)" class="btn danger"><i class="fa fa-trash"></i></button></td>
                                             </tr>
+                                            <tr *ngIf="productaddSubmit.length">
+                                                <td colspan="3"></td>
+                                                <td  style="font-weight: 700;"><span style="color: crimson;">Total : </span> {{getTotalValue()}}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
-
-                                <div class="form-group">
+                                <div class="form-group" *ngIf="nonCollectionFlg">
                                     <div class="col-sm-2 pull-left">
                                         <p-checkbox label="Payment In Cash" name="checkbox" #checkbox="ngModel" [(ngModel)]="Payment_In_Cash" [binary]="true"></p-checkbox>
 
                                     </div>
                                 </div>
-                                <div class="box-footer">
+                                <div class="form-group" *ngIf="productaddSubmit.length">
+                                    <div class="col-sm-4">
+                                        <label class="control-label">Bonus / Penalty</label>
+                                        <select class="form-control" name="Price_Type" #Price_Type="ngModel"
+                                         [(ngModel)]="ObjCollectionDetails.Price_Type"
+                                         (change)="ChangePrice()"
+                                          >
+                                            <option  [ngValue]="undefined">Select</option>
+                                            <option *ngFor="let option of stateOptions" [ngValue]="option.label">
+                                              {{option.label}}
+                                             </option>
+                                    </select>
+                                    </div>
+                                    <div class="col-sm-4" *ngIf="ObjCollectionDetails.Price_Type">
+                                        <label class="control-label">{{ObjCollectionDetails.Price_Type}}</label>
+                                        <input class="form-control" name="Price" [(ngModel)]="ObjCollectionDetails.Amount"
+                                        #Price="ngModel"
+                                        (ngModelChange)="ChangePrice()"
+                                         >
+                                    </div>  
+                                    <div class="col-sm-4">
+                                        <label class="control-label">Grand Total</label>
+                                        <input class="form-control" name="nnn" [(ngModel)]="ObjCollectionDetails.Grand_Total" disabled>
+                                    </div>                                  
+                                    <div class="col-sm-4" *ngIf="nonCollectionFlg">
+                                        <label class="control-label">Remarks</label>
+                                        <textarea class="form-control" 
+                                        style="margin: 0px -16.6719px 0px 0px; width: 334px;height: 69px;" 
+                                        name="Remarks" #Remarks="ngModel"  [(ngModel)]="ObjCollectionDetails.Remarks" placeholder="Remarks"></textarea>
+                                    </div>
+                                </div>
+                               
+                                <div class="box-footer" *ngIf="nonCollectionFlg">
                                     <button class="btn btn-primary pull-right" (click)="createMasterProductPlan()" id="load" [disabled]="Spinner">
                                             <p-progressSpinner *ngIf="Spinner" [style]="{width: '15px', height: '15px'}" strokeWidth="8"  animationDuration=".5s"></p-progressSpinner>
                                         <span *ngIf="!Spinner" class="glyphicon glyphicon-save"></span>{{buttonname}}
                                     </button>
                                 </div>
+                                <div class="box-footer" *ngIf="!nonCollectionFlg">
+                                    <button class="btn btn-primary pull-right" (click)="createMasterProductPlan(CollectionDetailsForm.form.valid)" id="load" [disabled]="Spinner">
+                                            <p-progressSpinner *ngIf="Spinner" [style]="{width: '15px', height: '15px'}" strokeWidth="8"  animationDuration=".5s"></p-progressSpinner>
+                                        <span *ngIf="!Spinner" class="glyphicon glyphicon-save"></span>{{buttonname}}
+                                    </button>
+                                </div>
+                           
                             </form>
                         </p-tabPanel>
                     </p-tabView>

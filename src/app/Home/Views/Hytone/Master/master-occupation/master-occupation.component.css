@@ -1,0 +1,21 @@
+#pr_id_4-table > tbody > tr > td:nth-child(4) > a > div > i{
+    font-size: 1.50rem;
+    color: red;
+    cursor: pointer;
+  }
+  .text-red-active>td {
+    color: #E75D5D !important;
+}
+.p-toast .p-toast-message.p-toast-message-info {
+  background: #fff;
+  border: none;
+  color: black;
+ }
+ .p-toast .p-toast-message.p-toast-message-warn{
+  background: #fff;
+  border: none;
+  color: black;
+ }
+ .custombutton1 {
+  margin-top: 24px;
+}
