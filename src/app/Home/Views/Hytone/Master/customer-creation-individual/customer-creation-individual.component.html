@@ -1,1401 +1,1193 @@
 <p-toast key="compacct-toast" [baseZIndex]="99999"></p-toast>
 <p-toast position="center" key="c" (onClose)="onReject()" [baseZIndex]="99999">
-    <ng-template let-message pTemplate="message">
-        <div class="p-flex p-flex-column" style="flex: 1">
-            <div class="p-text-center" style="text-align:center;">
-                <i class="pi pi-exclamation-triangle" style="font-size: 3rem;"></i>
-                <h4>{{message.summary}}</h4>
-                <p>{{message.detail}}</p>
-            </div>
-            <div class="p-grid p-fluid ">
-                <div class="p-col-6" *ngIf="act_popup && !can_popup">
-                    <button type="button" pButton (click)="onConfirm()" label="Yes" class="ui-button-success"></button>
-                </div>
-                <div class="p-col-6" *ngIf="can_popup && !act_popup">
-                    <button type="button" pButton (click)="onConfirm2()" label="Yes" class="ui-button-success"></button>
-                </div>
-                <div class="p-col-6">
-                    <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
-                </div>
-            </div>
+  <ng-template let-message pTemplate="message">
+    <div class="p-flex p-flex-column" style="flex: 1">
+      <div class="p-text-center" style="text-align:center;">
+        <i class="pi pi-exclamation-triangle" style="font-size: 3rem;"></i>
+        <h4>{{message.summary}}</h4>
+        <p>{{message.detail}}</p>
+      </div>
+      <div class="p-grid p-fluid ">
+        <div class="p-col-6" *ngIf="act_popup && !can_popup">
+          <button type="button" pButton (click)="onConfirm()" label="Yes" class="ui-button-success"></button>
         </div>
-    </ng-template>
+        <div class="p-col-6" *ngIf="can_popup && !act_popup">
+          <button type="button" pButton (click)="onConfirm2()" label="Yes" class="ui-button-success"></button>
+        </div>
+        <div class="p-col-6">
+          <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </p-toast>
 <div class="row">
-    <div class="col-xs-12">
-        <div class="box box-primary">
-            <div class="form-horizontal">
-                <div class="box-body">
-                    <p-tabView [activeIndex]="tabIndexToView" (onChange)="TabClick($event)">
-                        <p-tabPanel headerStyleClass="compacct-tabs" [header]="items[0]" leftIcon="glyphicon glyphicon-list-alt">
-                          <div class="no-padding table-id">
-                            <p-table #dt [value]="GetAlldataList" 
-                            responsiveLayout="scroll" 
-                            styleClass="p-datatable-customers" 
-                            [rowHover]="true" [rows]="10"
-                             [showCurrentPageReport]="true" 
-                             [rowsPerPageOptions]="[10,25,50]" 
-                             [loading]="loading" [paginator]="true" 
-                             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                                [filterDelay]="0" [globalFilterFields]="['Name','Alias_Name','Customer_Type','Driving_License','Father_Status','Father_Name']">
-                                <ng-template pTemplate="caption">
-                                    <div class="row">
-                                        <div class="col-sm-3 pull-right" style="text-align: right">
-                                            <input type="text" pInputText size="50" placeholder="Search" (input)="dt.filterGlobal(getEventValue($event), 'contains')" class="searchInput form-control">
-                                        </div>
-                                    </div>
+  <div class="col-xs-12">
+    <div class="box box-primary">
+      <div class="form-horizontal">
+        <div class="box-body">
+          <p-tabView [activeIndex]="tabIndexToView" (onChange)="TabClick($event)">
+            <p-tabPanel headerStyleClass="compacct-tabs" [header]="items[0]" leftIcon="glyphicon glyphicon-list-alt">
+              <div class="no-padding table-id">
+                <p-table #dt [value]="GetAlldataList" responsiveLayout="scroll" styleClass="p-datatable-customers"
+                  [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                  [loading]="loading" [paginator]="true"
+                  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+                  [globalFilterFields]="['Name','Alias_Name','Customer_Type','Driving_License','Father_Status','Father_Name']">
+                  <ng-template pTemplate="caption">
+                    <div class="row">
+                      <div class="col-sm-3 pull-right" style="text-align: right">
+                        <input type="text" pInputText size="50" placeholder="Search"
+                          (input)="dt.filterGlobal(getEventValue($event), 'contains')" class="searchInput form-control">
+                      </div>
+                    </div>
 
-                                </ng-template>
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th style="width:5em">Action</th>
-                                        <th>Name</th>
-                                        <th>Alias Name</th>
-                                        <th>Father Status</th>
-                                        <th>Father Name</th>
-                                        <th>Mother Status</th>
-                                        <th>Mother Name</th>
-                                        <th>Monthly Income</th>
-                                        <th>Aadhar Card</th>
-                                        <th>Driving License</th>
-                                        <th>PAN Card</th>
-                                        <th>Passport</th>
-                                        <th>Marital Status</th>
-                                        <th>Spouse Name</th>
-                                        <th>Voter ID</th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-col>
-                                    <tr [class]='col.Is_Active === "N" ? "text-red-active" : ""'>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th style="width:5em">Action</th>
+                      <th>Name</th>
+                      <th>Alias Name</th>
+                      <th>Father Status</th>
+                      <th>Father Name</th>
+                      <th>Mother Status</th>
+                      <th>Mother Name</th>
+                      <th>Monthly Income</th>
+                      <th>Aadhar Card</th>
+                      <th>Driving License</th>
+                      <th>PAN Card</th>
+                      <th>Passport</th>
+                      <th>Marital Status</th>
+                      <th>Spouse Name</th>
+                      <th>Voter ID</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-col>
+                    <tr [class]='col.Is_Active === "N" ? "text-red-active" : ""'>
 
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-default btn-sm tableButton dropdown-toggle" type="button" data-toggle="dropdown" style="height:27px">
-                                                                <i class="fa fa-fw fa-bars"></i>
-                                                                <span class="caret"></span>
-                                                            </button>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a (click)="EditProduct(col)">
-                                                            <i class="fa fa-fw fa-pencil"></i> Edit
-                                                        </a>
-                                                    </li>
-                                                    <li *ngIf='col.Is_Active === "N"'>
-                                                        <a (click)="Active(col)">
-                                                            <i class="fa fa-power-off" aria-hidden="true"></i> Active
-                                                        </a>
-                                                    </li>
-                                                    <li *ngIf='col.Is_Active === "Y"'>
-                                                        <a (click)="Inactive(col)">
-                                                            <i class="fa fa-times" aria-hidden="true"></i> Deactive
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                        <td>{{col.Name  ? col.Name  : '-'}}</td>
-                                        <td>{{col.Alias_Name  ? col.Alias_Name  : '-'}}</td>
-                                        <td>{{col.Father_Status  ? col.Father_Status  : '-'}}</td>
-                                        <td>{{col.Father_Name  ? col.Father_Name  : '-'}}</td>
-                                        <td>{{col.Mother_Status  ? col.Mother_Status  : '-'}}</td>
-                                        <td>{{col.Mother_Name  ? col.Mother_Name  : '-'}}</td>
-                                        <td>{{col.Monthly_Income  ? col.Monthly_Income  : '-'}}</td>
-                                        <td>{{col.Aadhar_Card  ? col.Aadhar_Card  : '-'}}</td>
-                                        <td>{{col.Driving_License  ? col.Driving_License  : '-'}}</td>
-                                        <td>{{col.PAN_Card  ? col.PAN_Card  : '-'}}</td>
-                                        <td>{{col.Passport  ? col.Passport  : '-'}}</td>
-                                        <td>{{col.Marital_Status  ? col.Marital_Status  : '-'}}</td>
-                                        <td>{{col.Spouse_Name  ? col.Spouse_Name  : '-'}}</td>
-                                        <td>{{col.Voter_ID  ? col.Voter_ID  : '-'}}</td>
-                                    </tr>
-                                </ng-template>
-                                <tr>
-                                    <!-- <td colspan="8">No customers found.</td> -->
-                                </tr>
-                            </p-table>
+                      <td>
+                        <div class="dropdown">
+                          <button class="btn btn-default btn-sm tableButton dropdown-toggle" type="button"
+                            data-toggle="dropdown" style="height:27px">
+                            <i class="fa fa-fw fa-bars"></i>
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li>
+                              <a (click)="EditProduct(col)">
+                                <i class="fa fa-fw fa-pencil"></i> Edit
+                              </a>
+                            </li>
+                            <li *ngIf='col.Is_Active === "N"'>
+                              <a (click)="Active(col)">
+                                <i class="fa fa-power-off" aria-hidden="true"></i> Active
+                              </a>
+                            </li>
+                            <li *ngIf='col.Is_Active === "Y"'>
+                              <a (click)="Inactive(col)">
+                                <i class="fa fa-times" aria-hidden="true"></i> Deactive
+                              </a>
+                            </li>
+                          </ul>
                         </div>
-                        </p-tabPanel>
-                        <p-tabPanel headerStyleClass="compacct-tabs" [header]="items[1]" leftIcon="glyphicon glyphicon-floppy-save">
-                            <form name="customerForm" #customerForm="ngForm" novalidate>
-                                <div class="form-group">
-                                    <div class="col-sm-6">
-                                        <label class="control-label">Name<sup class="text-danger">*</sup></label>
-                                        <input class="form-control" 
-                                        name="Name" 
-                                        #Name="ngModel" 
-                                        [(ngModel)]="objcustomer.Name" 
-                                        placeholder="Name" 
-                                        [ngClass]="{'clearance': customerFormSubmitted && Name.errors?.required}" 
-                                        required>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label class="control-label">Alias Name<sup class="text-danger">*</sup></label>
-                                        <input class="form-control" 
-                                        name="Alias_Name" 
-                                        #Alias_Name="ngModel" 
-                                        [(ngModel)]="objcustomer.Alias_Name" 
-                                        placeholder="Alias Name" 
-                                        [ngClass]="{'clearance': customerFormSubmitted && Alias_Name.errors?.required}" 
-                                        required>
-                                    </div>
-                                    </div>
-                                <form name="AddressForm" #AddressForm="ngForm" novalidate>
-                                    <div class="panel panel-primary">
-                                        <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Address</div>
-                                        <div class="panel-body">
-                                             <div class="form-group">
-                                                 <div class="col-sm-4">
-                                                    <label class="control-label">Type<sup class="text-danger">*</sup></label>
-                                                    <select class="form-control" 
-                                                    name="Cust_Type_ID" 
-                                                    #Cust_Type_ID="ngModel"
-                                                      [(ngModel)]="objaddress.Cust_Type_ID" 
-                                                      [ngClass]="{'clearance': AddressFormSubmitted && Cust_Type_ID?.errors?.required}" 
-                                                      required>
-                                                      <option [ngValue]="undefined">Select</option>
-                                                      <option *ngFor="let option of typeList" value="{{option.Cust_Type_ID}}">
-                                                        {{option.Cust_Type}}
-                                                      </option>
-                                                    </select>
-                                                 </div>
-                                                 <div class="col-sm-4">
-                                                    <label class="control-label"> Address Line<sup class="text-danger">*</sup></label>
-                                                    <input class="form-control" 
-                                                    name="Address_Line" 
-                                                    #Address_Line="ngModel" 
-                                                    [(ngModel)]="objaddress.Address" 
-                                                    placeholder="Address Line" 
-                                                    [ngClass]="{'clearance': AddressFormSubmitted && Address_Line.errors?.required}" 
-                                                    required>
-                                                 </div>
-                                                 <div class="col-sm-4">
-                                                    <label class="control-label">Police Station<sup class="text-danger">*</sup></label>
-                                                    <select class="form-control" 
-                                                    name="Police_Station" 
-                                                    #Police_Station="ngModel"
-                                                      [(ngModel)]="objaddress.Police_Station_ID" 
-                                                      [ngClass]="{'clearance': AddressFormSubmitted && Police_Station?.errors?.required}" 
-                                                      required>
-                                                      <option [ngValue]="undefined">Select</option>
-                                                      <option *ngFor="let option of PoliceStationList" value="{{option.Police_Station_ID}}">
-                                                        {{option.Police_Station_Name}}
-                                                      </option>
-                                                    </select>
-                                                 </div>
-                                                 
-                                             </div>
-                                             <div class="form-group">
-                                              <div class="col-sm-4">
-                                                <label class="control-label">Post Office<sup class="text-danger">*</sup></label>
-                                                <select class="form-control" 
-                                                name="Post_Office" 
-                                                #Post_Office="ngModel"
-                                                  [(ngModel)]="objaddress.Post_Office_ID" 
-                                                  (change)="getPincode()"
-                                                  [ngClass]="{'clearance': AddressFormSubmitted && Post_Office?.errors?.required}" 
-                                                  required>
-                                                  <option [ngValue]="undefined">Select</option>
-                                                  <option *ngFor="let option of PostOfficeList" value="{{option.Post_Office_ID}}">
-                                                    {{option.Post_Office_Name}}
-                                                  </option>
-                                                </select>
-                                            </div>
-                                                <div class="col-sm-4">
-                                                    <label class="control-label">Pincode<sup class="text-danger">*</sup></label>
-                                                    <select class="form-control" 
-                                                    name="Pincode" 
-                                                    #Pincode="ngModel"
-                                                      [(ngModel)]="objaddress.Pincode_ID" 
-                                                      [ngClass]="{'clearance': AddressFormSubmitted && Pincode?.errors?.required}" 
-                                                      required>
-                                                      <option [ngValue]="undefined">Select</option>
-                                                      <option *ngFor="let option of pincodeList" value="{{option.Pincode_ID}}">
-                                                        {{option.Pincode}}
-                                                      </option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <button class="btn btn-primary" 
-                                                    style="margin-top: 24px;"
-                                                    (click)="addAddress(AddressForm.form.valid)" 
-                                                   >
-                                                    Add
-                                                  </button>
-                                                </div>
-                                               
-                                            </div>
-                                           </div>
-                                        </div>
-                                </form>
-                                <div class="table-responsive no-padding">
-                                    <p-table [value]="addressList" dataKey="id">
-                                      <ng-template pTemplate="header">
-                                        <tr>
-                                          <th>Type</th>
-                                          <th>Address Line</th>
-                                          <th>Police Station</th>
-                                          <th>Post Office</th>
-                                          <th>Pincode</th>
-                                          <th></th>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                        <tr class="p-selectable-row">
-                                          <td>{{col.Address_Type}}</td>
-                                          <td>{{col.Address}}</td>
-                                          <td>{{col.Police_Station_Name}}</td>
-                                          <td>{{col.Post_Office_Name}}</td>
-                                          <td>{{col.Pincode}}</td>
-                                           <td><a (click)="DeleteContact(rowIndex,'Address')">
-                                              <div><i class="fa fa-fw fa-trash"> </i></div>
-                                            </a></td>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="emptymessage">
-                                        <tr>
-                                          <td colspan="8">No Data found.</td>
-                                        </tr>
-                                      </ng-template>
-                                    </p-table>
-                                  </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-6">
-                                            <form name="PhoneForm" #PhoneForm="ngForm" novalidate>
-                                            <div class="panel panel-primary">
-                                              <div class="panel-body">
-                                                    <div>
-                                                    <label class="control-label">Phone<sup class="text-danger">*</sup></label>
-                                                    <input class="form-control" 
-                                                    name="Phone" 
-                                                    #Phone="ngModel" 
-                                                    [(ngModel)]="PhoneNumber" 
-                                                    placeholder="Phone"
-                                                    CompacctDigitonly="true"
-                                                    maxlength="10"
-                                                    minlength="10"
-                                                    [ngClass]="{'clearance': phoneFormSubmitted && Phone.errors?.required}" 
-                                                    required>
-                                                       </div>
-                                                      <div>
-                                                        <button class="btn btn-primary pull-right" 
-                                                    style="margin-top: 15px;"
-                                                    (click)="addPhone(PhoneForm.form.valid)" 
-                                                   >
-                                                    Add
-                                                  </button>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                            </form>
-                                           <div class="table-responsive no-padding">
-                                            <p-table [value]="addPhoneList">
-                                              <ng-template pTemplate="header">
-                                                <tr>
-                                                  <th>Phone Number</th>
-                                                   <th></th>
-                                                </tr>
-                                              </ng-template>
-                                              <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                                <tr class="p-selectable-row">
-                                                  <td>{{col.Mobile_No}}</td>
-                                                  <td><a (click)="DeleteContact(rowIndex,'phone')">
-                                                      <div><i class="fa fa-fw fa-trash"> </i></div>
-                                                    </a></td>
-                                                </tr>
-                                              </ng-template>
-                                              <ng-template pTemplate="emptymessage">
-                                                <tr>
-                                                  <td colspan="8">No Data found.</td>
-                                                </tr>
-                                              </ng-template>
-                                            </p-table>
-                                          </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                          <form name="EmailForm" #EmailForm="ngForm" novalidate>
-                                            <div class="panel panel-primary">
-                                                <div class="panel-body">
-                                                  <div>
-                                                    <label class="control-label">Email Id<sup class="text-danger">*</sup></label>
-                                                    <input class="form-control" 
-                                                    name="Email" 
-                                                    #Email="ngModel" 
-                                                    [(ngModel)]="emailId" 
-                                                    placeholder="Email"
-                                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                                                    [ngClass]="{'clearance':emailIdFormSubmitted && (Email?.errors?.required || Email?.errors?.pattern ) }" 
-                                                    required>
-                                                  </div>
-                                                    <div>
-                                                      <button class="btn btn-primary pull-right" 
-                                                    style="margin-top: 15px;"
-                                                    (click)="addEmailId(EmailForm.form.valid)" 
-                                                   >
-                                                    Add
-                                                  </button>
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                           </form>
-                                           <div class="table-responsive no-padding">
-                                            <p-table [value]="addEmailIdList">
-                                              <ng-template pTemplate="header">
-                                                <tr>
-                                                  <th>Email Id</th>
-                                                   <th></th>
-                                                </tr>
-                                              </ng-template>
-                                              <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                                <tr class="p-selectable-row">
-                                                  <td>{{col.Email_ID}}</td>
-                                                  <td><a (click)="DeleteContact(rowIndex,'email')">
-                                                      <div><i class="fa fa-fw fa-trash"> </i></div>
-                                                    </a></td>
-                                                </tr>
-                                              </ng-template>
-                                              <ng-template pTemplate="emptymessage">
-                                                <tr>
-                                                  <td colspan="8">No Data found.</td>
-                                                </tr>
-                                              </ng-template>
-                                            </p-table>
-                                          </div>
-                                        </div>
-                                    </div>
-                                    <form name="OccupationForm" #OccupationForm="ngForm" novalidate>
-                                      <div class="panel panel-primary">
-                                       <div class="panel-body">
-                                            <div class="col-sm-6">
-                                              <label class="control-label">Occupation<sup class="text-danger">*</sup></label>
-                                              <select class="form-control" 
-                                              name="Occupation" 
-                                              #Occupation="ngModel"
-                                                [(ngModel)]="OccupationID" 
-                                                [ngClass]="{'clearance': OccupationFormSubmitted && Occupation?.errors?.required}" 
-                                                required>
-                                                <option [ngValue]="undefined">Select</option>
-                                                <option *ngFor="let option of OccupationList" value="{{option.Occupation_ID}}">
-                                                  {{option.Occupation_Name}}
-                                                </option>
-                                              </select>
-                                            </div>
-                                            <div class="col-sm-6">
-                                              <button class="btn btn-primary pull-left" 
-                                              style="margin-top: 24px;"
-                                              (click)="addoccupation(OccupationForm.form.valid)" 
-                                             >
-                                              Add
-                                            </button>
-                                            </div>
-                                         </div>
-                                         </div>
-                                    </form>
-                                    <div class="table-responsive no-padding">
-                                      <p-table [value]="OccupationAddList" dataKey="id">
-                                        <ng-template pTemplate="header">
-                                          <tr>
-                                            <th>Occupation name</th>
-                                          
-                                            <th></th>
-                                          </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                          <tr class="p-selectable-row">
-                                            <td>{{col.Occupation_name}}</td>
-                                            
-                                           <td><a (click)="DeleteContact(rowIndex,'Occupation_name')">
-                                                <div><i class="fa fa-fw fa-trash"> </i></div>
-                                              </a></td>
-                                          </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="emptymessage">
-                                          <tr>
-                                            <td colspan="8">No Data found.</td>
-                                          </tr>
-                                        </ng-template>
-                                      </p-table>
-                                    </div>
-                                    <form name="DependentForm" #DependentForm="ngForm" novalidate>
-                                      <div class="panel panel-primary">
-                                          <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Dependents</div>
-                                          <div class="panel-body">
-                                               <div class="form-group">
-                                                   <div class="col-sm-4">
-                                                      <label class="control-label">Number<sup class="text-danger">*</sup></label>
-                                                      <input class="form-control" 
-                                                      name="Dependent_No" 
-                                                      #Dependent_No="ngModel" 
-                                                      [(ngModel)]="objDependent.Dependent_No" 
-                                                      placeholder="Dependent No" 
-                                                      [ngClass]="{'clearance': DependentFormSubmitted && Dependent_No.errors?.required}" 
-                                                      required>
-                                                   </div>
-                                                   <div class="col-sm-4">
-                                                      <label class="control-label">Name of Each Dependent<sup class="text-danger">*</sup></label>
-                                                      <input class="form-control" 
-                                                      name="Dependent_Name" 
-                                                      #Dependent_Name="ngModel" 
-                                                      [(ngModel)]="objDependent.Dependent_Name" 
-                                                      placeholder="Name of Each Dependent" 
-                                                      [ngClass]="{'clearance': DependentFormSubmitted && Dependent_Name.errors?.required}" 
-                                                      required>
-                                                   </div>
-                                                   <div class="col-sm-4">
-                                                      <label class="control-label">Relation<sup class="text-danger">*</sup></label>
-                                                      <select class="form-control" 
-                                                      name="Relation_ID" 
-                                                      #Relation_ID="ngModel"
-                                                        [(ngModel)]="objDependent.Relation_ID" 
-                                                        [ngClass]="{'clearance': DependentFormSubmitted && Relation_ID?.errors?.required}" 
-                                                        required>
-                                                        <option [ngValue]="undefined">Select</option>
-                                                        <option *ngFor="let option of RelationList" value="{{option.Relation_ID}}">
-                                                          {{option.Relation_Name}}
-                                                        </option>
-                                                      </select>
-                                                   </div>
-                                               </div>
-                                               <button class="btn btn-primary pull-right" 
-                                               style="margin-top: 15px;"
-                                               (click)="addDependent(DependentForm.form.valid)" 
-                                              >
-                                               Add
-                                             </button>
-                                             </div>
-                                          </div>
-                                  </form>
-                                  <div class="table-responsive no-padding">
-                                    <p-table [value]="DependentAddList" dataKey="id">
-                                      <ng-template pTemplate="header">
-                                        <tr>
-                                          <th>Dependent No</th>
-                                          <th>Dependent Name</th>
-                                          <th>Relation ID</th>
-                                          <th></th>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                        <tr class="p-selectable-row">
-                                          <td>{{col.Dependent_No}}</td>
-                                          <td>{{col.Dependent_Name}}</td>
-                                          <td>{{col.Relation_Name}}</td>
-                                           <td><a (click)="DeleteContact(rowIndex,'Dependent')">
-                                              <div><i class="fa fa-fw fa-trash"> </i></div>
-                                            </a></td>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="emptymessage">
-                                        <tr>
-                                          <td colspan="8">No Data found.</td>
-                                        </tr>
-                                      </ng-template>
-                                    </p-table>
-                                  </div>
-                                  <div class="form-group">
-                                    <div class="col-sm-4">
-                                      <label class="control-label">Monthly Income<sup class="text-danger">*</sup></label>
-                                      <input class="form-control" 
-                                      name="Monthly_Income" 
-                                      #Monthly_Income="ngModel" 
-                                      [(ngModel)]="objcustomer.Monthly_Income" 
-                                      placeholder="Monthly Income"
-                                      CompacctDigitonly="true"
-                                      [ngClass]="{'clearance': customerFormSubmitted && Monthly_Income.errors?.required}" 
-                                      required>
-                                    </div>
-                                    <div class="col-sm-4">
-                                      <label class="control-label">PAN Card<sup class="text-danger">*</sup></label>
-                                      <input class="form-control" 
-                                      name="PAN_Card" 
-                                      #PAN_Card="ngModel" 
-                                      [(ngModel)]="objcustomer.PAN_Card" 
-                                      placeholder="PAN Card"
-                                      maxlength="10"
-                                      minlength="10"
-                                      [ngClass]="{'clearance': customerFormSubmitted && PAN_Card.errors?.required}" 
-                                      required>
-                                    </div>
-                                    <div class="col-sm-4">
-                                      <label class="control-label">Aadhar Card<sup class="text-danger">*</sup></label>
-                                      <input class="form-control" 
-                                      name="Aadhar_Card" 
-                                      #Aadhar_Card="ngModel" 
-                                      [(ngModel)]="objcustomer.Aadhar_Card" 
-                                      placeholder="Aadhar Card"
-                                      CompacctDigitonly="true"
-                                      maxlength="12"
-                                      minlength="12"
-                                      [ngClass]="{'clearance': customerFormSubmitted && Aadhar_Card.errors?.required}" 
-                                      required>
-                                    </div>
-                                    </div>
-                                    <div class="form-group">
-                                      <div class="col-sm-4">
-                                        <label class="control-label">Driving License Number<sup class="text-danger">*</sup></label>
-                                        <input class="form-control" 
-                                        name="Driving_License" 
-                                        #Driving_License="ngModel" 
-                                        [(ngModel)]="objcustomer.Driving_License"
-                                        maxlength="15"
-                                        minlength="15" 
-                                        placeholder="Driving Number" 
-                                       >
-                                      </div>
-                                      <div class="col-sm-4">
-                                        <label class="control-label">Passport Number<sup class="text-danger">*</sup></label>
-                                        <input class="form-control" 
-                                        name="Passport" 
-                                        #Passport="ngModel" 
-                                        [(ngModel)]="objcustomer.Passport" 
-                                        placeholder="Passport Number"
-                                        maxlength="8"
-                                        minlength="8"
-                                        >
-                                      </div>
-                                      <div class="col-sm-4">
-                                        <label class="control-label">Voter ID Number<sup class="text-danger">*</sup></label>
-                                        <input class="form-control" 
-                                        name="Voter_ID" 
-                                        #Voter_ID="ngModel" 
-                                        [(ngModel)]="objcustomer.Voter_ID" 
-                                        placeholder="Voter ID Number" 
-                                       >
-                                      </div>
-                                  </div>
-                                  <form name="otherAddressForm" #otherAddressForm="ngForm" novalidate>
-                                    <div class="panel panel-primary">
-                                        <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Other Address Proofs</div>
-                                        <div class="panel-body">
-                                             <div class="form-group">
-                                                 <div class="col-sm-4">
-                                                    <label class="control-label">Document Name<sup class="text-danger">*</sup></label>
-                                                    <select class="form-control" 
-                                                    name="Document_ID" 
-                                                    #Document_ID="ngModel"
-                                                      [(ngModel)]="objDocument.Document_ID" 
-                                                      [ngClass]="{'clearance': OtheraddressFormSubmitted && Document_ID?.errors?.required}" 
-                                                      required>
-                                                      <option [ngValue]="undefined">Select</option>
-                                                      <option *ngFor="let option of DocumentList" value="{{option.Document_ID}}">
-                                                        {{option.Document_Name}}
-                                                      </option>
-                                                    </select>
-                                                 </div>
-                                                 <div class="col-sm-4">
-                                                    <label class="control-label">Document Number<sup class="text-danger">*</sup></label>
-                                                    <input class="form-control" 
-                                                    name="Document_No" 
-                                                    #Document_No="ngModel" 
-                                                    [(ngModel)]="objDocument.Document_No" 
-                                                    placeholder="Document Number" 
-                                                    [ngClass]="{'clearance': OtheraddressFormSubmitted && Document_No.errors?.required}" 
-                                                    required>
-                                                 </div>
-                                                 <div class="col-sm-4">
-                                                  <button class="btn btn-primary" 
-                                                  style="margin-top: 24px;"
-                                                  (click)="addOtherAddress(otherAddressForm.form.valid)" 
-                                                 >
-                                                  Add
-                                                </button>
-                                                 </div>
-                                              </div>
-                                            
-                                           </div>
-                                        </div>
-                                </form>
-                                <div class="table-responsive no-padding">
-                                  <p-table [value]="AddOtheraddressList" dataKey="id">
-                                    <ng-template pTemplate="header">
-                                      <tr>
-                                        <th>Document Name</th>
-                                         <th>Document Number</th>
-                                        <th></th>
-                                      </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                      <tr class="p-selectable-row">
-                                        <td>{{col.Document_Name}}</td>
-                                        <td>{{col.Document_No}}</td>
-                                       <td><a (click)="DeleteContact(rowIndex,'otherAddress')">
-                                            <div><i class="fa fa-fw fa-trash"> </i></div>
-                                          </a></td>
-                                      </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="emptymessage">
-                                      <tr>
-                                        <td colspan="8">No Data found.</td>
-                                      </tr>
-                                    </ng-template>
-                                  </p-table>
-                                </div>
-                                <form name="OtherDocumentsForm" #OtherDocumentsForm="ngForm" novalidate>
-                                  <div class="panel panel-primary">
-                                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Document Name</div>
-                                    <div class="panel-body">
-                                      <div class="form-group">
-                                        <div class="col-sm-6">
-                                          <label class="control-label">Document Name<sup class="text-danger">*</sup></label>
-                                          <select class="form-control" 
-                                          name="DocumentName" 
-                                          #DocumentName="ngModel"
-                                            [(ngModel)]="DocumentID" 
-                                            [ngClass]="{'clearance': DocumentFormSubmitted && DocumentName?.errors?.required}" 
-                                            required>
-                                            <option [ngValue]="undefined">Select</option>
-                                            <option *ngFor="let option of DocumentList" value="{{option.Document_ID}}">
-                                              {{option.Document_Name}}
-                                            </option>
-                                          </select>
-                                        </div>
-                                        <div class="col-sm-6">
-                                          <button class="btn btn-primary pull-left" 
-                                          style="margin-top: 24px;"
-                                          (click)="addDocumentsname(OtherDocumentsForm.form.valid)" 
-                                         >
-                                          Add
-                                        </button>
-                                        </div>
-                                      </div>
-                                      </div>
-                                      </div>
-                                </form>
-                                <div class="table-responsive no-padding">
-                                  <p-table [value]="addDocumentList" dataKey="id">
-                                    <ng-template pTemplate="header">
-                                      <tr>
-                                        <th>Dependent Name</th>
-                                        <th></th>
-                                      </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                      <tr class="p-selectable-row">
-                                        <td>{{col.Document_Name}}</td>
-                                        <td><a (click)="DeleteContact(rowIndex,'Document')">
-                                            <div><i class="fa fa-fw fa-trash"> </i></div>
-                                          </a></td>
-                                      </tr>
-                                    </ng-template>
-                                    <ng-template pTemplate="emptymessage">
-                                      <tr>
-                                        <td colspan="8">No Data found.</td>
-                                      </tr>
-                                    </ng-template>
-                                  </p-table>
-                                </div>
-                                <form name="BankDetailsForm" #BankDetailsForm="ngForm" novalidate>
-                                  <div class="panel panel-primary">
-                                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Bank Details</div>
-                                     <div class="panel-body">
-                                      <div class="form-group">
-                                        <div class="col-sm-3">
-                                          <label class="control-label">Bank Name<sup class="text-danger">*</sup></label>
-                                          <select class="form-control" 
-                                          name="Bank_ID" 
-                                          #Bank_ID="ngModel"
-                                            [(ngModel)]="objbank.Bank_ID"
-                                            (change)="getIFSC()"
-                                            [ngClass]="{'clearance': BankFormSubmitted && Bank_ID?.errors?.required}" 
-                                            required>
-                                            <option [ngValue]="undefined">Select</option>
-                                            <option *ngFor="let option of bankNameList" value="{{option.Bank_ID}}">
-                                              {{option.Bank_Name}}
-                                            </option>
-                                          </select>
-                                        </div>
-                                        <div class="col-sm-3">
-                                          <label class="control-label">Account No<sup class="text-danger">*</sup></label>
-                                            <input class="form-control" 
-                                            name="Account_No" 
-                                            #Account_No="ngModel" 
-                                            [(ngModel)]="objbank.Account_No"
-                                            placeholder="Account No" 
-                                            [ngClass]="{'clearance': BankFormSubmitted && Account_No.errors?.required}" 
-                                            required>
-                                        </div>
-                                        <div class="col-sm-3">
-                                          <label class="control-label">IFS Code<sup class="text-danger">*</sup></label>
-                                          <select class="form-control" 
-                                            name="IFSC_ID" 
-                                            #IFSC_ID="ngModel"
-                                            [(ngModel)]="objbank.IFSC_ID"
-                                            (change)="getBranchName()"
-                                            [ngClass]="{'clearance': BankFormSubmitted && IFSC_ID?.errors?.required}" 
-                                            required>
-                                            <option [ngValue]="undefined">Select</option>
-                                            <option *ngFor="let option of IFSCList" value="{{option.IFSC_ID}}">
-                                              {{option.IFSC_Code}}
-                                            </option>
-                                          </select>
-                                        </div>
-                                        <div class="col-sm-3">
-                                          <label class="control-label">Branch Name<sup class="text-danger">*</sup></label>
-                                          <input class="form-control" 
-                                          name="Branch_Name" 
-                                          #Branch_Name="ngModel" 
-                                          [(ngModel)]="objbank.Branch_Name" 
-                                          placeholder="Branch Name" 
-                                          [ngClass]="{'clearance': BankFormSubmitted && Branch_Name.errors?.required}"
-                                          disabled 
-                                          required>
-                                        </div>
-                                      </div>
-                                      <button class="btn btn-primary pull-right" 
-                                      style="margin-top: 15px;"
-                                      (click)="addBankDetalis(BankDetailsForm.form.valid)" 
-                                     >
-                                      Add
-                                    </button>
-                                      </div>
-                                      </div>
-                                  </form>
-                                  <div class="table-responsive no-padding">
-                                    <p-table [value]="addBankList" dataKey="id">
-                                      <ng-template pTemplate="header">
-                                        <tr>
-                                          <th>Bank Name</th>
-                                          <th>Account No</th>
-                                          <th>IFS Code</th>
-                                          <th>Branch Name</th>
-                                          <th></th>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                        <tr class="p-selectable-row">
-                                          <td>{{col.Bank_Name}}</td>
-                                          <td>{{col.Account_No}}</td>
-                                          <td>{{col.IFSC_Code}}</td>
-                                          <td>{{col.Branch_Name}}</td>
-                                           <td><a (click)="DeleteContact(rowIndex,'Bank_Details')">
-                                              <div><i class="fa fa-fw fa-trash"> </i></div>
-                                            </a></td>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="emptymessage">
-                                        <tr>
-                                          <td colspan="8">No Data found.</td>
-                                        </tr>
-                                      </ng-template>
-                                    </p-table>
-                                  </div>
-                                  <form name="FatherDetailsForm" #FatherDetailsForm="ngForm" novalidate>
-                                    <div class="panel panel-primary">
-                                      <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Father Details</div>
-                                       <div class="panel-body">
-                                        <div class="form-group">
-                                              <div class="col-sm-4">
-                                                <label class="control-label">Father Name<sup class="text-danger">*</sup></label>
-                                                <div class="p-inputgroup">
-                                                 <select 
-                                                    name="Father_Status" 
-                                                    #Father_Status="ngModel"
-                                                    [(ngModel)]="objcustomer.Father_Status"
-                                                    [ngClass]="{'clearance': fatherDetalisFormSubmit && Father_Status.errors?.required}" 
-                                                     required
-                                                     [disabled]="addFatherDetalis.length"
-                                                     >
-                                                      <option [ngValue]="undefined">Select</option>
-                                                      <option value="Alive">
-                                                        Late
-                                                      </option>
-                                                      <option value="Alive">
-                                                        Alive
-                                                      </option>
-                                                    </select>
-                                                    <input class="form-control" 
-                                                    name="Father_Name" 
-                                                    #Father_Name="ngModel" 
-                                                    [(ngModel)]="objcustomer.Father_Name" 
-                                                    placeholder="Father Name"
-                                                    [ngClass]="{'clearance': fatherDetalisFormSubmit && Father_Name.errors?.required}" 
-                                                    [disabled]="addFatherDetalis.length"
-                                                    required
-                                                    >   
-                                              </div>
-                                              </div>
-                                              <div class="col-sm-4">
-                                                <label class="control-label">Address<sup class="text-danger">*</sup></label>
-                                                <input class="form-control" 
-                                                name="Father_Adress" 
-                                                #Father_Adress="ngModel" 
-                                                [(ngModel)]="objFatherDetails.Father_Adress" 
-                                                placeholder="Address" 
-                                                [ngClass]="{'clearance': fatherDetalisFormSubmit && Father_Adress.errors?.required}" 
-                                                required>
-                                              </div>
-                                              <div class="col-sm-4">
-                                                <label class="control-label">Phone Number<sup class="text-danger">*</sup></label>
-                                                <input class="form-control" 
-                                                name="Father_Phone_No" 
-                                                #Father_Phone_No="ngModel" 
-                                                [(ngModel)]="objFatherDetails.Father_Phone_No" 
-                                                placeholder="Phone Number"
-                                                CompacctDigitonly="true"
-                                                maxlength="10"
-                                                minlength="10"
-                                                [ngClass]="{'clearance': fatherDetalisFormSubmit && Father_Phone_No.errors?.required}" 
-                                                required>
-                                              </div>
-                                            </div>
-                                            <button class="btn btn-primary pull-right" 
-                                            style="margin-top: 15px;"
-                                            (click)="addfatherDetalis(FatherDetailsForm.form.valid)" 
-                                           >
-                                            Add
-                                          </button>
-                                         </div>
-                                         </div>
-                                  </form>
-                                  <div class="table-responsive no-padding">
-                                    <p-table [value]="addFatherDetalis" dataKey="id">
-                                      <ng-template pTemplate="header">
-                                        <tr>
-                                         <th>Father Address</th>
-                                          <th>Father Phone Number</th>
-                                          <th></th>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                        <tr class="p-selectable-row">
-                                          <td>{{col.Father_Adress}}</td>
-                                          <td>{{col.Father_Phone_No}}</td>
-                                           <td><a (click)="DeleteContact(rowIndex,'Father_Details')">
-                                              <div><i class="fa fa-fw fa-trash"> </i></div>
-                                            </a></td>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="emptymessage">
-                                        <tr>
-                                          <td colspan="8">No Data found.</td>
-                                        </tr>
-                                      </ng-template>
-                                    </p-table>
-                                  </div>
-                                  <form name="MotherDetailsForm" #MotherDetailsForm="ngForm" novalidate>
-                                    <div class="panel panel-primary">
-                                      <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Mother Details</div>
-                                       <div class="panel-body">
-                                        <div class="form-group">
-                                              <div class="col-sm-4">
-                                                <label class="control-label">Mother Name<sup class="text-danger">*</sup></label>
-                                                <div class="p-inputgroup">
-                                                 <select 
-                                                    name="Mother_Status" 
-                                                    #Mother_Status="ngModel"
-                                                      [(ngModel)]="objcustomer.Mother_Status"
-                                                      [ngClass]="{'clearance': motherDetalisFormSubmit && Mother_Status.errors?.required}" 
-                                                      [disabled]="addMotherDetalisList.length"
-                                                      required
-                                                      >
-                                                      <option [ngValue]="undefined">Select</option>
-                                                      <option value="Alive">
-                                                        Late
-                                                      </option>
-                                                      <option value="Alive">
-                                                        Alive
-                                                      </option>
-                                                    </select>
-                                                    <input class="form-control" 
-                                                    name="Mother_Name" 
-                                                    #Mother_Name="ngModel" 
-                                                    [(ngModel)]="objcustomer.Mother_Name" 
-                                                    placeholder="Mother Name"
-                                                    [ngClass]="{'clearance': motherDetalisFormSubmit && Mother_Name.errors?.required}" 
-                                                    [disabled]="addMotherDetalisList.length" 
-                                                    required
-                                                    >   
-                                              </div>
-                                              </div>
-                                              <div class="col-sm-4">
-                                                <label class="control-label">Address<sup class="text-danger">*</sup></label>
-                                                <input class="form-control" 
-                                                name="Mother_Adress" 
-                                                #Mother_Adress="ngModel" 
-                                                [(ngModel)]="objMotherDetails.Mother_Adress" 
-                                                placeholder="Address" 
-                                                [ngClass]="{'clearance': motherDetalisFormSubmit && Mother_Adress.errors?.required}" 
-                                                required>
-                                              </div>
-                                              <div class="col-sm-4">
-                                                <label class="control-label">Phone Number<sup class="text-danger">*</sup></label>
-                                                <input class="form-control" 
-                                                name="Mother_Phone_No" 
-                                                #Mother_Phone_No="ngModel" 
-                                                [(ngModel)]="objMotherDetails.Mother_Phone_No" 
-                                                placeholder="Phone Number"
-                                                CompacctDigitonly="true"
-                                                maxlength="10"
-                                                minlength="10"
-                                                [ngClass]="{'clearance': motherDetalisFormSubmit && Mother_Phone_No.errors?.required}" 
-                                                required>
-                                              </div>
-                                            </div>
-                                            <button class="btn btn-primary pull-right" 
-                                            style="margin-top: 15px;"
-                                            (click)="addMotherDetalis(MotherDetailsForm.form.valid)" 
-                                           >
-                                            Add
-                                          </button>
-                                         </div>
-                                         </div>
-                                  </form>
-                                  <div class="table-responsive no-padding">
-                                    <p-table [value]="addMotherDetalisList" dataKey="id">
-                                      <ng-template pTemplate="header">
-                                        <tr>
-                                         <th>Mother Address</th>
-                                          <th>Mother Phone Number</th>
-                                          <th></th>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                        <tr class="p-selectable-row">
-                                          <td>{{col.Mother_Adress}}</td>
-                                          <td>{{col.Mother_Phone_No}}</td>
-                                           <td><a (click)="DeleteContact(rowIndex,'Mother_Detalis')">
-                                              <div><i class="fa fa-fw fa-trash"> </i></div>
-                                            </a></td>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="emptymessage">
-                                        <tr>
-                                          <td colspan="8">No Data found.</td>
-                                        </tr>
-                                      </ng-template>
-                                    </p-table>
-                                  </div>
-                                  <form name="SpouseDetailsForm" #SpouseDetailsForm="ngForm" novalidate>
-                                    <div class="panel panel-primary">
-                                      <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Spouse Details</div>
-                                       <div class="panel-body">
-                                        <div class="form-group">
-                                              <div class="col-sm-4">
-                                                <label class="control-label">Spouse Name<sup class="text-danger">*</sup></label>
-                                                <div class="p-inputgroup">
-                                                 <select 
-                                                    name="Marital_Status" 
-                                                    #Marital_Status="ngModel"
-                                                      [(ngModel)]="objcustomer.Marital_Status"
-                                                      [ngClass]="{'clearance': SpouseDetalisFormSubmit && Marital_Status.errors?.required}" 
-                                                      [disabled]="addSpouseDetalisList.length"
-                                                      required
-                                                     >
-                                                      <option [ngValue]="undefined">Select</option>
-                                                      <option value="Married">
-                                                        Married
-                                                      </option>
-                                                      <option value="UnMarried">
-                                                        UnMarried
-                                                      </option>
-                                                    </select>
-                                                    <input class="form-control" 
-                                                    name="Spouse_Name" 
-                                                    #Spouse_Name="ngModel" 
-                                                    [(ngModel)]="objcustomer.Spouse_Name" 
-                                                    placeholder="Spouse Name"
-                                                    [ngClass]="{'clearance': SpouseDetalisFormSubmit && Spouse_Name.errors?.required}" 
-                                                    [disabled]="addSpouseDetalisList.length"
-                                                    required
-                                                    >   
-                                              </div>
-                                              </div>
-                                              <div class="col-sm-4">
-                                                <label class="control-label">Address<sup class="text-danger">*</sup></label>
-                                                <input class="form-control" 
-                                                name="Spouse_Adress" 
-                                                #Spouse_Adress="ngModel" 
-                                                [(ngModel)]="objSpouseDetails.Address" 
-                                                placeholder="Address" 
-                                                [ngClass]="{'clearance': SpouseDetalisFormSubmit && Spouse_Adress.errors?.required}" 
-                                                required>
-                                              </div>
-                                              <div class="col-sm-4">
-                                                <label class="control-label">Phone Number<sup class="text-danger">*</sup></label>
-                                                <input class="form-control" 
-                                                name="Spouse_Phone_No" 
-                                                #Spouse_Phone_No="ngModel" 
-                                                [(ngModel)]="objSpouseDetails.Spouse_Phone_No" 
-                                                placeholder="Phone Number"
-                                                CompacctDigitonly="true"
-                                                maxlength="10"
-                                                minlength="10"
-                                                [ngClass]="{'clearance': SpouseDetalisFormSubmit && Spouse_Phone_No.errors?.required}" 
-                                                required>
-                                              </div>
-                                            </div>
-                                            <button class="btn btn-primary pull-right" 
-                                            style="margin-top: 15px;"
-                                            (click)="addSpouseDetalis(SpouseDetailsForm.form.valid)" 
-                                           >
-                                            Add
-                                          </button>
-                                         </div>
-                                         </div>
-                                  </form>
-                                  <div class="table-responsive no-padding">
-                                    <p-table [value]="addSpouseDetalisList" dataKey="id">
-                                      <ng-template pTemplate="header">
-                                        <tr>
-                                         <th>Spouse Address</th>
-                                          <th>Spouse Phone Number</th>
-                                          <th></th>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                        <tr class="p-selectable-row">
-                                          <td>{{col.Address}}</td>
-                                          <td>{{col.Spouse_Phone_No}}</td>
-                                           <td><a (click)="DeleteContact(rowIndex,'Spouse_Details')">
-                                              <div><i class="fa fa-fw fa-trash"> </i></div>
-                                            </a></td>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="emptymessage">
-                                        <tr>
-                                          <td colspan="8">No Data found.</td>
-                                        </tr>
-                                      </ng-template>
-                                    </p-table>
-                                  </div>
-                                  <form name="ReferenceForm" #ReferenceForm="ngForm" novalidate>
-                                    <div class="panel panel-primary">
-                                      <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Reference</div>
-                                       <div class="panel-body">
-                                        <div class="form-group">
-                                              <div class="col-sm-3">
-                                                <label class="control-label">Reference Name<sup class="text-danger">*</sup></label>
-                                                <input class="form-control" 
-                                                name="Reference_Name" 
-                                                #Reference_Name="ngModel" 
-                                                [(ngModel)]="objReference.Reference_Name" 
-                                                placeholder="Reference Name"
-                                                [ngClass]="{'clearance': ReferenceFormSubmit && Reference_Name.errors?.required}" 
-                                                required>
-                                              </div>
-                                              <div class="col-sm-3">
-                                                <label class="control-label">Relation<sup class="text-danger">*</sup></label>
-                                                <select class="form-control" 
-                                                name="Reference_Relation" 
-                                                #Reference_Relation="ngModel"
-                                                  [(ngModel)]="objReference.Relation_ID" 
-                                                  [ngClass]="{'clearance': ReferenceFormSubmit && Reference_Relation?.errors?.required}" 
-                                                  required>
-                                                  <option [ngValue]="undefined">Select</option>
-                                                  <option *ngFor="let option of RelationList" value="{{option.Relation_ID}}">
-                                                    {{option.Relation_Name}}
-                                                  </option>
-                                                </select>
-                                              </div>
-                                              <div class="col-sm-3">
-                                                <label class="control-label">Address<sup class="text-danger">*</sup></label>
-                                                <input class="form-control" 
-                                                name="Reference_Address" 
-                                                #Reference_Address="ngModel" 
-                                                [(ngModel)]="objReference.Address" 
-                                                placeholder="Reference Address"
-                                                
-                                                [ngClass]="{'clearance': ReferenceFormSubmit && Reference_Address.errors?.required}" 
-                                                required>
-                                              </div>
-                                              <div class="col-sm-3">
-                                                <label class="control-label">Phone No<sup class="text-danger">*</sup></label>
-                                                <input class="form-control" 
-                                                name="Reference_Phone_No" 
-                                                #Reference_Phone_No="ngModel" 
-                                                [(ngModel)]="objReference.Phone_No" 
-                                                placeholder="Reference Phone No"
-                                                CompacctDigitonly="true"
-                                                maxlength="10"
-                                                minlength="10"
-                                                [ngClass]="{'clearance': ReferenceFormSubmit && Reference_Phone_No.errors?.required}" 
-                                                required>
-                                              </div>
-                                            </div>
-                                            <button class="btn btn-primary pull-right" 
-                                            style="margin-top: 15px;"
-                                            (click)="addReference(ReferenceForm.form.valid)" 
-                                           >
-                                            Add
-                                          </button>
-                                         </div>
-                                         </div>
-                                  </form>
-                                  <div class="table-responsive no-padding">
-                                    <p-table [value]="addReferenceList" dataKey="id">
-                                      <ng-template pTemplate="header">
-                                        <tr>
-                                         <th>Reference Name</th>
-                                          <th>Relation</th>
-                                          <th>Address</th>
-                                          <th>Phone No</th>
-                                          <th></th>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                        <tr class="p-selectable-row">
-                                          <td>{{col.Reference_Name}}</td>
-                                          <td>{{col.Relation_Name}}</td>
-                                          <td>{{col.Address}}</td>
-                                          <td>{{col.Phone_No}}</td>
-                                           <td><a (click)="DeleteContact(rowIndex,'Reference')">
-                                              <div><i class="fa fa-fw fa-trash"> </i></div>
-                                            </a></td>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="emptymessage">
-                                        <tr>
-                                          <td colspan="8">No Data found.</td>
-                                        </tr>
-                                      </ng-template>
-                                    </p-table>
-                                  </div>
-                                  <form name="AssetDetailsForm" #AssetDetailsForm="ngForm" novalidate>
-                                    <div class="panel panel-primary">
-                                      <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Asset Details</div>
-                                       <div class="panel-body">
-                                        <div class="form-group">
-                                             <div class="col-sm-4">
-                                                <label class="control-label">Asset Name<sup class="text-danger">*</sup></label>
-                                                <select class="form-control" 
-                                                name="Asset_ID" 
-                                                #Asset_ID="ngModel"
-                                                  [(ngModel)]="objasset.Asset_ID" 
-                                                  [ngClass]="{'clearance': assetDetalisFormSubmit && Asset_ID?.errors?.required}" 
-                                                  required>
-                                                  <option [ngValue]="undefined">Select</option>
-                                                  <option *ngFor="let option of AssetList" value="{{option.Asset_ID}}">
-                                                    {{option.Asset_Name}}
-                                                  </option>
-                                                </select>
-                                              </div>
-                                              <div class="col-sm-4">
-                                                <label class="control-label">Asset Value<sup class="text-danger">*</sup></label>
-                                                <input class="form-control" 
-                                                name="Asset_value" 
-                                                #Asset_value="ngModel" 
-                                                [(ngModel)]="objasset.Asset_value" 
-                                                placeholder="Asset value"
-                                               [ngClass]="{'clearance': assetDetalisFormSubmit && Asset_value.errors?.required}" 
-                                                required>
-                                              </div>
-                                              <div class="col-sm-4">
-                                                <button class="btn btn-primary " 
-                                                style="margin-top: 24px;"
-                                                (click)="addassetDetalis(AssetDetailsForm.form.valid)" 
-                                               >
-                                                Add
-                                              </button>
-                                              </div>
-                                            </div>
-                                          
-                                         </div>
-                                         </div>
-                                  </form>
-                                  <div class="table-responsive no-padding">
-                                    <p-table [value]="addAssetList" dataKey="id">
-                                      <ng-template pTemplate="header">
-                                        <tr>
-                                         <th>Asset Name</th>
-                                          <th>Asset Value</th>
-                                          <th></th>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                        <tr class="p-selectable-row">
-                                          <td>{{col.Asset_Name}}</td>
-                                          <td>{{col.Asset_value}}</td>
-                                          
-                                           <td><a (click)="DeleteContact(rowIndex,'Asset')">
-                                              <div><i class="fa fa-fw fa-trash"> </i></div>
-                                            </a></td>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="emptymessage">
-                                        <tr>
-                                          <td colspan="8">No Data found.</td>
-                                        </tr>
-                                      </ng-template>
-                                    </p-table>
-                                  </div>
-                                  <form name="CreditReportForm" #CreditReportForm="ngForm" novalidate>
-                                    <div class="panel panel-primary">
-                                      <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Credit Report</div>
-                                       <div class="panel-body">
-                                        <div class="form-group">
-                                             <div class="col-sm-4">
-                                                <label class="control-label">CIC Name<sup class="text-danger">*</sup></label>
-                                                <input class="form-control" 
-                                                name="CIC_Name" 
-                                                #CIC_Name="ngModel" 
-                                                [(ngModel)]="objCreditReport.CIC_Name" 
-                                                placeholder="CIC Name"
-                                               [ngClass]="{'clearance': CreditReportFormsubmit && CIC_Name.errors?.required}" 
-                                                required>
-                                              </div>
-                                              <div class="col-sm-4">
-                                                <label class="control-label">Score<sup class="text-danger">*</sup></label>
-                                                <input class="form-control" 
-                                                name="Score" 
-                                                #Score="ngModel" 
-                                                [(ngModel)]="objCreditReport.Score" 
-                                                placeholder="Score"
-                                               [ngClass]="{'clearance': CreditReportFormsubmit && Score.errors?.required}" 
-                                                required>
-                                              </div>
-                                              <div class="col-sm-4">
-                                                <button class="btn btn-primary " 
-                                                style="margin-top: 24px;"
-                                                (click)="addCreditReport(CreditReportForm.form.valid)" 
-                                               >
-                                                Add
-                                              </button>
-                                              </div>
-                                            </div>
-                                          
-                                         </div>
-                                         </div>
-                                  </form>
-                                  <div class="table-responsive no-padding">
-                                    <p-table [value]="addCreditReportList" dataKey="id">
-                                      <ng-template pTemplate="header">
-                                        <tr>
-                                         <th>CIC Name</th>
-                                          <th>Score</th>
-                                          <th></th>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                        <tr class="p-selectable-row">
-                                          <td>{{col.CIC_Name}}</td>
-                                          <td>{{col.Score}}</td>
-                                          
-                                           <td><a (click)="DeleteContact(rowIndex,'Credit_Report')">
-                                              <div><i class="fa fa-fw fa-trash"> </i></div>
-                                            </a></td>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="emptymessage">
-                                        <tr>
-                                          <td colspan="8">No Data found.</td>
-                                        </tr>
-                                      </ng-template>
-                                    </p-table>
-                                  </div>
-                                  <form name="VerificationReportForm" #VerificationReportForm="ngForm" novalidate>
-                                    <div class="panel panel-primary">
-                                      <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Verification Report</div>
-                                       <div class="panel-body">
-                                        <div class="form-group">
-                                             <div class="col-sm-3">
-                                              <label class="control-label">External/Internal<sup class="text-danger">*</sup></label>
-                                              <select class="form-control" 
-                                              name="ExternalInternal" 
-                                              #ExternalInternal="ngModel"
-                                                [(ngModel)]="objVerificationReport.ExternalInternal" 
-                                                (change)="ExternalInternalChange()"
-                                                [ngClass]="{'clearance': VerificationReportFormSubmit && ExternalInternal?.errors?.required}" 
-                                                required>
-                                                <option [ngValue]="undefined">Select</option>
-                                                <option value="External">
-                                                  External
-                                                </option>
-                                                <option value="Internal">
-                                                  Internal
-                                                </option>
-                                              </select>
-                                              </div>
-                                              <div class="col-sm-3" *ngIf="objVerificationReport.ExternalInternal === 'External'">
-                                                <label class="control-label">Agency Name<sup class="text-danger">*</sup></label>
-                                                <select class="form-control" 
-                                                name="Agency_Name" 
-                                                #Agency_Name="ngModel"
-                                                  [(ngModel)]="objVerificationReport.Agent_ID" 
-                                                  [ngClass]="{'clearance': VerificationReportFormSubmit && Agency_Name?.errors?.required}" 
-                                                  [required]="objVerificationReport.ExternalInternal === 'External'">
-                                                  <option [ngValue]="undefined">Select</option>
-                                                  <option *ngFor="let option of AgencyList" value="{{option.Agent_ID}}">
-                                                    {{option.Name}}
-                                                  </option>
-                                                </select>
-                                              </div>
-                                              <div class="col-sm-3" *ngIf="objVerificationReport.ExternalInternal === 'External'">
-                                                <label class="control-label">Report Reference Number<sup class="text-danger">*</sup></label>
-                                                <input class="form-control" 
-                                                name="Report_Reference_No" 
-                                                #Report_Reference_No="ngModel" 
-                                                [(ngModel)]="objVerificationReport.Report_Reference_No" 
-                                                placeholder="Report Reference No"
-                                               [ngClass]="{'clearance': VerificationReportFormSubmit && Report_Reference_No.errors?.required}" 
-                                                [required]="objVerificationReport.ExternalInternal === 'External'">
-                                              </div>
-                                              <div class="col-sm-3" *ngIf="objVerificationReport.ExternalInternal === 'Internal'">
-                                                <label class="control-label">Employee username<sup class="text-danger">*</sup></label>
-                                                <select class="form-control" 
-                                                name="Employeeusername" 
-                                                #Employeeusername="ngModel"
-                                                  [(ngModel)]="objVerificationReport.User_ID" 
-                                                  [ngClass]="{'clearance': VerificationReportFormSubmit && Employeeusername?.errors?.required}" 
-                                                  [required]="objVerificationReport.ExternalInternal === 'Internal'">
-                                                  <option [ngValue]="undefined">Select</option>
-                                                  <option *ngFor="let option of EmployeeusernameList" value="{{option.User_ID}}">
-                                                    {{option.User_Name}}
-                                                  </option>
-                                                </select>
-                                              </div>
-                                              <div class="col-sm-3">
-                                                <label class="control-label">Verification Date<sup class="text-danger">*</sup></label>
-                                                <ejs-datepicker [(value)]="VerificationDate" [format]="'dd/MMM/yyyy'"></ejs-datepicker>
-                                              </div>
-                                            </div>
-                                            <button class="btn btn-primary pull-right" 
-                                                style="margin-top: 15px;"
-                                                (click)="addVerificationReport(VerificationReportForm.form.valid)" 
-                                               >
-                                                Add
-                                              </button>
-                                         </div>
-                                         </div>
-                                  </form>
-                                  <div class="table-responsive no-padding">
-                                    <p-table [value]="addVerificationReportList" dataKey="id">
-                                      <ng-template pTemplate="header">
-                                        <tr>
-                                         <th *ngIf="objVerificationReport.ExternalInternal === 'External'">Agency Name</th>
-                                          <th *ngIf="objVerificationReport.ExternalInternal === 'External'">Report Reference Number</th>
-                                          <th *ngIf="objVerificationReport.ExternalInternal === 'Internal'">Employee username</th>
-                                          <th >Verification Date</th>
-                                          <th></th>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
-                                        <tr class="p-selectable-row">
-                                          <td *ngIf="objVerificationReport.ExternalInternal === 'External'">{{col.Agent_Name}}</td>
-                                          <td *ngIf="objVerificationReport.ExternalInternal === 'External'">{{col.Report_Reference_No}}</td>
-                                          <td *ngIf="objVerificationReport.ExternalInternal === 'Internal'">{{col.User_Name}}</td>
-                                          <td >{{col.Verification_Date | date: "dd/MMM/yyyy"}}</td>
-                                           <td><a (click)="DeleteContact(rowIndex,'Verification_Report')">
-                                              <div><i class="fa fa-fw fa-trash"> </i></div>
-                                            </a></td>
-                                        </tr>
-                                      </ng-template>
-                                      <ng-template pTemplate="emptymessage">
-                                        <tr>
-                                          <td colspan="8">No Data found.</td>
-                                        </tr>
-                                      </ng-template>
-                                    </p-table>
-                                  </div>
-                                  <div class="box-footer ">
-                                    <button class="btn btn-primary pull-right" style="margin-top: 15px;" (click)="saveCustomerCreation(customerForm.form.valid)" id="load" [disabled]="Spinner">
-                                                    <p-progressSpinner *ngIf="Spinner" [style]="{width: '15px', height: '15px'}" strokeWidth="8"  animationDuration=".5s"></p-progressSpinner>
-                                                <span *ngIf="!Spinner" class="glyphicon glyphicon-save"></span>{{buttonname}}
-                                        </button>
-                                </div>
-                              </form>
-                        </p-tabPanel>
-                        </p-tabView>
-            </div>
-            </div>
-            </div>
-            </div>
-            </div>
+                      </td>
+                      <td>{{col.Name  ? col.Name  : '-'}}</td>
+                      <td>{{col.Alias_Name  ? col.Alias_Name  : '-'}}</td>
+                      <td>{{col.Father_Status  ? col.Father_Status  : '-'}}</td>
+                      <td>{{col.Father_Name  ? col.Father_Name  : '-'}}</td>
+                      <td>{{col.Mother_Status  ? col.Mother_Status  : '-'}}</td>
+                      <td>{{col.Mother_Name  ? col.Mother_Name  : '-'}}</td>
+                      <td>{{col.Monthly_Income  ? col.Monthly_Income  : '-'}}</td>
+                      <td>{{col.Aadhar_Card  ? col.Aadhar_Card  : '-'}}</td>
+                      <td>{{col.Driving_License  ? col.Driving_License  : '-'}}</td>
+                      <td>{{col.PAN_Card  ? col.PAN_Card  : '-'}}</td>
+                      <td>{{col.Passport  ? col.Passport  : '-'}}</td>
+                      <td>{{col.Marital_Status  ? col.Marital_Status  : '-'}}</td>
+                      <td>{{col.Spouse_Name  ? col.Spouse_Name  : '-'}}</td>
+                      <td>{{col.Voter_ID  ? col.Voter_ID  : '-'}}</td>
+                    </tr>
+                  </ng-template>
+                  <tr>
+                    <!-- <td colspan="8">No customers found.</td> -->
+                  </tr>
+                </p-table>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel headerStyleClass="compacct-tabs" [header]="items[1]" leftIcon="glyphicon glyphicon-floppy-save">
+              <form name="customerForm" #customerForm="ngForm" novalidate>
+                <div class="form-group">
+                  <div class="col-sm-6">
+                    <label class="control-label">Name<sup class="text-danger">*</sup></label>
+                    <input class="form-control" name="Name" #Name="ngModel" [(ngModel)]="objcustomer.Name"
+                      placeholder="Name" [ngClass]="{'clearance': customerFormSubmitted && Name.errors?.required}"
+                      required>
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="control-label">Alias Name<sup class="text-danger">*</sup></label>
+                    <input class="form-control" name="Alias_Name" #Alias_Name="ngModel"
+                      [(ngModel)]="objcustomer.Alias_Name" placeholder="Alias Name"
+                      [ngClass]="{'clearance': customerFormSubmitted && Alias_Name.errors?.required}" required>
+                  </div>
+                </div>
+                <form name="AddressForm" #AddressForm="ngForm" novalidate>
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Address</div>
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <div class="col-sm-4">
+                          <label class="control-label">Type<sup class="text-danger">*</sup></label>
+                          <select class="form-control" name="Cust_Type_ID" #Cust_Type_ID="ngModel"
+                            [(ngModel)]="objaddress.Cust_Type_ID"
+                            [ngClass]="{'clearance': AddressFormSubmitted && Cust_Type_ID?.errors?.required}" required>
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let option of typeList" value="{{option.Cust_Type_ID}}">
+                              {{option.Cust_Type}}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-sm-4">
+                          <label class="control-label"> Address Line<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Address_Line" #Address_Line="ngModel"
+                            [(ngModel)]="objaddress.Address" placeholder="Address Line"
+                            [ngClass]="{'clearance': AddressFormSubmitted && Address_Line.errors?.required}" required>
+                        </div>
+                        <div class="col-sm-4">
+                          <label class="control-label">Police Station<sup class="text-danger">*</sup></label>
+                          <select class="form-control" name="Police_Station" #Police_Station="ngModel"
+                            [(ngModel)]="objaddress.Police_Station_ID"
+                            [ngClass]="{'clearance': AddressFormSubmitted && Police_Station?.errors?.required}"
+                            required>
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let option of PoliceStationList" value="{{option.Police_Station_ID}}">
+                              {{option.Police_Station_Name}}
+                            </option>
+                          </select>
+                        </div>
+
+                      </div>
+                      <div class="form-group">
+                        <div class="col-sm-4">
+                          <label class="control-label">Post Office<sup class="text-danger">*</sup></label>
+                          <select class="form-control" name="Post_Office" #Post_Office="ngModel"
+                            [(ngModel)]="objaddress.Post_Office_ID" (change)="getPincode()"
+                            [ngClass]="{'clearance': AddressFormSubmitted && Post_Office?.errors?.required}" required>
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let option of PostOfficeList" value="{{option.Post_Office_ID}}">
+                              {{option.Post_Office_Name}}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-sm-4">
+                          <label class="control-label">Pincode<sup class="text-danger">*</sup></label>
+                          <select class="form-control" name="Pincode" #Pincode="ngModel"
+                            [(ngModel)]="objaddress.Pincode_ID"
+                            [ngClass]="{'clearance': AddressFormSubmitted && Pincode?.errors?.required}" required>
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let option of pincodeList" value="{{option.Pincode_ID}}">
+                              {{option.Pincode}}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-sm-4">
+                          <button class="btn btn-primary" style="margin-top: 24px;"
+                            (click)="addAddress(AddressForm.form.valid)">
+                            Add
+                          </button>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div class="table-responsive no-padding">
+                  <p-table [value]="addressList" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Type</th>
+                        <th>Address Line</th>
+                        <th>Police Station</th>
+                        <th>Post Office</th>
+                        <th>Pincode</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                      <tr class="p-selectable-row">
+                        <td>{{col.Address_Type}}</td>
+                        <td>{{col.Address}}</td>
+                        <td>{{col.Police_Station_Name}}</td>
+                        <td>{{col.Post_Office_Name}}</td>
+                        <td>{{col.Pincode}}</td>
+                        <td><a (click)="DeleteContact(rowIndex,'Address')">
+                            <div><i class="fa fa-fw fa-trash"> </i></div>
+                          </a></td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="8">No Data found.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-6">
+                    <form name="PhoneForm" #PhoneForm="ngForm" novalidate>
+                      <div class="panel panel-primary">
+                        <div class="panel-body">
+                          <div>
+                            <label class="control-label">Phone<sup class="text-danger">*</sup></label>
+                            <input class="form-control" name="Phone" #Phone="ngModel" [(ngModel)]="PhoneNumber"
+                              placeholder="Phone" CompacctDigitonly="true" maxlength="10" minlength="10"
+                              [ngClass]="{'clearance': phoneFormSubmitted && Phone.errors?.required}" required>
+                          </div>
+                          <div>
+                            <button class="btn btn-primary pull-right" style="margin-top: 15px;"
+                              (click)="addPhone(PhoneForm.form.valid)">
+                              Add
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                    <div class="table-responsive no-padding">
+                      <p-table [value]="addPhoneList">
+                        <ng-template pTemplate="header">
+                          <tr>
+                            <th>Phone Number</th>
+                            <th></th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                          <tr class="p-selectable-row">
+                            <td>{{col.Mobile_No}}</td>
+                            <td><a (click)="DeleteContact(rowIndex,'phone')">
+                                <div><i class="fa fa-fw fa-trash"> </i></div>
+                              </a></td>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                          <tr>
+                            <td colspan="8">No Data found.</td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <form name="EmailForm" #EmailForm="ngForm" novalidate>
+                      <div class="panel panel-primary">
+                        <div class="panel-body">
+                          <div>
+                            <label class="control-label">Email Id<sup class="text-danger">*</sup></label>
+                            <input class="form-control" name="Email" #Email="ngModel" [(ngModel)]="emailId"
+                              placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                              [ngClass]="{'clearance':emailIdFormSubmitted && (Email?.errors?.required || Email?.errors?.pattern ) }"
+                              required>
+                          </div>
+                          <div>
+                            <button class="btn btn-primary pull-right" style="margin-top: 15px;"
+                              (click)="addEmailId(EmailForm.form.valid)">
+                              Add
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                    <div class="table-responsive no-padding">
+                      <p-table [value]="addEmailIdList">
+                        <ng-template pTemplate="header">
+                          <tr>
+                            <th>Email Id</th>
+                            <th></th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                          <tr class="p-selectable-row">
+                            <td>{{col.Email_ID}}</td>
+                            <td><a (click)="DeleteContact(rowIndex,'email')">
+                                <div><i class="fa fa-fw fa-trash"> </i></div>
+                              </a></td>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                          <tr>
+                            <td colspan="8">No Data found.</td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+                <form name="OccupationForm" #OccupationForm="ngForm" novalidate>
+                  <div class="panel panel-primary">
+                    <div class="panel-body">
+                      <div class="col-sm-6">
+                        <label class="control-label">Occupation<sup class="text-danger">*</sup></label>
+                        <select class="form-control" name="Occupation" #Occupation="ngModel" [(ngModel)]="OccupationID"
+                          [ngClass]="{'clearance': OccupationFormSubmitted && Occupation?.errors?.required}" required>
+                          <option [ngValue]="undefined">Select</option>
+                          <option *ngFor="let option of OccupationList" value="{{option.Occupation_ID}}">
+                            {{option.Occupation_Name}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col-sm-6">
+                        <button class="btn btn-primary pull-left" style="margin-top: 24px;"
+                          (click)="addoccupation(OccupationForm.form.valid)">
+                          Add
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div class="table-responsive no-padding">
+                  <p-table [value]="OccupationAddList" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Occupation name</th>
+
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                      <tr class="p-selectable-row">
+                        <td>{{col.Occupation_name}}</td>
+
+                        <td><a (click)="DeleteContact(rowIndex,'Occupation_name')">
+                            <div><i class="fa fa-fw fa-trash"> </i></div>
+                          </a></td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="8">No Data found.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <form name="DependentForm" #DependentForm="ngForm" novalidate>
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Dependents</div>
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <div class="col-sm-4">
+                          <label class="control-label">Number<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Dependent_No" #Dependent_No="ngModel"
+                            [(ngModel)]="objDependent.Dependent_No" placeholder="Dependent No"
+                            [ngClass]="{'clearance': DependentFormSubmitted && Dependent_No.errors?.required}" required>
+                        </div>
+                        <div class="col-sm-4">
+                          <label class="control-label">Name of Each Dependent<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Dependent_Name" #Dependent_Name="ngModel"
+                            [(ngModel)]="objDependent.Dependent_Name" placeholder="Name of Each Dependent"
+                            [ngClass]="{'clearance': DependentFormSubmitted && Dependent_Name.errors?.required}"
+                            required>
+                        </div>
+                        <div class="col-sm-4">
+                          <label class="control-label">Relation<sup class="text-danger">*</sup></label>
+                          <select class="form-control" name="Relation_ID" #Relation_ID="ngModel"
+                            [(ngModel)]="objDependent.Relation_ID"
+                            [ngClass]="{'clearance': DependentFormSubmitted && Relation_ID?.errors?.required}" required>
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let option of RelationList" value="{{option.Relation_ID}}">
+                              {{option.Relation_Name}}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <button class="btn btn-primary pull-right" style="margin-top: 15px;"
+                        (click)="addDependent(DependentForm.form.valid)">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </form>
+                <div class="table-responsive no-padding">
+                  <p-table [value]="DependentAddList" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Dependent No</th>
+                        <th>Dependent Name</th>
+                        <th>Relation ID</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                      <tr class="p-selectable-row">
+                        <td>{{col.Dependent_No}}</td>
+                        <td>{{col.Dependent_Name}}</td>
+                        <td>{{col.Relation_Name}}</td>
+                        <td><a (click)="DeleteContact(rowIndex,'Dependent')">
+                            <div><i class="fa fa-fw fa-trash"> </i></div>
+                          </a></td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="8">No Data found.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-4">
+                    <label class="control-label">Monthly Income<sup class="text-danger">*</sup></label>
+                    <input class="form-control" name="Monthly_Income" #Monthly_Income="ngModel"
+                      [(ngModel)]="objcustomer.Monthly_Income" placeholder="Monthly Income" CompacctDigitonly="true">
+                  </div>
+                  <div class="col-sm-4">
+                    <label class="control-label">PAN Card<sup class="text-danger">*</sup></label>
+                    <input class="form-control" name="PAN_Card" #PAN_Card="ngModel" [(ngModel)]="objcustomer.PAN_Card"
+                      placeholder="PAN Card" maxlength="10" minlength="10">
+                  </div>
+                  <div class="col-sm-4">
+                    <label class="control-label">Aadhar Card<sup class="text-danger">*</sup></label>
+                    <input class="form-control" name="Aadhar_Card" #Aadhar_Card="ngModel"
+                      [(ngModel)]="objcustomer.Aadhar_Card" placeholder="Aadhar Card" CompacctDigitonly="true"
+                      maxlength="12" minlength="12">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-4">
+                    <label class="control-label">Driving License Number<sup class="text-danger">*</sup></label>
+                    <input class="form-control" name="Driving_License" #Driving_License="ngModel"
+                      [(ngModel)]="objcustomer.Driving_License" maxlength="15" minlength="15"
+                      placeholder="Driving Number">
+                  </div>
+                  <div class="col-sm-4">
+                    <label class="control-label">Passport Number<sup class="text-danger">*</sup></label>
+                    <input class="form-control" name="Passport" #Passport="ngModel" [(ngModel)]="objcustomer.Passport"
+                      placeholder="Passport Number" maxlength="8" minlength="8">
+                  </div>
+                  <div class="col-sm-4">
+                    <label class="control-label">Voter ID Number<sup class="text-danger">*</sup></label>
+                    <input class="form-control" name="Voter_ID" #Voter_ID="ngModel" [(ngModel)]="objcustomer.Voter_ID"
+                      placeholder="Voter ID Number">
+                  </div>
+                </div>
+                <form name="otherAddressForm" #otherAddressForm="ngForm" novalidate>
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Other Address Proofs</div>
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <div class="col-sm-4">
+                          <label class="control-label">Document Name<sup class="text-danger">*</sup></label>
+                          <select class="form-control" name="Document_ID" #Document_ID="ngModel"
+                            [(ngModel)]="objDocument.Document_ID"
+                            [ngClass]="{'clearance': OtheraddressFormSubmitted && Document_ID?.errors?.required}"
+                            required>
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let option of DocumentList" value="{{option.Document_ID}}">
+                              {{option.Document_Name}}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-sm-4">
+                          <label class="control-label">Document Number<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Document_No" #Document_No="ngModel"
+                            [(ngModel)]="objDocument.Document_No" placeholder="Document Number"
+                            [ngClass]="{'clearance': OtheraddressFormSubmitted && Document_No.errors?.required}"
+                            required>
+                        </div>
+                        <div class="col-sm-4">
+                          <button class="btn btn-primary" style="margin-top: 24px;"
+                            (click)="addOtherAddress(otherAddressForm.form.valid)">
+                            Add
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </form>
+                <div class="table-responsive no-padding">
+                  <p-table [value]="AddOtheraddressList" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Document Name</th>
+                        <th>Document Number</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                      <tr class="p-selectable-row">
+                        <td>{{col.Document_Name}}</td>
+                        <td>{{col.Document_No}}</td>
+                        <td><a (click)="DeleteContact(rowIndex,'otherAddress')">
+                            <div><i class="fa fa-fw fa-trash"> </i></div>
+                          </a></td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="8">No Data found.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <form name="OtherDocumentsForm" #OtherDocumentsForm="ngForm" novalidate>
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Document Name</div>
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <div class="col-sm-6">
+                          <label class="control-label">Document Name<sup class="text-danger">*</sup></label>
+                          <select class="form-control" name="DocumentName" #DocumentName="ngModel"
+                            [(ngModel)]="DocumentID"
+                            [ngClass]="{'clearance': DocumentFormSubmitted && DocumentName?.errors?.required}" required>
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let option of DocumentList" value="{{option.Document_ID}}">
+                              {{option.Document_Name}}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="control-label">Add Documents<sup class="text-danger">*</sup></label>
+                          <p-fileUpload #fileInput name="myfile[]" *ngIf="!PDFViewFlag" name="aFile"
+                            accept="image/*,application/pdf" [chooseLabel]="'Browse'" [showUploadButton]="false"
+                            (onSelect)="FetchPDFFile($event)"></p-fileUpload>
+                          <a [href]="ProductPDFLink" *ngIf="PDFViewFlag" style="display: block;"><img
+                              src="/PDF_Logo/PDF-logo.png" class='img-rounded pdf' style="width:40px; height:50px "
+                              alt="PDF"></a>
+                        </div>
+                        <button class="btn btn-primary pull-right" style="margin-top: 15px;"
+                        (click)="addDocumentsname(OtherDocumentsForm.form.valid)" id="load" [disabled]="DocUploadSpinner">
+                        <p-progressSpinner *ngIf="DocUploadSpinner" [style]="{width: '15px', height: '15px'}" strokeWidth="8"
+                          animationDuration=".5s"></p-progressSpinner>
+                        <span *ngIf="!DocUploadSpinner" class="glyphicon glyphicon-download-alt"></span>Add
+                      </button>
+                        <!-- <button class="btn btn-primary pull-right" style="margin-top: 15px; margin-right: 15px;"
+                          (click)="addDocumentsname(OtherDocumentsForm.form.valid)">
+                          Add
+                        </button> -->
+
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div class="table-responsive no-padding">
+                  <p-table [value]="addDocumentList" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Document Name</th>
+                        <th>Document</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                      <tr class="p-selectable-row">
+                        <td>{{col.Document_Name}}</td>
+                        <td>
+                          <p-button [label]="'Show'" icon="pi pi-image" (click)="showImg(col)"></p-button>
+                        </td>
+                        <td><a (click)="DeleteContact(rowIndex,'Document')">
+                            <div><i class="fa fa-fw fa-trash"> </i></div>
+                          </a></td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="8">No Data found.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <form name="BankDetailsForm" #BankDetailsForm="ngForm" novalidate>
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Bank Details</div>
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <div class="col-sm-3">
+                          <label class="control-label">Bank Name<sup class="text-danger">*</sup></label>
+                          <select class="form-control" name="Bank_ID" #Bank_ID="ngModel" [(ngModel)]="objbank.Bank_ID"
+                            (change)="getIFSC()"
+                            [ngClass]="{'clearance': BankFormSubmitted && Bank_ID?.errors?.required}" required>
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let option of bankNameList" value="{{option.Bank_ID}}">
+                              {{option.Bank_Name}}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-sm-3">
+                          <label class="control-label">Account No<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Account_No" #Account_No="ngModel"
+                            [(ngModel)]="objbank.Account_No" placeholder="Account No"
+                            [ngClass]="{'clearance': BankFormSubmitted && Account_No.errors?.required}" required>
+                        </div>
+                        <div class="col-sm-3">
+                          <label class="control-label">IFS Code<sup class="text-danger">*</sup></label>
+                          <select class="form-control" name="IFSC_ID" #IFSC_ID="ngModel" [(ngModel)]="objbank.IFSC_ID"
+                            (change)="getBranchName()"
+                            [ngClass]="{'clearance': BankFormSubmitted && IFSC_ID?.errors?.required}" required>
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let option of IFSCList" value="{{option.IFSC_ID}}">
+                              {{option.IFSC_Code}}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-sm-3">
+                          <label class="control-label">Branch Name<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Branch_Name" #Branch_Name="ngModel"
+                            [(ngModel)]="objbank.Branch_Name" placeholder="Branch Name"
+                            [ngClass]="{'clearance': BankFormSubmitted && Branch_Name.errors?.required}" disabled
+                            required>
+                        </div>
+                      </div>
+                      <button class="btn btn-primary pull-right" style="margin-top: 15px;"
+                        (click)="addBankDetalis(BankDetailsForm.form.valid)">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </form>
+                <div class="table-responsive no-padding">
+                  <p-table [value]="addBankList" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Bank Name</th>
+                        <th>Account No</th>
+                        <th>IFS Code</th>
+                        <th>Branch Name</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                      <tr class="p-selectable-row">
+                        <td>{{col.Bank_Name}}</td>
+                        <td>{{col.Account_No}}</td>
+                        <td>{{col.IFSC_Code}}</td>
+                        <td>{{col.Branch_Name}}</td>
+                        <td><a (click)="DeleteContact(rowIndex,'Bank_Details')">
+                            <div><i class="fa fa-fw fa-trash"> </i></div>
+                          </a></td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="8">No Data found.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <form name="FatherDetailsForm" #FatherDetailsForm="ngForm" novalidate>
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Father Details</div>
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <div class="col-sm-4">
+                          <label class="control-label">Father Name<sup class="text-danger">*</sup></label>
+                          <div class="p-inputgroup">
+                            <select name="Father_Status" #Father_Status="ngModel"
+                              [(ngModel)]="objcustomer.Father_Status"
+                              [ngClass]="{'clearance': fatherDetalisFormSubmit && Father_Status.errors?.required}"
+                              required [disabled]="addFatherDetalis.length">
+                              <option [ngValue]="undefined">Select</option>
+                              <option value="Alive">
+                                Late
+                              </option>
+                              <option value="Alive">
+                                Alive
+                              </option>
+                            </select>
+                            <input class="form-control" name="Father_Name" #Father_Name="ngModel"
+                              [(ngModel)]="objcustomer.Father_Name" placeholder="Father Name"
+                              [ngClass]="{'clearance': fatherDetalisFormSubmit && Father_Name.errors?.required}"
+                              [disabled]="addFatherDetalis.length" required>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <label class="control-label">Address<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Father_Adress" #Father_Adress="ngModel"
+                            [(ngModel)]="objFatherDetails.Father_Adress" placeholder="Address"
+                            [ngClass]="{'clearance': fatherDetalisFormSubmit && Father_Adress.errors?.required}"
+                            required>
+                        </div>
+                        <div class="col-sm-4">
+                          <label class="control-label">Phone Number<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Father_Phone_No" #Father_Phone_No="ngModel"
+                            [(ngModel)]="objFatherDetails.Father_Phone_No" placeholder="Phone Number"
+                            CompacctDigitonly="true" maxlength="10" minlength="10"
+                            [ngClass]="{'clearance': fatherDetalisFormSubmit && Father_Phone_No.errors?.required}"
+                            required>
+                        </div>
+                      </div>
+                      <button class="btn btn-primary pull-right" style="margin-top: 15px;"
+                        (click)="addfatherDetalis(FatherDetailsForm.form.valid)">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </form>
+                <div class="table-responsive no-padding">
+                  <p-table [value]="addFatherDetalis" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Father Address</th>
+                        <th>Father Phone Number</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                      <tr class="p-selectable-row">
+                        <td>{{col.Father_Adress}}</td>
+                        <td>{{col.Father_Phone_No}}</td>
+                        <td><a (click)="DeleteContact(rowIndex,'Father_Details')">
+                            <div><i class="fa fa-fw fa-trash"> </i></div>
+                          </a></td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="8">No Data found.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <form name="MotherDetailsForm" #MotherDetailsForm="ngForm" novalidate>
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Mother Details</div>
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <div class="col-sm-4">
+                          <label class="control-label">Mother Name<sup class="text-danger">*</sup></label>
+                          <div class="p-inputgroup">
+                            <select name="Mother_Status" #Mother_Status="ngModel"
+                              [(ngModel)]="objcustomer.Mother_Status"
+                              [ngClass]="{'clearance': motherDetalisFormSubmit && Mother_Status.errors?.required}"
+                              [disabled]="addMotherDetalisList.length" required>
+                              <option [ngValue]="undefined">Select</option>
+                              <option value="Alive">
+                                Late
+                              </option>
+                              <option value="Alive">
+                                Alive
+                              </option>
+                            </select>
+                            <input class="form-control" name="Mother_Name" #Mother_Name="ngModel"
+                              [(ngModel)]="objcustomer.Mother_Name" placeholder="Mother Name"
+                              [ngClass]="{'clearance': motherDetalisFormSubmit && Mother_Name.errors?.required}"
+                              [disabled]="addMotherDetalisList.length" required>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <label class="control-label">Address<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Mother_Adress" #Mother_Adress="ngModel"
+                            [(ngModel)]="objMotherDetails.Mother_Adress" placeholder="Address"
+                            [ngClass]="{'clearance': motherDetalisFormSubmit && Mother_Adress.errors?.required}"
+                            required>
+                        </div>
+                        <div class="col-sm-4">
+                          <label class="control-label">Phone Number<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Mother_Phone_No" #Mother_Phone_No="ngModel"
+                            [(ngModel)]="objMotherDetails.Mother_Phone_No" placeholder="Phone Number"
+                            CompacctDigitonly="true" maxlength="10" minlength="10"
+                            [ngClass]="{'clearance': motherDetalisFormSubmit && Mother_Phone_No.errors?.required}"
+                            required>
+                        </div>
+                      </div>
+                      <button class="btn btn-primary pull-right" style="margin-top: 15px;"
+                        (click)="addMotherDetalis(MotherDetailsForm.form.valid)">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </form>
+                <div class="table-responsive no-padding">
+                  <p-table [value]="addMotherDetalisList" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Mother Address</th>
+                        <th>Mother Phone Number</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                      <tr class="p-selectable-row">
+                        <td>{{col.Mother_Adress}}</td>
+                        <td>{{col.Mother_Phone_No}}</td>
+                        <td><a (click)="DeleteContact(rowIndex,'Mother_Detalis')">
+                            <div><i class="fa fa-fw fa-trash"> </i></div>
+                          </a></td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="8">No Data found.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <form name="SpouseDetailsForm" #SpouseDetailsForm="ngForm" novalidate>
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Spouse Details</div>
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <div class="col-sm-4">
+                          <label class="control-label">Spouse Name<sup class="text-danger">*</sup></label>
+                          <div class="p-inputgroup">
+                            <select name="Marital_Status" #Marital_Status="ngModel"
+                              [(ngModel)]="objcustomer.Marital_Status"
+                              [ngClass]="{'clearance': SpouseDetalisFormSubmit && Marital_Status.errors?.required}"
+                              [disabled]="addSpouseDetalisList.length" required>
+                              <option [ngValue]="undefined">Select</option>
+                              <option value="Married">
+                                Married
+                              </option>
+                              <option value="UnMarried">
+                                UnMarried
+                              </option>
+                            </select>
+                            <input class="form-control" name="Spouse_Name" #Spouse_Name="ngModel"
+                              [(ngModel)]="objcustomer.Spouse_Name" placeholder="Spouse Name"
+                              [ngClass]="{'clearance': SpouseDetalisFormSubmit && Spouse_Name.errors?.required}"
+                              [disabled]="addSpouseDetalisList.length" required>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <label class="control-label">Address<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Spouse_Adress" #Spouse_Adress="ngModel"
+                            [(ngModel)]="objSpouseDetails.Address" placeholder="Address"
+                            [ngClass]="{'clearance': SpouseDetalisFormSubmit && Spouse_Adress.errors?.required}"
+                            required>
+                        </div>
+                        <div class="col-sm-4">
+                          <label class="control-label">Phone Number<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Spouse_Phone_No" #Spouse_Phone_No="ngModel"
+                            [(ngModel)]="objSpouseDetails.Spouse_Phone_No" placeholder="Phone Number"
+                            CompacctDigitonly="true" maxlength="10" minlength="10"
+                            [ngClass]="{'clearance': SpouseDetalisFormSubmit && Spouse_Phone_No.errors?.required}"
+                            required>
+                        </div>
+                      </div>
+                      <button class="btn btn-primary pull-right" style="margin-top: 15px;"
+                        (click)="addSpouseDetalis(SpouseDetailsForm.form.valid)">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </form>
+                <div class="table-responsive no-padding">
+                  <p-table [value]="addSpouseDetalisList" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Spouse Address</th>
+                        <th>Spouse Phone Number</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                      <tr class="p-selectable-row">
+                        <td>{{col.Address}}</td>
+                        <td>{{col.Spouse_Phone_No}}</td>
+                        <td><a (click)="DeleteContact(rowIndex,'Spouse_Details')">
+                            <div><i class="fa fa-fw fa-trash"> </i></div>
+                          </a></td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="8">No Data found.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <form name="ReferenceForm" #ReferenceForm="ngForm" novalidate>
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Reference</div>
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <div class="col-sm-3">
+                          <label class="control-label">Reference Name<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Reference_Name" #Reference_Name="ngModel"
+                            [(ngModel)]="objReference.Reference_Name" placeholder="Reference Name"
+                            [ngClass]="{'clearance': ReferenceFormSubmit && Reference_Name.errors?.required}" required>
+                        </div>
+                        <div class="col-sm-3">
+                          <label class="control-label">Relation<sup class="text-danger">*</sup></label>
+                          <select class="form-control" name="Reference_Relation" #Reference_Relation="ngModel"
+                            [(ngModel)]="objReference.Relation_ID"
+                            [ngClass]="{'clearance': ReferenceFormSubmit && Reference_Relation?.errors?.required}"
+                            required>
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let option of RelationList" value="{{option.Relation_ID}}">
+                              {{option.Relation_Name}}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-sm-3">
+                          <label class="control-label">Address<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Reference_Address" #Reference_Address="ngModel"
+                            [(ngModel)]="objReference.Address" placeholder="Reference Address"
+                            [ngClass]="{'clearance': ReferenceFormSubmit && Reference_Address.errors?.required}"
+                            required>
+                        </div>
+                        <div class="col-sm-3">
+                          <label class="control-label">Phone No<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Reference_Phone_No" #Reference_Phone_No="ngModel"
+                            [(ngModel)]="objReference.Phone_No" placeholder="Reference Phone No"
+                            CompacctDigitonly="true" maxlength="10" minlength="10"
+                            [ngClass]="{'clearance': ReferenceFormSubmit && Reference_Phone_No.errors?.required}"
+                            required>
+                        </div>
+                      </div>
+                      <button class="btn btn-primary pull-right" style="margin-top: 15px;"
+                        (click)="addReference(ReferenceForm.form.valid)">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </form>
+                <div class="table-responsive no-padding">
+                  <p-table [value]="addReferenceList" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Reference Name</th>
+                        <th>Relation</th>
+                        <th>Address</th>
+                        <th>Phone No</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                      <tr class="p-selectable-row">
+                        <td>{{col.Reference_Name}}</td>
+                        <td>{{col.Relation_Name}}</td>
+                        <td>{{col.Address}}</td>
+                        <td>{{col.Phone_No}}</td>
+                        <td><a (click)="DeleteContact(rowIndex,'Reference')">
+                            <div><i class="fa fa-fw fa-trash"> </i></div>
+                          </a></td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="8">No Data found.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <form name="AssetDetailsForm" #AssetDetailsForm="ngForm" novalidate>
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Asset Details</div>
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <div class="col-sm-4">
+                          <label class="control-label">Asset Name<sup class="text-danger">*</sup></label>
+                          <select class="form-control" name="Asset_ID" #Asset_ID="ngModel"
+                            [(ngModel)]="objasset.Asset_ID"
+                            [ngClass]="{'clearance': assetDetalisFormSubmit && Asset_ID?.errors?.required}" required>
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let option of AssetList" value="{{option.Asset_ID}}">
+                              {{option.Asset_Name}}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-sm-4">
+                          <label class="control-label">Asset Value<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Asset_value" #Asset_value="ngModel"
+                            [(ngModel)]="objasset.Asset_value" placeholder="Asset value"
+                            [ngClass]="{'clearance': assetDetalisFormSubmit && Asset_value.errors?.required}" required>
+                        </div>
+                        <div class="col-sm-4">
+                          <button class="btn btn-primary " style="margin-top: 24px;"
+                            (click)="addassetDetalis(AssetDetailsForm.form.valid)">
+                            Add
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </form>
+                <div class="table-responsive no-padding">
+                  <p-table [value]="addAssetList" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Asset Name</th>
+                        <th>Asset Value</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                      <tr class="p-selectable-row">
+                        <td>{{col.Asset_Name}}</td>
+                        <td>{{col.Asset_value}}</td>
+
+                        <td><a (click)="DeleteContact(rowIndex,'Asset')">
+                            <div><i class="fa fa-fw fa-trash"> </i></div>
+                          </a></td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="8">No Data found.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <form name="CreditReportForm" #CreditReportForm="ngForm" novalidate>
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Credit Report</div>
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <div class="col-sm-4">
+                          <label class="control-label">CIC Name<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="CIC_Name" #CIC_Name="ngModel"
+                            [(ngModel)]="objCreditReport.CIC_Name" placeholder="CIC Name"
+                            [ngClass]="{'clearance': CreditReportFormsubmit && CIC_Name.errors?.required}" required>
+                        </div>
+                        <div class="col-sm-4">
+                          <label class="control-label">Score<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Score" #Score="ngModel" [(ngModel)]="objCreditReport.Score"
+                            placeholder="Score"
+                            [ngClass]="{'clearance': CreditReportFormsubmit && Score.errors?.required}" required>
+                        </div>
+                        <div class="col-sm-4">
+                          <button class="btn btn-primary " style="margin-top: 24px;"
+                            (click)="addCreditReport(CreditReportForm.form.valid)">
+                            Add
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </form>
+                <div class="table-responsive no-padding">
+                  <p-table [value]="addCreditReportList" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>CIC Name</th>
+                        <th>Score</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                      <tr class="p-selectable-row">
+                        <td>{{col.CIC_Name}}</td>
+                        <td>{{col.Score}}</td>
+
+                        <td><a (click)="DeleteContact(rowIndex,'Credit_Report')">
+                            <div><i class="fa fa-fw fa-trash"> </i></div>
+                          </a></td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="8">No Data found.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <form name="VerificationReportForm" #VerificationReportForm="ngForm" novalidate>
+                  <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-size: 1.35rem;font-weight: 700;">Verification Report</div>
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <div class="col-sm-3">
+                          <label class="control-label">External/Internal<sup class="text-danger">*</sup></label>
+                          <select class="form-control" name="ExternalInternal" #ExternalInternal="ngModel"
+                            [(ngModel)]="objVerificationReport.ExternalInternal" (change)="ExternalInternalChange()"
+                            [ngClass]="{'clearance': VerificationReportFormSubmit && ExternalInternal?.errors?.required}"
+                            required>
+                            <option [ngValue]="undefined">Select</option>
+                            <option value="External">
+                              External
+                            </option>
+                            <option value="Internal">
+                              Internal
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-sm-3" *ngIf="objVerificationReport.ExternalInternal === 'External'">
+                          <label class="control-label">Agency Name<sup class="text-danger">*</sup></label>
+                          <select class="form-control" name="Agency_Name" #Agency_Name="ngModel"
+                            [(ngModel)]="objVerificationReport.Agent_ID"
+                            [ngClass]="{'clearance': VerificationReportFormSubmit && Agency_Name?.errors?.required}"
+                            [required]="objVerificationReport.ExternalInternal === 'External'">
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let option of AgencyList" value="{{option.Agent_ID}}">
+                              {{option.Name}}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-sm-3" *ngIf="objVerificationReport.ExternalInternal === 'External'">
+                          <label class="control-label">Report Reference Number<sup class="text-danger">*</sup></label>
+                          <input class="form-control" name="Report_Reference_No" #Report_Reference_No="ngModel"
+                            [(ngModel)]="objVerificationReport.Report_Reference_No" placeholder="Report Reference No"
+                            [ngClass]="{'clearance': VerificationReportFormSubmit && Report_Reference_No.errors?.required}"
+                            [required]="objVerificationReport.ExternalInternal === 'External'">
+                        </div>
+                        <div class="col-sm-3" *ngIf="objVerificationReport.ExternalInternal === 'Internal'">
+                          <label class="control-label">Employee username<sup class="text-danger">*</sup></label>
+                          <select class="form-control" name="Employeeusername" #Employeeusername="ngModel"
+                            [(ngModel)]="objVerificationReport.User_ID"
+                            [ngClass]="{'clearance': VerificationReportFormSubmit && Employeeusername?.errors?.required}"
+                            [required]="objVerificationReport.ExternalInternal === 'Internal'">
+                            <option [ngValue]="undefined">Select</option>
+                            <option *ngFor="let option of EmployeeusernameList" value="{{option.User_ID}}">
+                              {{option.User_Name}}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="col-sm-3">
+                          <label class="control-label">Verification Date<sup class="text-danger">*</sup></label>
+                          <ejs-datepicker [(value)]="VerificationDate" [format]="'dd/MMM/yyyy'"></ejs-datepicker>
+                        </div>
+                      </div>
+                      <button class="btn btn-primary pull-right" style="margin-top: 15px;"
+                        (click)="addVerificationReport(VerificationReportForm.form.valid)">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </form>
+                <div class="table-responsive no-padding">
+                  <p-table [value]="addVerificationReportList" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th *ngIf="objVerificationReport.ExternalInternal === 'External'">Agency Name</th>
+                        <th *ngIf="objVerificationReport.ExternalInternal === 'External'">Report Reference Number</th>
+                        <th *ngIf="objVerificationReport.ExternalInternal === 'Internal'">Employee username</th>
+                        <th>Verification Date</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-col let-rowIndex="rowIndex">
+                      <tr class="p-selectable-row">
+                        <td *ngIf="objVerificationReport.ExternalInternal === 'External'">{{col.Agent_Name}}</td>
+                        <td *ngIf="objVerificationReport.ExternalInternal === 'External'">{{col.Report_Reference_No}}
+                        </td>
+                        <td *ngIf="objVerificationReport.ExternalInternal === 'Internal'">{{col.User_Name}}</td>
+                        <td>{{col.Verification_Date | date: "dd/MMM/yyyy"}}</td>
+                        <td><a (click)="DeleteContact(rowIndex,'Verification_Report')">
+                            <div><i class="fa fa-fw fa-trash"> </i></div>
+                          </a></td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="8">No Data found.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div class="box-footer ">
+                  <button class="btn btn-primary pull-right" style="margin-top: 15px;"
+                    (click)="saveCustomerCreation(customerForm.form.valid)" id="load" [disabled]="Spinner">
+                    <p-progressSpinner *ngIf="Spinner" [style]="{width: '15px', height: '15px'}" strokeWidth="8"
+                      animationDuration=".5s"></p-progressSpinner>
+                    <span *ngIf="!Spinner" class="glyphicon glyphicon-save"></span>{{buttonname}}
+                  </button>
+                </div>
+              </form>
+            </p-tabPanel>
+          </p-tabView>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

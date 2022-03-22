@@ -45,6 +45,7 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {CheckboxModule} from 'primeng/checkbox';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {ChipsModule} from 'primeng/chips';
+import {GalleriaModule} from 'primeng/galleria';
 // DateRange
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { TimePickerModule } from '@syncfusion/ej2-angular-calendars';
@@ -55,7 +56,7 @@ import { CommonModule } from '@angular/common';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
-
+import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {CompacctDigitonlyDirective} from 'src/app/compacct.directives/compacct.digitonly.directive';
 import {SafeHtmlPipe} from 'src/app/compacct.pipes/compacct.safeHtml/safe-html.pipe';
 import { DashboardComponent } from '../Views/Dashboard/dashboard/dashboard.component';
@@ -115,7 +116,9 @@ import { MasterRelationComponent } from '../Views/Hytone/Master/master-relation/
     ProgressSpinnerModule,
     MessagesModule,
     MessageModule,
-    ChipsModule
+    ChipsModule,
+    GalleriaModule,
+    OverlayPanelModule
   ],
   providers: [CompacctHeader,DateTimeConvertService],
   bootstrap: [layoutComponent]

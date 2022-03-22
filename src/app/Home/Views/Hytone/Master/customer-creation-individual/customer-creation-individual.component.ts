@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from 'src/app/Service/API/api.service';
 import { CompacctHeader } from 'src/app/Service/common.header.service';
@@ -6,6 +6,7 @@ import { MessageService } from "primeng/api";
 import { Subject, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DateTimeConvertService } from 'src/app/Service/dateTime.service';
+import { FileUpload } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-customer-creation-individual',
@@ -86,6 +87,16 @@ export class CustomerCreationIndividualComponent implements OnInit {
   addEmailIdList:any = [];
   PostOfficeList:any = [];
   GetAlldataList:any = [];
+  PDFViewFlag = false;
+  PDFFlag = false;
+  ProductPDFFile:any = {};
+  ProductPDFLink = undefined;
+  displayBasic2:boolean = false;
+  images:any = undefined;
+  DocUploadSpinner = false;
+  clientId:any = undefined;
+  @ViewChild("fileInput", { static: false }) fileInput!: FileUpload;
+  @ViewChild("OverlayImg", { static: false }) OverlayImg!: any;
   constructor(private apicall : ApiService,
     private $http: HttpClient,
     private Header: CompacctHeader,
@@ -164,6 +175,8 @@ export class CustomerCreationIndividualComponent implements OnInit {
     this.addEmailIdList = [];
     this.addPhoneList = [];
     this.addressList = [];
+    this.displayBasic2 = false;
+    this.images = undefined;
    }
    onReject(){
     this.compacctToast.clear("c");
@@ -313,17 +326,25 @@ export class CustomerCreationIndividualComponent implements OnInit {
     this.OtheraddressFormSubmitted = false;
    }
   }
-  addDocumentsname(valid:any){
+  async addDocumentsname(valid:any){
    console.log("Documents Name Valid",valid);
    this.DocumentFormSubmitted = true;
    if(valid){
-    const tempFilter = this.DocumentList.filter((el:any)=> Number(el.Document_ID) === Number(this.DocumentID))
+     this.DocUploadSpinner = true;
+    // this.upload(1234,this.ProductPDFFile,'adhar');
+   const tempFilter = this.DocumentList.filter((el:any)=> Number(el.Document_ID) === Number(this.DocumentID))
+   let uploadDetalis = await this.upload(this.clientId,this.ProductPDFFile,tempFilter[0].Document_Name);
+   console.log("uploadDetalis",uploadDetalis);
     this.addDocumentList.push({
       Document_ID:this.DocumentID,
-      Document_Name:tempFilter[0].Document_Name
-    })
+      Document_Name:tempFilter[0].Document_Name,
+      Document : uploadDetalis
+   })
     this.objDocument = new Document()
     this.OtheraddressFormSubmitted = false;
+   }
+   else{
+     console.log("no File");
    }
   }
   addBankDetalis(valid:any){
@@ -620,172 +641,7 @@ saveCustomerCreation(valid:any){
  if(valid){
    let meg = "Create"
   this.Spinner = true;
-    if(!this.addressList.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message",
-            detail: "Enter minimum one Address Detalis"
-          });
-      return
-    }
-    if(!this.addAssetList.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message",
-            detail: "Enter minimum one Asset Detalis"
-          });
-      return
-    }
-    if(!this.addBankList.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message",
-            detail: "Enter minimum one Bank Detalis"
-          });
-      return
-    }
-    if(!this.addPhoneList.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message",
-            detail: "Enter minimum one Phone Number"
-          });
-      return
-    }
-    if(!this.DependentAddList.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message", 
-            detail: "Enter minimum one Dependent Detalis"
-          });
-      return
-    }
-    if(!this.addEmailIdList.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message", 
-            detail: "Enter minimum one Email Id"
-          });
-      return
-    }
-    if(!this.addFatherDetalis.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message", 
-            detail: "Enter minimum Father Detalis"
-          });
-      return
-    }
-    if(!this.addMotherDetalisList.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message", 
-            detail: "Enter minimum  Mother Detalis"
-          });
-      return
-    }
-    if(!this.OccupationAddList.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message", 
-            detail: "Enter minimum one Occupation Detalis"
-          });
-      return
-    }
-    if(!this.AddOtheraddressList.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message", 
-            detail: "Enter minimum one Other Address"
-          });
-      return
-    }
-    if(!this.addDocumentList.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message", 
-            detail: "Enter minimum Document Detalis"
-          });
-      return
-    }
-    if(!this.addReferenceList.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message", 
-            detail: "Enter minimum Reference Detalis"
-          });
-      return
-    }
-    if(!this.addSpouseDetalisList.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message", 
-            detail: "Enter minimum Spouse Detalis"
-          });
-      return
-    }
-    if(!this.addVerificationReportList.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message", 
-            detail: "Enter minimum Verification Report"
-          });
-      return
-    }
-    if(!this.addCreditReportList.length){
-      this.Spinner = false;
-      this.compacctToast.clear();
-          this.compacctToast.add({
-            key: "compacct-toast",
-            severity: "error",
-            summary: "Warn Message", 
-            detail: "Enter minimum Credit Report"
-          });
-      return
-    }
-    this.objcustomer.Ad = this.addressList;
+   this.objcustomer.Ad = this.addressList;
    this.objcustomer.Asset = this.addAssetList;
    this.objcustomer.Bank = this.addBankList;
    this.objcustomer.Contact = this.addPhoneList;
@@ -844,7 +700,7 @@ GetBrowseData(){
    })
 }
 EditProduct(col:any){
-
+ this.clientId = 1234;
 }
 Active(col:any){
 
@@ -852,6 +708,37 @@ Active(col:any){
 Inactive(col:any){
 
 }
+FetchPDFFile(event:any) {
+  this.PDFFlag = false;
+  this.ProductPDFFile = {};
+  console.log(event.currentFiles);
+  if (event) {
+    this.ProductPDFFile = event.files[0];
+    this.PDFFlag = true;
+  }
+}
+async upload(clientid:any,ProductFile:any,doctype:any){
+ console.log("clientid ",clientid );
+ console.log("ProductPDFFile",ProductFile);
+ console.log("doctype",doctype);
+ const formData: FormData = new FormData();
+ formData.append("file", ProductFile);
+ let response = await fetch('https://hytoneazmain.azurewebsites.net/api/File_Upload?code=jYPSOkWwCSvVBKzKBvbxu34wcxkSdls7M4LLiHhfM/sfAwIIdbsQRw==&ConTyp='+ProductFile['type']+'&ext='+ProductFile['name'].split('.').pop()+'&clientid='+clientid+'&doctype='+doctype,{ 
+  method: 'POST',
+  body: formData // This is your file object
+});
+let responseText = await response.text();
+console.log("responseText",responseText);
+return responseText
+}
+showImg(col:any){
+  if(col.Document){
+    window.open(col.Document);
+  }
+  
+ //this.displayBasic2 = true;
+}
+
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
